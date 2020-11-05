@@ -5,55 +5,54 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import covid.client.controllers.AuthenticationController;
+import covid.client.httpclient.bulider.ServerApiClientBuilder;
+import covid.client.httpclient.service.Covid19Client;
+import covid.client.httpclient.service.Covid19Messaging;
+import covid.client.httpclient.service.Covid19WebServiceClient;
+import covid.client.logging.LoggingManager;
+import covid.client.models.AuthResponse;
+import covid.client.models.Constants;
+import covid.client.models.Services;
+import covid.client.models.request.LoginRequest;
 
 public class GUIAuthentication extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
-	private JRadioButton rbtnStudent;
-	private JRadioButton rbtnStudentRep;
 	private JLabel usernameLabel;
 	private JLabel passwordLabel;
 	private JTextField usernameTextField;
 	private JPasswordField passwordField;
 	private JButton button;
-	private JPanel radioBtnPanel;
 	private JPanel usernamePanel;
 	private JPanel passwordPanel;
 	private JPanel buttonPanel;
-	String uname;
+	int uname;
 	String pwrd;
 		
 	Dashboard dashboard = new Dashboard();
 			
 	public GUIAuthentication() 
 	{		
-		radioBtnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+//		radioBtnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		usernamePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		passwordPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));					
-	}	
-	
-	public void logIn()
-	{			
-		frame = new JFrame("Student Services/Query Logger");
-		
-		rbtnStudent = new JRadioButton("Student");
-		rbtnStudentRep = new JRadioButton("Staff");
-		ButtonGroup bg = new ButtonGroup();
-		bg.add(rbtnStudent);
-		bg.add(rbtnStudentRep);
-		
+		buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+						
 		usernameLabel = new JLabel("Username: ");
 		passwordLabel = new JLabel("Password: ");
 		usernameTextField = new JTextField(20);
@@ -61,22 +60,19 @@ public class GUIAuthentication extends JFrame
 		
 		button = new JButton("Log In");
 		
-		frame.setLayout(new GridLayout(4,1,0,0));
-		frame.setSize(new Dimension(350,200));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame = new JFrame("Student Services/Query Logger");
 		frame.setVisible(true);
-		
-		radioBtnPanel.setSize(new Dimension(450,30));
-		radioBtnPanel.add(rbtnStudent);
-		radioBtnPanel.add(rbtnStudentRep);
-		frame.add(radioBtnPanel);
-		
-		usernamePanel.setSize(new Dimension(450,30));
+		frame.setLocationRelativeTo(null);
+		frame.setLayout(new GridLayout(3,1,0,0));
+		frame.setSize(new Dimension(350,200));
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+				
+		usernamePanel.setSize(new Dimension(450,20));
 		usernamePanel.add(usernameLabel);
 		usernamePanel.add(usernameTextField);
 		frame.add(usernamePanel);
 		
-		passwordPanel.setSize(new Dimension(450,30));
+		passwordPanel.setSize(new Dimension(450,20));
 		passwordPanel.add(passwordLabel);
 		passwordPanel.add(passwordField);
 		frame.add(passwordPanel);
@@ -84,39 +80,76 @@ public class GUIAuthentication extends JFrame
 		buttonPanel.setSize(new Dimension(450,30));
 		buttonPanel.add(button);
 		frame.add(buttonPanel);
-		
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}	
+	
+	public void logIn()
+	{		
+		button.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 				
-				uname = usernameTextField.getText();
-				pwrd = passwordField.getText();	
-				
-				if(rbtnStudent.isSelected() && checkCredentials())
-				{							
-					System.out.println("Username: " +uname +"\nPassword: " +pwrd);
-					dashboard.studentDashboard();
-					frame.dispose();
+				try 
+		        {
+		        	uname = Integer.parseInt(usernameTextField.getText());
+		            } catch (Exception z) { 
+		            	JOptionPane.showMessageDialog(frame, "Username should only be numbers","Log In", JOptionPane.WARNING_MESSAGE);
+		            	usernameTextField.setText("");
+		            	passwordField.setText("");
+		            	return;
+		       }
+				pwrd = passwordField.getText();
 					
-				}else
-				if(rbtnStudentRep.isSelected() && checkCredentials())
-				{								
-					System.out.println("Username: " +uname +"\nPassword: " +pwrd);
-					dashboard.staffDashboard();
-					frame.dispose();
-					
-				}else				
-				{						
-				JOptionPane.showMessageDialog(frame, "Please specify your role.", "Log In", JOptionPane.WARNING_MESSAGE);
-				}					
+				connectUserToServer();									
 			}			
 		});		
 	}
 	
-	
-	
-	public boolean checkCredentials()
+	private void connectUserToServer() 
 	{
-		return true;
+		try
+		{
+			AuthenticationController authenticationController = new AuthenticationController();
+			AuthResponse authResponse = authenticationController.authenticateUser(new LoginRequest(uname,pwrd));
+					
+			if(authResponse != null && authResponse.getToken() != null)
+			{			
+				try {
+					Covid19Client covid19Client = ServerApiClientBuilder.defaultClient().buildWithToken(Constants.SERVICE_BASE_URL, authResponse);		
+					
+					if(Objects.equals(authResponse.getUser().getRole(), new String("STUDENT")))
+					{
+						dashboard.studentDashboard(authResponse.getUser());					
+						frame.dispose();
+					}else
+					if(Objects.equals(authResponse.getUser().getRole(), new String("STUDENT_REPRESENTATIVE")))	
+					{
+						dashboard.staffDashboard(authResponse.getUser());		
+						frame.dispose();
+					}else
+					{
+						JOptionPane.showMessageDialog(null, "Invalid login", "Log In", JOptionPane.WARNING_MESSAGE);
+						usernameTextField.setText("");
+		            	passwordField.setText("");
+					}									
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}else{
+				LoggingManager.getLogger(DRIVER.class).error("Authentication failed");
+				
+			}
+		}catch (Exception e)
+		{
+			JOptionPane.showMessageDialog(null, "Invalid login, please try again", "Log In", JOptionPane.WARNING_MESSAGE);
+			usernameTextField.setText("");
+        	passwordField.setText("");
+		}
+				
 	}
+
+	
 }
+
+
