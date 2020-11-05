@@ -17,7 +17,8 @@ public class DRIVER
 	public static void main(String[] args)
 	{
 //		(1605048, "password")
-		new GUIAuthentication().logIn();			
+		new GUIAuthentication().logIn();
+		
 	}
 }
 
