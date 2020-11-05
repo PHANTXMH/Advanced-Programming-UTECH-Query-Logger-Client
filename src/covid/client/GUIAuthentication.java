@@ -1,3 +1,5 @@
+package covid.client;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -17,7 +19,6 @@ import javax.swing.JTextField;
 public class GUIAuthentication extends JFrame
 {
 	private static final long serialVersionUID = 1L;
-	
 	private JFrame frame;
 	private JRadioButton rbtnStudent;
 	private JRadioButton rbtnStudentRep;

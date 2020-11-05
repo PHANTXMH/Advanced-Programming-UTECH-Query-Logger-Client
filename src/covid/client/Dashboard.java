@@ -1,3 +1,5 @@
+package covid.client;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -48,7 +50,7 @@ public class Dashboard extends JFrame
 		
 		JOptionPane.showMessageDialog(frame, "Logged in as Student.", "Log In", JOptionPane.INFORMATION_MESSAGE);
 		
-		frame = new JFrame("Dashboard (Student)");
+		frame = new JFrame("covid.client.Dashboard (Student)");
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
 		frame.setBackground(Color.BLUE);
@@ -108,7 +110,7 @@ public class Dashboard extends JFrame
 	{
 		JOptionPane.showMessageDialog(frame, "Logged in as Staff.", "Log In", JOptionPane.INFORMATION_MESSAGE);
 		
-		frame = new JFrame("Dashboard (Staff)");
+		frame = new JFrame("covid.client.Dashboard (Staff)");
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
