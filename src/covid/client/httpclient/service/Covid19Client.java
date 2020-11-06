@@ -1,9 +1,8 @@
 package covid.client.httpclient.service;
 
+import covid.client.enumeration.ComplainStatus;
 import covid.client.httpclient.bulider.ServerApiBuilder;
-import covid.client.models.AuthResponse;
-import covid.client.models.Constants;
-import covid.client.models.Services;
+import covid.client.models.*;
 import covid.client.models.request.LoginRequest;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -13,6 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import static covid.client.models.Constants.*;
 
 public class Covid19Client extends Covid19WebServiceClient implements Covid19Messaging {
 
@@ -92,5 +93,56 @@ public class Covid19Client extends Covid19WebServiceClient implements Covid19Mes
             servicesList = services.getBody();
         }
         return servicesList;
+    }
+
+    @Override
+    public ApiResponse<Complaints> createUserComplaint(Complaints complaints) {
+        ResponseEntity<ApiResponse<Complaints>> response =
+                invoke(serviceURl.concat(CREATE_COMPLAINTS_SERVICES_URL), complaints, ApiResponse.class, httpHeaders, HttpMethod.POST);
+        return response.getBody();
+    }
+
+    @Override
+    public ApiResponse<Complaints> deleteUserComplaint(Long userID) {
+        ResponseEntity<ApiResponse<Complaints>> response =
+                invoke(serviceURl.concat(DELETE_COMPLAINT_BY_ID_SERVICES_URL), null, ApiResponse.class, httpHeaders, HttpMethod.DELETE);
+        return response.getBody();
+    }
+
+    @Override
+    public List<Complaints> getComplaintsByStudentID(Long studentID) {
+        ResponseEntity<List<Complaints>> response = (ResponseEntity<List<Complaints>>)  invoke((serviceURl.concat(LIST_COMPLAINTS_BY_STUDENT_ID_SERVICES_URL)
+                .replaceAll("student_id", String.valueOf(studentID))), null, new ParameterizedTypeReference<List<Complaints>>() {
+                            @Override
+                            public Type getType() {
+                                return super.getType();
+                            }
+                        }, httpHeaders, HttpMethod.GET);
+        return response.getBody();
+    }
+
+    @Override
+    public List<Complaints> getComplaintsByStatusAndStudentID(Long studentID, ComplainStatus complainStatus) {
+        ResponseEntity<List<Complaints>> response = (ResponseEntity<List<Complaints>>)  invoke((serviceURl.concat(LIST_COMPLAINTS_BY_STUDENT_ID_AND_STATUS_SERVICES_URL)
+                .replaceAll("student_id", String.valueOf(studentID))
+                .replaceAll("status_", complainStatus.name())), null, new ParameterizedTypeReference<List<Complaints>>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        }, httpHeaders, HttpMethod.GET);
+        return response.getBody();
+    }
+
+    @Override
+    public List<Complaints> getComplaintsByStatus(ComplainStatus complainStatus) {
+        ResponseEntity<List<Complaints>> response = (ResponseEntity<List<Complaints>>)  invoke((serviceURl.concat(LIST_COMPLAINTS_BY_STATUS_SERVICES_URL)
+                .replaceAll("status_", complainStatus.name())), null, new ParameterizedTypeReference<List<Complaints>>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        }, httpHeaders, HttpMethod.GET);
+        return response.getBody();
     }
 }

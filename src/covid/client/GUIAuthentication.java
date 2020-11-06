@@ -15,14 +15,13 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import covid.client.httpclient.service.*;
+import covid.client.models.Session;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import covid.client.controllers.AuthenticationController;
 import covid.client.httpclient.bulider.ServerApiClientBuilder;
-import covid.client.httpclient.service.Covid19Client;
-import covid.client.httpclient.service.Covid19Messaging;
-import covid.client.httpclient.service.Covid19WebServiceClient;
 import covid.client.logging.LoggingManager;
 import covid.client.models.AuthResponse;
 import covid.client.models.Constants;
@@ -116,15 +115,17 @@ public class GUIAuthentication extends JFrame
 			if(authResponse != null && authResponse.getToken() != null)
 			{			
 				try {
-					Covid19Client covid19Client = ServerApiClientBuilder.defaultClient().buildWithToken(Constants.SERVICE_BASE_URL, authResponse);		
-					
 					if(Objects.equals(authResponse.getUser().getRole(), new String("STUDENT")))
 					{
+						SessionManager.createUserSession(SessionManager.USER_KEY, authResponse.getUser());
+						ServerClient.createClient(authResponse);
 						dashboard.studentDashboard(authResponse.getUser());					
 						frame.dispose();
 					}else
 					if(Objects.equals(authResponse.getUser().getRole(), new String("STUDENT_REPRESENTATIVE")))	
 					{
+						SessionManager.createUserSession(SessionManager.USER_KEY, authResponse.getUser());
+						ServerClient.createClient(authResponse);
 						dashboard.staffDashboard(authResponse.getUser());		
 						frame.dispose();
 					}else

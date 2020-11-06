@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -21,7 +22,13 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
-import covid.client.models.User;
+import covid.client.enumeration.ComplainStatus;
+import covid.client.httpclient.service.Covid19Client;
+import covid.client.httpclient.service.ServerClient;
+import covid.client.httpclient.service.SessionManager;
+import covid.client.models.*;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 public class Dashboard extends JFrame
 {
@@ -52,9 +59,65 @@ public class Dashboard extends JFrame
 		internalFrame = new JInternalFrame("",false,false,false,false);	
 		internalFrame.setVisible(true);
 	}
-	
+
 	public void studentDashboard(User student)
 	{
+
+		// move these code to wherever you want to use them
+		Covid19Client serverClient = ServerClient.getClient(); // crate the API client service instance. this will already have the JWT token from the previous screen when we initialize the abstract class
+
+		Session<User> sessionManager = (Session<User>) SessionManager.getByKey(SessionManager.USER_KEY); // get user from session
+
+		User user = sessionManager.getData() != null ? sessionManager.getData() : null; // get user date from the session
+
+		Assert.notNull(user, "User cannot be null"); // assert that the user is not empty
+
+		ApiResponse<Complaints> complaintsApiResponse = serverClient
+				.createUserComplaint(new Complaints(new Services(1L), "When is the dealThe is a test complaint and the remaining ones "));
+
+		System.out.println(complaintsApiResponse.getMessage());
+
+		System.out.println(complaintsApiResponse.getStatus());
+
+		List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(user.getId());
+
+		complaintsList.forEach(c -> {
+			System.out.println(c.getQuery());
+			System.out.println(c.getComplainStatus());
+		});
+
+		List<Complaints> complaintsList2 = serverClient.getComplaintsByStatusAndStudentID(user.getId(), ComplainStatus.NEW);
+
+		complaintsList2.forEach(c -> {
+			System.out.println(c.getQuery());
+			System.out.println(c.getComplainStatus());
+		});
+
+		List<Complaints> complaintsList3 = serverClient.getComplaintsByStatus(ComplainStatus.NEW);
+
+		if(complaintsList3 != null && !CollectionUtils.isEmpty(complaintsList3)) {
+			complaintsList3.forEach(c -> {
+				System.out.println(c.getQuery());
+				System.out.println(c.getComplainStatus());
+			});
+		}else{
+			// list is empty
+		}
+
+		ApiResponse<Complaints> deleteResponse = serverClient.deleteUserComplaint(user.getId());
+
+		if(deleteResponse != null && deleteResponse.isSuccess()){
+			// delete was successful
+			System.out.println(deleteResponse.getMessage());
+		}else if(deleteResponse != null && !deleteResponse.isSuccess()){
+			// unsuccessful
+		}else{
+			// unsuccessful
+		}
+
+		// end of test code -- i will put these code in a unit test class when i have the time but i just added it here to show you how to use the client
+
+
 		this.user = student;
 		JOptionPane.showMessageDialog(frame, "Welcome back, "+student.getFirstName()+"!", "Log In", JOptionPane.INFORMATION_MESSAGE);
 		
