@@ -3,10 +3,7 @@ package covid.client.httpclient.service;
 import covid.client.logging.LoggingManager;
 import covid.client.models.Services;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.Type;
@@ -45,7 +42,7 @@ public abstract class Covid19WebServiceClient<T> {
         }catch (Throwable e){
             LoggingManager.getLogger(this).error(e.getCause());
         }
-        return null;
+        return new ResponseEntity<>(null, HttpStatus.BAD_GATEWAY);
     }
 
     protected ResponseEntity<T> invoke(final String url, final Object request, ParameterizedTypeReference<T> parameterizedTypeReference, HttpHeaders httpHeaders, HttpMethod httpMethod){

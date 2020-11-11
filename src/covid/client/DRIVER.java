@@ -1,16 +1,4 @@
 package covid.client;
-
-import covid.client.controllers.AuthenticationController;
-import covid.client.httpclient.bulider.ServerApiClientBuilder;
-import covid.client.httpclient.service.Covid19Client;
-import covid.client.logging.LoggingManager;
-import covid.client.models.AuthResponse;
-import covid.client.models.Constants;
-import covid.client.models.Services;
-import covid.client.models.request.LoginRequest;
-
-import java.util.List;
-
 public class DRIVER
 {
 
