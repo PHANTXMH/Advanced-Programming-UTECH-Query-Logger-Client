@@ -1,6 +1,5 @@
 package covid.client.controllers;
 
-import covid.client.configuration.ApplicationConfiguration;
 import covid.client.logging.LoggingManager;
 import covid.client.models.AuthResponse;
 import covid.client.models.request.LoginRequest;
@@ -8,9 +7,6 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import static covid.client.models.Constants.AUTHENTICATION_SERVICE_URL_PATH;
 import static covid.client.models.Constants.SERVICE_BASE_URL;

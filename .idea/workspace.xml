@@ -2,52 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7875c9b6-fae4-4d32-b57b-e9bb8cecf2f1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/covid/client/enumeration/ComplainStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/covid/client/httpclient/service/ServerClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/covid/client/httpclient/service/SessionManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/covid/client/models/ApiResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/covid/client/models/Complaints.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/covid/client/models/Session.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/DRIVER.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/DRIVER.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/Dashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/Dashboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/GUIAuthentication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/GUIAuthentication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Messaging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Messaging.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19WebServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19WebServiceClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/models/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/models/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/models/Services.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/models/Services.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/DRIVER.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/DRIVER.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$10.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$11.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/Dashboard$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/Dashboard.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/Dashboard.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/GUIAuthentication$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/GUIAuthentication$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/GUIAuthentication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/GUIAuthentication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/configuration/ApplicationConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/configuration/ApplicationConfiguration.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/controllers/AuthenticationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/controllers/AuthenticationController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/enumeration/LogLevel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/enumeration/LogLevel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/httpclient/bulider/ServerApiBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/httpclient/bulider/ServerApiBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/httpclient/bulider/ServerApiClientBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/httpclient/bulider/ServerApiClientBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/httpclient/service/Covid19Client$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/httpclient/service/Covid19Client$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/httpclient/service/Covid19Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/httpclient/service/Covid19Client.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/httpclient/service/Covid19Messaging.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/httpclient/service/Covid19Messaging.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/httpclient/service/Covid19WebServiceClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/httpclient/service/Covid19WebServiceClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/logging/LoggingManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/logging/LoggingManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/models/AuthResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/models/AuthResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/models/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/models/Constants.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/models/Services.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/models/Services.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/models/TimeStamp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/models/TimeStamp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/models/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/models/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/covid/client/models/request/LoginRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/covid/client/models/request/LoginRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/covid/client/controllers/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/controllers/AuthenticationController.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -71,7 +26,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/covid/client/Dashboard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
+            <state relative-caret-position="1170">
               <caret line="106" column="78" selection-start-line="106" selection-start-column="78" selection-end-line="106" selection-end-column="78" />
               <folding>
                 <element signature="e#4137#4138#0" expanded="true" />
@@ -83,10 +38,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
+            <state relative-caret-position="-14">
               <caret line="107" column="134" selection-start-line="107" selection-start-column="134" selection-end-line="107" selection-end-column="134" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -116,8 +71,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/covid/client/GUIAuthentication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="65">
+            <state relative-caret-position="1815">
               <caret line="121" selection-start-line="121" selection-end-line="121" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/covid/client/controllers/AuthenticationController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -138,21 +105,9 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/SessionManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="42">
-              <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19WebServiceClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9">
+            <state relative-caret-position="68">
               <caret line="37" selection-start-line="37" selection-end-line="37" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -233,7 +188,6 @@
         <option value="$PROJECT_DIR$/web.xml" />
         <option value="$PROJECT_DIR$/src/covid/client/models/request/LoginRequest.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/covid/client/controllers/AuthenticationController.java" />
         <option value="$PROJECT_DIR$/src/covid/client/models/TimeStamp.java" />
         <option value="$PROJECT_DIR$/src/covid/client/DRIVER.java" />
         <option value="$PROJECT_DIR$/src/covid/client/models/Session.java" />
@@ -249,6 +203,7 @@
         <option value="$PROJECT_DIR$/src/covid/client/models/Constants.java" />
         <option value="$PROJECT_DIR$/src/covid/client/Dashboard.java" />
         <option value="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java" />
+        <option value="$PROJECT_DIR$/src/covid/client/controllers/AuthenticationController.java" />
       </list>
     </option>
   </component>
@@ -385,7 +340,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1604633282478" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1604640091246" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -447,18 +402,18 @@
       <option name="presentableId" value="Default" />
       <updated>1604242355212</updated>
       <workItem from="1604242369331" duration="12496000" />
-      <workItem from="1604616236214" duration="11326000" />
+      <workItem from="1604616236214" duration="12310000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23822000" />
+    <option name="totallyTimeSpent" value="24806000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.27625203" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27625203" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -468,13 +423,13 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32876712" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.16438356" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.45479453" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.41643837" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.4890411" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.04109589" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
@@ -616,16 +571,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="10" selection-start-line="10" selection-end-line="10" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/covid/client/controllers/AuthenticationController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="42" column="5" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -782,30 +727,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19WebServiceClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9">
-          <caret line="37" selection-start-line="37" selection-end-line="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Messaging.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/covid/client/GUIAuthentication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="65">
-          <caret line="121" selection-start-line="121" selection-end-line="121" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -819,9 +744,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-14">
+          <caret line="107" column="134" selection-start-line="107" selection-start-column="134" selection-end-line="107" selection-end-column="134" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3773#4025#0" expanded="true" />
+            <element signature="e#4024#4025#0" expanded="true" />
+            <element signature="e#4531#4703#0" expanded="true" />
+            <element signature="e#4702#4703#0" expanded="true" />
+            <element signature="e#5209#5381#0" expanded="true" />
+            <element signature="e#5380#5381#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/covid/client/GUIAuthentication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1815">
+          <caret line="121" selection-start-line="121" selection-end-line="121" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19WebServiceClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/covid/client/Dashboard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
+        <state relative-caret-position="1170">
           <caret line="106" column="78" selection-start-line="106" selection-start-column="78" selection-end-line="106" selection-end-column="78" />
           <folding>
             <element signature="e#4137#4138#0" expanded="true" />
@@ -832,18 +793,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java">
+    <entry file="file://$PROJECT_DIR$/src/covid/client/controllers/AuthenticationController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="107" column="134" selection-start-line="107" selection-start-column="134" selection-end-line="107" selection-end-column="134" />
+        <state relative-caret-position="300">
+          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3773#4025#0" expanded="true" />
-            <element signature="e#4024#4025#0" expanded="true" />
-            <element signature="e#4531#4703#0" expanded="true" />
-            <element signature="e#4702#4703#0" expanded="true" />
-            <element signature="e#5209#5381#0" expanded="true" />
-            <element signature="e#5380#5381#0" expanded="true" />
           </folding>
         </state>
       </provider>
