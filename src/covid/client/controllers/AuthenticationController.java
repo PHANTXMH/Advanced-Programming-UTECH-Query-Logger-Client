@@ -1,10 +1,9 @@
 package covid.client.controllers;
-
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
 import covid.client.logging.LoggingManager;
 import covid.client.models.AuthResponse;
 import covid.client.models.request.LoginRequest;
-import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 

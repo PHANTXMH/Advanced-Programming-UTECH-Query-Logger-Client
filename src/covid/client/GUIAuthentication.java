@@ -15,17 +15,14 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import covid.client.httpclient.service.*;
-import covid.client.models.Session;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import covid.client.controllers.AuthenticationController;
-import covid.client.httpclient.bulider.ServerApiClientBuilder;
+import covid.client.httpclient.service.ServerClient;
+import covid.client.httpclient.service.SessionManager;
 import covid.client.logging.LoggingManager;
 import covid.client.models.AuthResponse;
-import covid.client.models.Constants;
-import covid.client.models.Services;
 import covid.client.models.request.LoginRequest;
 
 public class GUIAuthentication extends JFrame
