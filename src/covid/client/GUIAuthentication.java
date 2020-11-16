@@ -83,9 +83,7 @@ public class GUIAuthentication extends JFrame
 		button.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) 
-			{
-				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
-				
+			{				
 				try 
 		        {
 		        	uname = Integer.parseInt(usernameTextField.getText());
