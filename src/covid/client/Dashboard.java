@@ -3,6 +3,7 @@ package covid.client;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -20,8 +21,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.TableCellRenderer;
 
 import covid.client.enumeration.ComplainStatus;
 import covid.client.httpclient.service.Covid19Client;
@@ -49,6 +53,7 @@ public class Dashboard extends JFrame
 	private JButton viewAStudentEnquiry;
 	private JButton respondToEnquiry;
 	private User user;
+	int x;
 	
 	public Dashboard()
 	{
@@ -63,62 +68,6 @@ public class Dashboard extends JFrame
 
 	public void studentDashboard(User student)
 	{
-/*
-		// move these code to wherever you want to use them
-		Covid19Client serverClient = ServerClient.getClient(); // crate the API client service instance. this will already have the JWT token from the previous screen when we initialize the abstract class
-
-		Session<User> sessionManager = (Session<User>) SessionManager.getByKey(SessionManager.USER_KEY); // get user from session
-
-		User user = sessionManager.getData() != null ? sessionManager.getData() : null; // get user date from the session
-
-		Assert.notNull(user, "User cannot be null"); // assert that the user is not empty
-
-		ApiResponse<Complaints> complaintsApiResponse = serverClient
-				.createUserComplaint(new Complaints(new Services(1L), "When is the dealThe is a test complaint and the remaining ones "));
-
-		System.out.println(complaintsApiResponse.getMessage());
-
-		System.out.println(complaintsApiResponse.getStatus());
-
-		List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(user.getId());
-
-		complaintsList.forEach(c -> {
-			System.out.println(c.getQuery());
-			System.out.println(c.getComplainStatus());
-		});
-
-		List<Complaints> complaintsList2 = serverClient.getComplaintsByStatusAndStudentID(user.getId(), ComplainStatus.NEW);
-
-		complaintsList2.forEach(c -> {
-			System.out.println(c.getQuery());
-			System.out.println(c.getComplainStatus());
-		});
-
-		List<Complaints> complaintsList3 = serverClient.getComplaintsByStatus(ComplainStatus.NEW);
-
-		if(complaintsList3 != null && !CollectionUtils.isEmpty(complaintsList3)) {
-			complaintsList3.forEach(c -> {
-				System.out.println(c.getQuery());
-				System.out.println(c.getComplainStatus());
-			});
-		}else{
-			// list is empty
-		}
-
-		ApiResponse<Complaints> deleteResponse = serverClient.deleteUserComplaint(user.getId());
-
-		if(deleteResponse != null && deleteResponse.isSuccess()){
-			// delete was successful
-			System.out.println(deleteResponse.getMessage());
-		}else if(deleteResponse != null && !deleteResponse.isSuccess()){
-			// unsuccessful
-		}else{
-			// unsuccessful
-		}
-
-		// end of test code -- i will put these code in a unit test class when i have the time but i just added it here to show you how to use the client
-*/
-
 		this.user = student;
 		JOptionPane.showMessageDialog(frame, "Welcome back, "+student.getFirstName()+"!", "Log In", JOptionPane.INFORMATION_MESSAGE);
 		
@@ -156,9 +105,8 @@ public class Dashboard extends JFrame
 				internalFrame.dispose();
 				internalFrame = new JInternalFrame("",false,false,false,false);
 				internalFrame.setVisible(true);
-				internalFrame.setFocusable(true);
 				
-				JRadioButton addDropBtn = new JRadioButton("Add Drop");
+				JRadioButton addDropBtn = new JRadioButton("Add Drop",true);
 				JRadioButton graduationBtn = new JRadioButton("Graduation");
 				JRadioButton accountingBtn = new JRadioButton("Accounting");
 				JRadioButton registrationBtn = new JRadioButton("Registration");
@@ -221,20 +169,20 @@ public class Dashboard extends JFrame
 							queryService = 1L;
 						}
 						
-						Covid19Client serverClient = ServerClient.getClient(); // crate the API client service instance. this will already have the JWT token from the previous screen when we initialize the abstract class
-
-//						Session<User> sessionManager = (Session<User>) SessionManager.getByKey(SessionManager.USER_KEY); // get user from session
-
-//						User user = sessionManager.getData() != null ? sessionManager.getData() : null; // get user date from the session
-
-//						Assert.notNull(user, "User cannot be null"); // assert that the user is not empty
-
-						ApiResponse<Complaints> complaintsApiResponse = serverClient
-								.createUserComplaint(new Complaints(new Services(queryService), query.getText()));
-
-//						System.out.println(complaintsApiResponse.getMessage());
-						JOptionPane.showMessageDialog(frame,complaintsApiResponse.getMessage(), "Add Query", JOptionPane.INFORMATION_MESSAGE);
-//						System.out.println(complaintsApiResponse.getStatus());
+						try
+						{
+							Covid19Client serverClient = ServerClient.getClient();
+							
+							ApiResponse<Complaints> complaintsApiResponse = serverClient
+									.createUserComplaint(new Complaints(new Services(queryService), query.getText()));
+							
+							JOptionPane.showMessageDialog(frame,complaintsApiResponse.getMessage(), "Add Query", JOptionPane.INFORMATION_MESSAGE);
+						}catch(NullPointerException np)
+						{
+							JOptionPane.showMessageDialog(frame,"Unable to post this query.", "Submission Failed", JOptionPane.WARNING_MESSAGE);
+							query.setText("");
+						}
+						
 					}			
 				});
 								
@@ -243,13 +191,43 @@ public class Dashboard extends JFrame
 		
 		viewPastComplaints.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-						
+				
+				internalFrame.dispose();
+				internalFrame = new JInternalFrame("",false,false,false,false);
+				internalFrame.setVisible(true);
+				
+				String[] columns = {"DATE","RESPONDER","QUERY"};
+				String[][] data_rows = new String[50][50];
+				
+				Covid19Client serverClient = ServerClient.getClient();
+				
+				List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(user.getId());
+				
+				x=0;
+				
+				complaintsList.forEach(c -> {	
+					
+					data_rows[x][0] = c.getId().toString();
+					data_rows[x][1] = c.getComplainStatus().toString();
+					data_rows[x][2] = c.getQuery();
+					x++;
+				});			
+				
+				JTable table = new JTable(data_rows, columns);	
+				JScrollPane scrollPane = new JScrollPane(table);
+				
+				table.getColumnModel().getColumn(0).setPreferredWidth(2);
+				table.getColumnModel().getColumn(1).setPreferredWidth(5);
+				table.getColumnModel().getColumn(2).setPreferredWidth(1200);
+				
+				internalFrame.add(scrollPane);
+				frame.add(internalFrame);					
 			}			
 		});
 		
 		viewSpecificComplaint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-						
+				
 			}			
 		});
 		
@@ -300,25 +278,41 @@ public class Dashboard extends JFrame
 		
 		viewAllEnquiries.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Covid19Client serverClient = ServerClient.getClient(); // crate the API client service instance. this will already have the JWT token from the previous screen when we initialize the abstract class
-
-//				Session<User> sessionManager = (Session<User>) SessionManager.getByKey(SessionManager.USER_KEY); // get user from session
-
-//				User user = sessionManager.getData() != null ? sessionManager.getData() : null; // get user date from the session
-
-//				Assert.notNull(user, "User cannot be null"); // assert that the user is not empty
 				
-				List<Complaints> complaintsList3 = serverClient.getComplaintsByStatus(ComplainStatus.NEW);
-
-				if(complaintsList3 != null && !CollectionUtils.isEmpty(complaintsList3)) {
-					complaintsList3.forEach(c -> {
-						System.out.println(c.getQuery());
-						System.out.println(c.getComplainStatus());
-					});
-				}else{
-					JOptionPane.showMessageDialog(frame,"There are no complaints at this time.", "Complaints List", JOptionPane.INFORMATION_MESSAGE);// list is empty
-				}
+				internalFrame.dispose();
+				internalFrame = new JInternalFrame("",false,false,false,false);
+				internalFrame.setVisible(true);
+				
+				String[] columns = {"STUDENT ID","SERVICE","QUERY",""};
+				String[][] data_rows = new String[50][50];
+				
+				Covid19Client serverClient = ServerClient.getClient(); 
+				
+				List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(1L); //Code not complete to list all students queries...1L is for testing
+				
+				x=0;
+				
+				complaintsList.forEach(c -> {
+					data_rows[x][0] = c.getId().toString();
+					data_rows[x][1] = c.getComplainStatus().toString();
+					data_rows[x][2] = c.getQuery();
+					data_rows[x][3] = "View";
+					x++;
+						
+				});					
+				
+				JTable table = new JTable(data_rows, columns);	
+				JScrollPane scrollPane = new JScrollPane(table);
+				
+				table.getColumnModel().getColumn(0).setPreferredWidth(7);
+				table.getColumnModel().getColumn(1).setPreferredWidth(4);
+				table.getColumnModel().getColumn(2).setPreferredWidth(1000);
+				table.getColumnModel().getColumn(3).setPreferredWidth(2);
+				
+				internalFrame.add(scrollPane);
+				frame.add(internalFrame);
 			}			
+			
 		});
 		
 		viewAStudentEnquiry.addActionListener(new ActionListener()
@@ -344,28 +338,43 @@ public class Dashboard extends JFrame
 				{
 					String requestId;
 					public void actionPerformed(ActionEvent e) 
-					{
-						setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);							
+					{							
 												
 						Covid19Client serverClient = ServerClient.getClient(); // crate the API client service instance. this will already have the JWT token from the previous screen when we initialize the abstract class
+												
+						List<User> userList = serverClient.getAllUsers();
 						
-//						Session<User> sessionManager = (Session<User>) SessionManager.getByKey(SessionManager.USER_KEY); // get user from session
-
-//						User user = sessionManager.getData() != null ? sessionManager.getData() : null; // get user date from the session
-
-//						Assert.notNull(user, "User cannot be null"); // assert that the user is not empty	
-						List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(1L);
-					
-						if(complaintsList != null)
+						if(userList != null)
 						{
-							complaintsList.forEach(c -> {
-								System.out.println(c.getQuery());
-								System.out.println(c.getComplainStatus());
-							});							
+							userList.forEach(o ->{
+								if(o.getUserName() == requestId)
+								{
+									System.out.println(o.getFirstName()+"'s complaints are as follows:");
+									
+									List<Complaints> complaintsList = serverClient.getComplaintsByStatusAndStudentID(user.getId(), ComplainStatus.NEW);
+									
+									if(complaintsList != null)
+									{
+										complaintsList.forEach(c -> {
+											System.out.println(c.getQuery());
+											System.out.println(c.getComplainStatus());
+										});							
+									}else
+									{
+										JOptionPane.showMessageDialog(frame,"There are no complaints at this time.", "Complaints List", JOptionPane.INFORMATION_MESSAGE);
+									}
+								}
+								
+							});
 						}else
 						{
-							JOptionPane.showMessageDialog(frame,"There are no complaints at this time.", "Complaints List", JOptionPane.INFORMATION_MESSAGE);
-						}															
+							JOptionPane.showMessageDialog(frame,"Unable to grant request", "Staff", JOptionPane.WARNING_MESSAGE);
+						}
+						
+
+
+//						Assert.notNull(user, "User cannot be null"); // assert that the user is not empty	
+																					
 					}			
 				});
 				

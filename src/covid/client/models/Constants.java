@@ -9,4 +9,6 @@ public class Constants {
     public static final String LIST_COMPLAINTS_BY_STUDENT_ID_AND_STATUS_SERVICES_URL = "complaints/by/student/id/and/status/student_id/status_";
     public static final String LIST_COMPLAINTS_BY_STATUS_SERVICES_URL = "complaints/all/distinct/user/and/status/status_";
     public static final String DELETE_COMPLAINT_BY_ID_SERVICES_URL = "complaints/delete/complaint_id";
+    public static final String ALL_USERS_BY_ROLE = "users/all";
+    public static final String ALL_USERS = "users/by/role/{role}";
 }

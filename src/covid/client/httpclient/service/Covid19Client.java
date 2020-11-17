@@ -1,6 +1,7 @@
 package covid.client.httpclient.service;
 
 import covid.client.enumeration.ComplainStatus;
+import covid.client.enumeration.Role;
 import covid.client.httpclient.bulider.ServerApiBuilder;
 import covid.client.models.*;
 import covid.client.models.request.LoginRequest;
@@ -145,4 +146,35 @@ public class Covid19Client extends Covid19WebServiceClient implements Covid19Mes
         }, httpHeaders, HttpMethod.GET);
         return response.getBody();
     }
+
+    @Override
+    public List<User> getAllUsers() {
+        List<User> userList = new ArrayList<>();
+        ResponseEntity<List<User>> users =  (ResponseEntity<List<User>>) invoke(serviceURl.concat(ALL_USERS), null, new ParameterizedTypeReference<List<User>>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        }, httpHeaders, HttpMethod.GET);
+        if (users != null && users.getStatusCode() == HttpStatus.OK){
+            userList = users.getBody();
+        }
+        return userList;
+    }
+
+    @Override
+    public List<User> getAllUsersByRole(Role role) {
+        List<User> userList = new ArrayList<>();
+        ResponseEntity<List<User>> users =  (ResponseEntity<List<User>>) invoke(serviceURl.concat(ALL_USERS_BY_ROLE).replace("role", role.name()), null, new ParameterizedTypeReference<List<User>>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        }, httpHeaders, HttpMethod.GET);
+        if (users != null && users.getStatusCode() == HttpStatus.OK){
+            userList = users.getBody();
+        }
+        return userList;
+    }
 }
+
