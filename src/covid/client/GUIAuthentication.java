@@ -138,7 +138,7 @@ public class GUIAuthentication extends JFrame
 			}
 		}catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(null, "Invalid login, please try again", "Log In", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "An error occured while logging in... Please try again", "Log In", JOptionPane.INFORMATION_MESSAGE);
 			usernameTextField.setText("");
         	passwordField.setText("");
 		}

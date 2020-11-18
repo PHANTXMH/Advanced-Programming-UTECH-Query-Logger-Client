@@ -196,7 +196,7 @@ public class Dashboard extends JFrame
 				internalFrame = new JInternalFrame("",false,false,false,false);
 				internalFrame.setVisible(true);
 				
-				String[] columns = {"DATE","RESPONDER","QUERY"};
+				String[] columns = {"DATE","RESPONDER","QUERY",""};
 				String[][] data_rows = new String[50][50];
 				
 				Covid19Client serverClient = ServerClient.getClient();
@@ -210,15 +210,17 @@ public class Dashboard extends JFrame
 					data_rows[x][0] = c.getId().toString();
 					data_rows[x][1] = c.getComplainStatus().toString();
 					data_rows[x][2] = c.getQuery();
+					data_rows[x][3] = "VIEW";
 					x++;
 				});			
 				
 				JTable table = new JTable(data_rows, columns);	
 				JScrollPane scrollPane = new JScrollPane(table);
 				
-				table.getColumnModel().getColumn(0).setPreferredWidth(2);
-				table.getColumnModel().getColumn(1).setPreferredWidth(5);
-				table.getColumnModel().getColumn(2).setPreferredWidth(1200);
+				table.getColumnModel().getColumn(0).setPreferredWidth(200);
+				table.getColumnModel().getColumn(1).setPreferredWidth(120);
+				table.getColumnModel().getColumn(2).setPreferredWidth(1400);
+//				table.getColumnModel().getColumn(2).setPreferredWidth(3);
 				
 				internalFrame.add(scrollPane);
 				frame.add(internalFrame);					
