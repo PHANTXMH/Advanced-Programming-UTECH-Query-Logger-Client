@@ -233,7 +233,7 @@ public class Dashboard extends JFrame
 				internalFrame = new JInternalFrame("",false,false,false,false);
 				internalFrame.setVisible(true);
 				
-				
+				JPanel searchPanel = new JPanel();
 			}
 							
 		});
