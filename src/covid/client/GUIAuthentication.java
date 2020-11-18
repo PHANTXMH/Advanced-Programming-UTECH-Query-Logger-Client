@@ -134,11 +134,11 @@ public class GUIAuthentication extends JFrame
 				}
 			}else{
 				LoggingManager.getLogger(DRIVER.class).error("Authentication failed");
-				
+			
 			}
 		}catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(null, "An error occured while logging in... Please try again", "Log In", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "An error occured! Please try again.", "Log In", JOptionPane.INFORMATION_MESSAGE);
 			usernameTextField.setText("");
         	passwordField.setText("");
 		}

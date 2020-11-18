@@ -46,7 +46,7 @@ public class Dashboard extends JFrame
 	private JButton logout;
 	private JButton addQuery;
 	private JButton viewPastComplaints;
-	private JButton viewSpecificComplaint;
+	private JButton viewAComplaint;
 	private JInternalFrame internalFrame;
 	private JButton liveChat;
 	private JButton viewAllEnquiries;
@@ -74,17 +74,16 @@ public class Dashboard extends JFrame
 		frame = new JFrame("covid.client.Dashboard (Student)");
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
-		frame.setBackground(Color.BLUE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 		
 		addQuery = new JButton("Add Query");
-		viewPastComplaints = new JButton("View Previous Complaints");
-		viewSpecificComplaint = new JButton("View Specific Complaint");		
+		viewPastComplaints = new JButton("View Previous Queries");	
+		viewAComplaint = new JButton("View Query By ID");
 		
 		activities.add(home);
 		activities.add(addQuery);
 		activities.add(viewPastComplaints);
-		activities.add(viewSpecificComplaint);
+		activities.add(viewAComplaint);
 		activities.add(logout);
 		
 		window.add(internalFrame);
@@ -196,7 +195,7 @@ public class Dashboard extends JFrame
 				internalFrame = new JInternalFrame("",false,false,false,false);
 				internalFrame.setVisible(true);
 				
-				String[] columns = {"DATE","RESPONDER","QUERY",""};
+				String[] columns = {"DATE","RESPONDER","QUERY","ID"};
 				String[][] data_rows = new String[50][50];
 				
 				Covid19Client serverClient = ServerClient.getClient();
@@ -207,10 +206,10 @@ public class Dashboard extends JFrame
 				
 				complaintsList.forEach(c -> {	
 					
-					data_rows[x][0] = c.getId().toString();
-					data_rows[x][1] = c.getComplainStatus().toString();
+					data_rows[x][0] = "<DATE>";
+					data_rows[x][1] = "Panther";
 					data_rows[x][2] = c.getQuery();
-					data_rows[x][3] = "VIEW";
+					data_rows[x][3] = c.getId().toString();
 					x++;
 				});			
 				
@@ -227,10 +226,16 @@ public class Dashboard extends JFrame
 			}			
 		});
 		
-		viewSpecificComplaint.addActionListener(new ActionListener() {
+		viewAComplaint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			
+				internalFrame.dispose();
+				internalFrame = new JInternalFrame("",false,false,false,false);
+				internalFrame.setVisible(true);
 				
-			}			
+				
+			}
+							
 		});
 		
 		logout.addActionListener(new ActionListener() {
