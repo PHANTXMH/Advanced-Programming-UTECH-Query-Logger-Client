@@ -18,8 +18,10 @@ public class Complaints{
     private Boolean read;
 
     private Date readDate;
-
-    public Complaints() {
+    
+    private Date createdAt;
+    
+   public Complaints() {
     }
 
     public Complaints(Long id, Services services, ComplainStatus complainStatus, String query, Boolean read, Date readDate) {
@@ -82,6 +84,10 @@ public class Complaints{
 
     public void setReadDate(Date readDate) {
         this.readDate = readDate;
+    }   
+    
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     @Override
