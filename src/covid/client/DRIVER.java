@@ -36,6 +36,13 @@ if(authResponse != null && authResponse.getToken() != null)
 }
 */
 
+
+
+
+
+
+
+
 /*
 // move these code to wherever you want to use them
 Covid19Client serverClient = ServerClient.getClient(); // crate the API client service instance. this will already have the JWT token from the previous screen when we initialize the abstract class

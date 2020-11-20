@@ -28,6 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.table.TableCellRenderer;
 
 import covid.client.enumeration.ComplainStatus;
+import covid.client.enumeration.Role;
 import covid.client.httpclient.service.Covid19Client;
 import covid.client.httpclient.service.ServerClient;
 import covid.client.httpclient.service.SessionManager;
@@ -197,7 +198,7 @@ public class Dashboard extends JFrame
 				internalFrame = new JInternalFrame("",false,false,false,false);
 				internalFrame.setVisible(true);
 				
-				String[] columns = {"DATE","RESPONDER","QUERY","ID"};
+				String[] columns = {"DATE","STATUS","RESPONDER","QUERY","ID"};
 				String[][] data_rows = new String[50][50];
 				
 				Covid19Client serverClient = ServerClient.getClient();
@@ -209,19 +210,20 @@ public class Dashboard extends JFrame
 				complaintsList.forEach(c -> {	
 					
 					data_rows[x][0] = c.getCreatedAt() != null ? c.getCreatedAt().toString():"<DATE>";
-					data_rows[x][1] = "Panther";
-					data_rows[x][2] = c.getQuery();
-					data_rows[x][3] = c.getId().toString();
+					data_rows[x][1] = c.getComplainStatus() != null ? c.getComplainStatus().toString():"<STATUS>";
+					data_rows[x][2] = "";
+					data_rows[x][3] = c.getQuery() != null ? c.getQuery():"<QUERY>";
+					data_rows[x][4] = c.getId() != null ? c.getId().toString():"<ID>";
 					x++;
 				});			
 				
 				JTable table = new JTable(data_rows, columns);	
 				JScrollPane scrollPane = new JScrollPane(table);
 				
-				table.getColumnModel().getColumn(0).setPreferredWidth(300);
+				table.getColumnModel().getColumn(0).setPreferredWidth(250);
 				table.getColumnModel().getColumn(1).setPreferredWidth(120);
-				table.getColumnModel().getColumn(2).setPreferredWidth(1400);
-//				table.getColumnModel().getColumn(2).setPreferredWidth(3);
+				table.getColumnModel().getColumn(2).setPreferredWidth(120);
+				table.getColumnModel().getColumn(3).setPreferredWidth(1200);
 				
 				internalFrame.add(scrollPane);
 				frame.add(internalFrame);					
@@ -271,18 +273,34 @@ public class Dashboard extends JFrame
 									JPanel queryWestPanel = new JPanel();
 									JPanel queryCenterPanel = new JPanel();
 									JPanel queryNorthPanel = new JPanel();
+									JPanel responsePanel = new JPanel();
+									JLabel responseLabel = new JLabel("RESPONSE: ");
+									JLabel blank = new JLabel();
 									JLabel queryLabel = new JLabel("QUERY ["+c.getId()+"] :");
 									JLabel queryDate = new JLabel("[SUBMISSION DATE: "+c.getCreatedAt()+"]");
 									JLabel queryStatus = new JLabel("[STATUS: "+c.getComplainStatus().toString()+"]");
-									JTextArea query = new JTextArea(c.getQuery());									
+									JTextArea query = new JTextArea(c.getQuery());	
+									JTextArea response = new JTextArea();
+									
+									queryWestPanel.setLayout(new GridLayout(3,1,0,0));
+									
+									query.setPreferredSize(new Dimension(1250,250));
+									response.setPreferredSize(new Dimension(1250,300));
 									
 									queryNorthPanel.add(queryStatus);
 									queryNorthPanel.add(queryDate);	
+									
 									queryWestPanel.add(queryLabel);
-									queryCenterPanel.add(query);									
-									query.setPreferredSize(new Dimension(1250,50));
+									queryWestPanel.add(responseLabel);
+									
+									queryCenterPanel.add(query);										
+									queryCenterPanel.add(response);
+									
 									query.setLineWrap(true);
 									query.setEditable(false);
+									
+									response.setLineWrap(true);
+									response.setEditable(false);									
 									
 									internalFrame.add(queryNorthPanel,BorderLayout.NORTH);
 									internalFrame.add(queryWestPanel,BorderLayout.WEST);
@@ -362,23 +380,32 @@ public class Dashboard extends JFrame
 				internalFrame = new JInternalFrame("",false,false,false,false);
 				internalFrame.setVisible(true);
 				
-				String[] columns = {"STUDENT ID","SERVICE","QUERY",""};
+				String[] columns = {"STUDENT ID","SERVICE","QUERY","STATUS"};
 				String[][] data_rows = new String[50][50];
 				
 				Covid19Client serverClient = ServerClient.getClient(); 
 				
-				List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(2L); //Code not complete to list all students queries...1L is for testing
+				List<User> userList = serverClient.getAllUsersByRole(Role.STUDENT);								
+				List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(2L);; //Code not complete to list all students queries...1L is for testing
 				
 				x=0;
 				
-				complaintsList.forEach(c -> {
-					data_rows[x][0] = c.getId().toString();
-					data_rows[x][1] = c.getComplainStatus().toString();
-					data_rows[x][2] = c.getQuery();
-					data_rows[x][3] = "View";
-					x++;
+				userList.forEach(u -> {	
+					
+					
+					
+					data_rows[x][0] = u.getUserName() != null ? u.getUserName():"<USERNAME>";
+					
+					complaintsList.forEach(c -> {
+						data_rows[x][1] = c.getServices().toString();
+						data_rows[x][2] = c.getQuery();
+						data_rows[x][3] = c.getComplainStatus().toString();
+						x++;
+					});
+					
+					
 						
-				});					
+				});				
 				
 				JTable table = new JTable(data_rows, columns);	
 				JScrollPane scrollPane = new JScrollPane(table);
