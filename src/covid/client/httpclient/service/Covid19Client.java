@@ -165,7 +165,7 @@ public class Covid19Client extends Covid19WebServiceClient implements Covid19Mes
     @Override
     public List<User> getAllUsersByRole(Role role) {
         List<User> userList = new ArrayList<>();
-        ResponseEntity<List<User>> users =  (ResponseEntity<List<User>>) invoke(serviceURl.concat(ALL_USERS_BY_ROLE).replace("role", role.name()), null, new ParameterizedTypeReference<List<User>>() {
+        ResponseEntity<List<User>> users =  (ResponseEntity<List<User>>) invoke(serviceURl.concat(ALL_USERS_BY_ROLE).replace("role_", role.name()), null, new ParameterizedTypeReference<List<User>>() {
             @Override
             public Type getType() {
                 return super.getType();
