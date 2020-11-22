@@ -202,20 +202,28 @@ public class Dashboard extends JFrame
 				String[][] data_rows = new String[50][50];
 				
 				Covid19Client serverClient = ServerClient.getClient();
-				
-				List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(user.getId());
-				
-				x=0;
-				
-				complaintsList.forEach(c -> {	
+				try {
+					List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(user.getId());
 					
-					data_rows[x][0] = c.getCreatedAt() != null ? c.getCreatedAt().toString():"<DATE>";
-					data_rows[x][1] = c.getComplainStatus() != null ? c.getComplainStatus().toString():"<STATUS>";
-					data_rows[x][2] = "";
-					data_rows[x][3] = c.getQuery() != null ? c.getQuery():"<QUERY>";
-					data_rows[x][4] = c.getId() != null ? c.getId().toString():"<ID>";
-					x++;
-				});			
+					x=0;
+					
+					complaintsList.forEach(c -> {	
+						
+						data_rows[x][0] = c.getCreatedAt() != null ? c.getCreatedAt().toString():"<DATE>";
+						data_rows[x][1] = c.getComplainStatus() != null ? c.getComplainStatus().toString():"<STATUS>";
+						data_rows[x][2] = "";
+						data_rows[x][3] = c.getQuery() != null ? c.getQuery():"<QUERY>";
+						data_rows[x][4] = c.getId() != null ? c.getId().toString():"<ID>";
+						x++;
+					});
+				}catch(NullPointerException ex)
+				{
+					JOptionPane.showMessageDialog(frame,"No complaints at this time.", "Complaints List", JOptionPane.INFORMATION_MESSAGE);
+					ex.printStackTrace();
+				}
+				
+				
+							
 				
 				JTable table = new JTable(data_rows, columns);	
 				JScrollPane scrollPane = new JScrollPane(table);
@@ -252,12 +260,12 @@ public class Dashboard extends JFrame
 				searchButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
-						Covid19Client serverClient = ServerClient.getClient();
-						
-						List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(user.getId());	
+						Covid19Client serverClient = ServerClient.getClient();							
 						
 						try
 						{
+							List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(user.getId());
+							
 							complaintIdSearch = Long.parseLong(searchTextField.getText());
 							
 							complaintsList.forEach(c -> {	
