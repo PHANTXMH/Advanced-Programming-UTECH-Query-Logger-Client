@@ -12,4 +12,9 @@ public class Constants {
     public static final String ALL_USERS = "users/all";
     public static final String ALL_USERS_BY_ROLE = "users/by/role/role_";
 
+    // complaint responses
+    public static final String REPLY_TO_COMPLAINT_SERVICE_URL = "response/reply";
+    public static final String READ_RESPONSE_SERVICE_URL = "response/read/response_id";
+
+
 }

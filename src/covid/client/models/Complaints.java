@@ -4,6 +4,7 @@ package covid.client.models;
 import covid.client.enumeration.ComplainStatus;
 
 import java.util.Date;
+import java.util.List;
 
 public class Complaints{
 
@@ -20,6 +21,8 @@ public class Complaints{
     private Date readDate;
     
     private Date createdAt;
+
+    private List<ComplaintResponses> responses;
     
    public Complaints() {
     }
@@ -88,6 +91,18 @@ public class Complaints{
     
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public List<ComplaintResponses> getResponses() {
+        return responses;
+    }
+
+    public void setResponses(List<ComplaintResponses> responses) {
+        this.responses = responses;
     }
 
     @Override

@@ -7,6 +7,7 @@ import covid.client.models.*;
 import covid.client.models.request.LoginRequest;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
@@ -175,6 +176,19 @@ public class Covid19Client extends Covid19WebServiceClient implements Covid19Mes
             userList = users.getBody();
         }
         return userList;
+    }
+
+    @Override
+    public ApiResponse<ComplaintResponses> reply(ComplaintResponses complaintResponses) {
+        ResponseEntity<ApiResponse<ComplaintResponses>> response =
+                invoke(serviceURl.concat(REPLY_TO_COMPLAINT_SERVICE_URL), complaintResponses, ApiResponse.class, httpHeaders, HttpMethod.POST);
+        return response.getBody();
+    }
+
+    @Async
+    @Override
+    public void readResponse(Long id) {
+                invoke(serviceURl.concat(READ_RESPONSE_SERVICE_URL.replace("response_id", String.valueOf(id))), null, ApiResponse.class, httpHeaders, HttpMethod.GET);
     }
 }
 

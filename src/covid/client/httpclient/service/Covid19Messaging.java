@@ -30,6 +30,10 @@ public interface Covid19Messaging {
 
     List<User> getAllUsersByRole(Role role);
 
+    ApiResponse<ComplaintResponses> reply(ComplaintResponses complaintResponses);
+
+    void readResponse(Long id);
+
 
 
 
