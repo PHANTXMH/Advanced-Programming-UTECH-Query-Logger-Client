@@ -218,7 +218,7 @@ public class Dashboard extends JFrame
 					});
 				}catch(NullPointerException ex)
 				{
-					JOptionPane.showMessageDialog(frame,"No complaints at this time.", "Complaints List", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(frame,"An error occured! Please try again.", "Complaints List", JOptionPane.WARNING_MESSAGE);
 					ex.printStackTrace();
 				}
 				
@@ -394,20 +394,18 @@ public class Dashboard extends JFrame
 				Covid19Client serverClient = ServerClient.getClient(); 
 				
 				List<User> userList = serverClient.getAllUsersByRole(Role.STUDENT);								
-				List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(2L);; //Code not complete to list all students queries...1L is for testing
 				
 				x=0;
 				
 				userList.forEach(u -> {	
 					
-					
-					
-					data_rows[x][0] = u.getUserName() != null ? u.getUserName():"<USERNAME>";
+					List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(u.getId());					
 					
 					complaintsList.forEach(c -> {
-						data_rows[x][1] = c.getServices().toString();
-						data_rows[x][2] = c.getQuery();
-						data_rows[x][3] = c.getComplainStatus().toString();
+						data_rows[x][0] = u.getUserName() != null ? u.getUserName():"<USERNAME>";
+						data_rows[x][1] = c.getServices() != null ? c.getServices().toString():"<SERVICE>";
+						data_rows[x][2] = c.getQuery() != null ? c.getQuery():"<QUERY>";
+						data_rows[x][3] = c.getComplainStatus() != null ? c.getComplainStatus().toString():"<STATUS>";
 						x++;
 					});
 					
