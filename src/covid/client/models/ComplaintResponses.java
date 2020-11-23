@@ -34,6 +34,13 @@ public class ComplaintResponses{
         this.createdUser = createdUser;
         this.modifyUser = modifyUser;
     }
+    
+    public ComplaintResponses(String response, Complaints complaints, User createdUser)
+    {
+    	this.response = response;
+    	this.complaints = complaints;
+    	this.createdUser = createdUser;
+    }
 
     public Long getId() {
         return id;

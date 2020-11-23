@@ -39,7 +39,7 @@ public class Complaints{
     public Complaints(Services services, String query) {
         this.services = services;
         this.query = query;
-    }
+    }    
 
     public Long getId() {
         return id;

@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import java.util.List;
+import java.util.Objects;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -52,7 +53,6 @@ public class Dashboard extends JFrame
 	private JButton liveChat;
 	private JButton viewAllEnquiries;
 	private JButton viewAStudentEnquiry;
-	private JButton respondToEnquiry;
 	private User user;
 	int x;
 	long complaintIdSearch = 0;
@@ -211,7 +211,11 @@ public class Dashboard extends JFrame
 						
 						data_rows[x][0] = c.getCreatedAt() != null ? c.getCreatedAt().toString():"<DATE>";
 						data_rows[x][1] = c.getComplainStatus() != null ? c.getComplainStatus().toString():"<STATUS>";
-						data_rows[x][2] = "";
+						
+						c.getResponses().forEach(cr -> {
+							data_rows[x][2] = cr.getCreatedUser() != null ? cr.getCreatedUser().getLastName():"N/A";
+						});
+						
 						data_rows[x][3] = c.getQuery() != null ? c.getQuery():"<QUERY>";
 						data_rows[x][4] = c.getId() != null ? c.getId().toString():"<ID>";
 						x++;
@@ -278,31 +282,41 @@ public class Dashboard extends JFrame
 									internalFrame = new JInternalFrame("",false,false,false,false);
 									internalFrame.setVisible(true);
 									
-									JPanel queryWestPanel = new JPanel();
-									JPanel queryCenterPanel = new JPanel();
-									JPanel queryNorthPanel = new JPanel();
+									JPanel WestPanel = new JPanel();
+									JPanel CenterPanel = new JPanel();
+									JPanel NorthPanel = new JPanel();
+									JPanel SouthPanel = new JPanel();
 									JPanel responsePanel = new JPanel();
 									JLabel responseLabel = new JLabel("RESPONSE: ");
 									JLabel blank = new JLabel();
 									JLabel queryLabel = new JLabel("QUERY ["+c.getId()+"] :");
-									JLabel queryDate = new JLabel("[SUBMISSION DATE: "+c.getCreatedAt()+"]");
-									JLabel queryStatus = new JLabel("[STATUS: "+c.getComplainStatus().toString()+"]");
+									JLabel queryDate = new JLabel("QUERY SUBMISSION DATE: ["+c.getCreatedAt()+"]");
+									JLabel queryStatus = new JLabel("STATUS: ["+c.getComplainStatus().toString()+"]");
 									JTextArea query = new JTextArea(c.getQuery());	
 									JTextArea response = new JTextArea();
 									
-									queryWestPanel.setLayout(new GridLayout(3,1,0,0));
+									WestPanel.setLayout(new GridLayout(3,1,0,0));
 									
 									query.setPreferredSize(new Dimension(1250,250));
-									response.setPreferredSize(new Dimension(1250,300));
+									response.setBackground(new Color(211,211,211));
+									response.setPreferredSize(new Dimension(1250,500));
 									
-									queryNorthPanel.add(queryStatus);
-									queryNorthPanel.add(queryDate);	
+									NorthPanel.add(queryStatus);	
 									
-									queryWestPanel.add(queryLabel);
-									queryWestPanel.add(responseLabel);
+									WestPanel.add(queryLabel);
+									WestPanel.add(responseLabel);
 									
-									queryCenterPanel.add(query);										
-									queryCenterPanel.add(response);
+									CenterPanel.add(query);
+									CenterPanel.add(blank);
+									CenterPanel.add(blank);
+									
+									c.getResponses().forEach(r -> { 
+										response.append(">"+r.getResponse()+"\n	SENT BY: "+r.getCreatedUser().getLastName()+"	DATE: "+r.getCreatedAt().toString()+"\n\n");
+										//response.setText("<RESPONSE>"+"\n	SENT BY: "+"<RESPONDER NAME>"+" DATE: "+"<RESPONSE DATE>"+"\n\n");
+									});
+									CenterPanel.add(response);
+									
+									SouthPanel.add(queryDate);
 									
 									query.setLineWrap(true);
 									query.setEditable(false);
@@ -310,9 +324,10 @@ public class Dashboard extends JFrame
 									response.setLineWrap(true);
 									response.setEditable(false);									
 									
-									internalFrame.add(queryNorthPanel,BorderLayout.NORTH);
-									internalFrame.add(queryWestPanel,BorderLayout.WEST);
-									internalFrame.add(queryCenterPanel,BorderLayout.CENTER);
+									internalFrame.add(NorthPanel,BorderLayout.NORTH);
+									internalFrame.add(WestPanel,BorderLayout.WEST);
+									internalFrame.add(CenterPanel,BorderLayout.CENTER);
+									internalFrame.add(SouthPanel,BorderLayout.SOUTH);
 									
 									frame.add(internalFrame);
 								}
@@ -355,16 +370,14 @@ public class Dashboard extends JFrame
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		viewAllEnquiries = new JButton("View all Student's Enquiries");
-		viewAStudentEnquiry = new JButton("View a Student's Enquiry");
-		respondToEnquiry = new JButton("Respond to Enquiry");
+		viewAllEnquiries = new JButton("View all Student's Queries");
+		viewAStudentEnquiry = new JButton("View a Student's Query");
 		liveChat = new JButton("Live Chat");
 		logout = new JButton("Log Out");			
 		
 		activities.add(home);
 		activities.add(viewAllEnquiries);
 		activities.add(viewAStudentEnquiry);
-		activities.add(respondToEnquiry);
 		activities.add(liveChat);
 		activities.add(logout);
 		
@@ -403,7 +416,7 @@ public class Dashboard extends JFrame
 					
 					complaintsList.forEach(c -> {
 						data_rows[x][0] = u.getUserName() != null ? u.getUserName():"<USERNAME>";
-						data_rows[x][1] = c.getServices() != null ? c.getServices().toString():"<SERVICE>";
+						data_rows[x][1] = c.getServices() != null ? c.getServices().getName():"<SERVICE>";
 						data_rows[x][2] = c.getQuery() != null ? c.getQuery():"<QUERY>";
 						data_rows[x][3] = c.getComplainStatus() != null ? c.getComplainStatus().toString():"<STATUS>";
 						x++;
@@ -445,61 +458,235 @@ public class Dashboard extends JFrame
 				requestPanel.add(requestBtn);
 				internalFrame.add(requestPanel);			
 				
+				frame.add(internalFrame);
 				
-				requestBtn.addActionListener(new ActionListener()
+				requestBtn.addActionListener(new ActionListener()								//Searching students for complaint list
 				{
-					String requestId;
 					public void actionPerformed(ActionEvent e) 
 					{							
-												
-						Covid19Client serverClient = ServerClient.getClient(); // crate the API client service instance. this will already have the JWT token from the previous screen when we initialize the abstract class
-												
-						List<User> userList = serverClient.getAllUsers();
+						String requestId = requestTextField.getText();
 						
-						if(userList != null)
-						{
-							userList.forEach(o ->{
-								if(o.getUserName() == requestId)
-								{
-									System.out.println(o.getFirstName()+"'s complaints are as follows:");
-									
-									List<Complaints> complaintsList = serverClient.getComplaintsByStatusAndStudentID(user.getId(), ComplainStatus.NEW);
-									
-									if(complaintsList != null)
-									{
-										complaintsList.forEach(c -> {
-											System.out.println(c.getQuery());
-											System.out.println(c.getComplainStatus());
-										});							
-									}else
-									{
-										JOptionPane.showMessageDialog(frame,"There are no complaints at this time.", "Complaints List", JOptionPane.INFORMATION_MESSAGE);
-									}
-								}
+						Covid19Client serverClient = ServerClient.getClient();
+						List<User> userList = serverClient.getAllUsersByRole(Role.STUDENT);
+						
+						found = false;
+						
+						userList.forEach(u -> {
+							if(Objects.equals(u.getUserName(),requestId))
+							{
+								found = true;
 								
-							});
-						}else
+								internalFrame.dispose();
+								internalFrame = new JInternalFrame("",false,false,false,false);
+								internalFrame.setVisible(true);
+								
+								JPanel searchPanel = new JPanel();
+								JLabel searchLabel = new JLabel("Enter a query ID: ");
+								JTextField searchTextField = new JTextField(3);
+								JButton searchButton = new JButton("Respond");							
+								
+								String[] columns = {"DATE","STATUS","RESPONDER","QUERY","ID"};
+								String[][] data_rows = new String[50][50];
+								
+								try {
+									List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(u.getId());
+									
+									x=0;
+									
+									complaintsList.forEach(c -> {	
+										
+										data_rows[x][0] = c.getCreatedAt() != null ? c.getCreatedAt().toString():"<DATE>";
+										data_rows[x][1] = c.getComplainStatus() != null ? c.getComplainStatus().toString():"<STATUS>";
+										
+										c.getResponses().forEach(cr -> {
+											data_rows[x][2] = cr.getCreatedUser() != null ? cr.getCreatedUser().getLastName():"N/A";
+										});
+										
+										data_rows[x][3] = c.getQuery() != null ? c.getQuery():"<QUERY>";
+										data_rows[x][4] = c.getId() != null ? c.getId().toString():"<ID>";
+										x++;
+									});
+								}catch(NullPointerException ex)
+								{
+									JOptionPane.showMessageDialog(frame,"An error occured! Please try again.", "Complaints List", JOptionPane.WARNING_MESSAGE);
+									ex.printStackTrace();
+								}								
+								
+								JTable table = new JTable(data_rows, columns);	
+								JScrollPane scrollPane = new JScrollPane(table);
+								
+								table.getColumnModel().getColumn(0).setPreferredWidth(250);
+								table.getColumnModel().getColumn(1).setPreferredWidth(120);
+								table.getColumnModel().getColumn(2).setPreferredWidth(120);
+								table.getColumnModel().getColumn(3).setPreferredWidth(1200);								
+
+								searchPanel.add(searchLabel);
+								searchPanel.add(searchTextField);
+								searchPanel.add(searchButton);	
+								
+								internalFrame.add(searchPanel,BorderLayout.NORTH);
+								internalFrame.add(scrollPane,BorderLayout.CENTER);
+								
+								frame.add(internalFrame);
+								
+								searchButton.addActionListener(new ActionListener()				//Searching students complaint details by query ID
+								{
+									public void actionPerformed(ActionEvent e) 
+									{										
+										try
+										{
+											List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(u.getId());
+											
+											complaintIdSearch = Long.parseLong(searchTextField.getText());
+											
+											complaintsList.forEach(c -> {	
+												
+												if(c.getId() == complaintIdSearch)
+												{
+													found = true;
+													
+													internalFrame.dispose();
+													internalFrame = new JInternalFrame("",false,false,false,false);
+													internalFrame.setVisible(true);
+													
+													JPanel WestPanel = new JPanel();
+													JPanel CenterPanel = new JPanel();
+													JPanel NorthPanel = new JPanel();
+													JPanel SouthPanel = new JPanel();
+													JPanel responsePanel = new JPanel();
+													JPanel statusPanel = new JPanel();
+													JLabel responseLabel = new JLabel("RESPONSE: ");
+													JLabel profile = new JLabel("STUDENTS'S PROFILE: ");
+													JLabel studentName = new JLabel(u.getFirstName()+" "+u.getLastName());
+													JLabel studentID = new JLabel(u.getUserName());
+													JLabel studentEmail = new JLabel(u.getEmail());
+													JLabel studentContact = new JLabel("Cell# :"+u.getContact().toString());
+													JButton sendResponse = new JButton("Send");
+													JPanel blank = new JPanel();
+													JRadioButton resolvedRButton = new JRadioButton("RESOLVED");
+													JRadioButton processingRButton = new JRadioButton("PROCESSING",true);
+													JRadioButton unresolvedRButton = new JRadioButton("UNRESOLVED");
+													JRadioButton canceledRButton = new JRadioButton("CANCELED");
+													ButtonGroup bg = new ButtonGroup();
+													JLabel queryLabel = new JLabel("QUERY ["+c.getId()+"] :");
+													JLabel queryDate = new JLabel("QUERY SUBMISSION DATE: ["+c.getCreatedAt()+"]");
+													JLabel queryStatus = new JLabel("STATUS: ["+c.getComplainStatus().toString()+"]");
+													JLabel queryService = new JLabel("SERVICE: ["+c.getServices().getName()+"]");
+													JTextArea query = new JTextArea(c.getQuery());	
+													JTextArea response = new JTextArea();
+													
+													
+													bg.add(resolvedRButton);
+													bg.add(processingRButton);
+													bg.add(unresolvedRButton);
+													bg.add(canceledRButton);
+													
+													statusPanel.add(processingRButton);
+													statusPanel.add(resolvedRButton);
+													statusPanel.add(unresolvedRButton);
+													statusPanel.add(canceledRButton);
+													
+													NorthPanel.setLayout(new GridLayout(1,5,1,0));
+													WestPanel.setLayout(new GridLayout(4,1,0,0));
+													
+													query.setPreferredSize(new Dimension(1250,150));
+													query.setBackground(new Color(211,211,211));
+													response.setPreferredSize(new Dimension(1250,250));
+													
+													NorthPanel.add(profile);
+													NorthPanel.add(studentName);
+													NorthPanel.add(studentID);
+													NorthPanel.add(studentEmail);
+													NorthPanel.add(studentContact);
+													
+													WestPanel.add(queryLabel);
+													WestPanel.add(responseLabel);
+													
+													CenterPanel.add(query);
+													CenterPanel.add(response);
+													CenterPanel.add(statusPanel);
+													CenterPanel.add(sendResponse);
+													
+													SouthPanel.add(queryStatus);
+													SouthPanel.add(queryService);
+													SouthPanel.add(queryDate);
+													
+													query.setLineWrap(true);
+													query.setEditable(false);
+													
+													response.setLineWrap(true);
+													response.setEditable(true);									
+													
+													internalFrame.add(NorthPanel,BorderLayout.NORTH);
+													internalFrame.add(WestPanel,BorderLayout.WEST);
+													internalFrame.add(CenterPanel,BorderLayout.CENTER);
+													internalFrame.add(SouthPanel,BorderLayout.SOUTH);
+													
+													frame.add(internalFrame);
+													
+													sendResponse.addActionListener(new ActionListener()				//Staff sends their response here
+													{
+														public void actionPerformed(ActionEvent e) 
+														{
+															try
+															{
+																if(resolvedRButton.isSelected())
+																{
+																	//c.setComplainStatus(ComplainStatus.RESOLVED);
+																}else
+																if(processingRButton.isSelected())	
+																{
+																	//c.setComplainStatus(ComplainStatus.PROCESSING);
+																}else
+																if(unresolvedRButton.isSelected())
+																{
+																	//c.setComplainStatus(ComplainStatus.UNRESOLVED);
+																}else
+																if(canceledRButton.isSelected())
+																{
+																	//c.setComplainStatus(ComplainStatus.CANCELED);
+																}
+																
+																ApiResponse<ComplaintResponses> complaintResponseApiResponse = 
+																		serverClient.reply(new ComplaintResponses(response.getText(),c,staff));
+																JOptionPane.showMessageDialog(frame,complaintResponseApiResponse.getMessage(), "Response sent!", JOptionPane.INFORMATION_MESSAGE);
+																
+															}catch(NullPointerException ex)
+															{
+																JOptionPane.showMessageDialog(frame,"An error occured! Please try again.", "Response Failed", JOptionPane.WARNING_MESSAGE);																
+															}
+															
+														}
+													});	
+												}
+											});	
+											
+											if(!found)
+											{
+												JOptionPane.showMessageDialog(frame,"Your query Id was not found.", "Search Failed", JOptionPane.WARNING_MESSAGE);
+												searchTextField.setText("");
+												searchTextField.setFocusable(true);
+											}
+										}catch(Exception ex)
+										{
+											JOptionPane.showMessageDialog(frame,"An error occured! Please try again.", "Search Failed", JOptionPane.WARNING_MESSAGE);
+											searchTextField.setText("");
+											searchTextField.setFocusable(true);
+										}
+									}
+								});
+							}
+						});							
+						if(!found)
 						{
-							JOptionPane.showMessageDialog(frame,"Unable to grant request", "Staff", JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(frame,"Student ID was not found!", "Student Search", JOptionPane.WARNING_MESSAGE);
+							requestTextField.setText("");
 						}
-						
-
-
-//						Assert.notNull(user, "User cannot be null"); // assert that the user is not empty	
-																					
 					}			
 				});
-				
-				frame.add(internalFrame);
 			}			
 		});
-		
-		respondToEnquiry.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-						
-			}			
-		});
-		
+	
 		liveChat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 						
