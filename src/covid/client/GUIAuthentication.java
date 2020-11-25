@@ -125,13 +125,12 @@ public class GUIAuthentication extends JFrame
 						frame.dispose();
 					}else
 					{
-						JOptionPane.showMessageDialog(null, "Invalid login", "Log In", JOptionPane.WARNING_MESSAGE);
-						usernameTextField.setText("");
-		            	passwordField.setText("");
+						JOptionPane.showMessageDialog(null, "An error occured!", "Log In", JOptionPane.WARNING_MESSAGE);
+						frame.dispose();
 					}									
 				} catch (Exception e1) {
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Invalid Login!", "Log In", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "An error occured!", "Log In", JOptionPane.WARNING_MESSAGE);
 					usernameTextField.setText("");
 		        	passwordField.setText("");
 				}
@@ -144,7 +143,7 @@ public class GUIAuthentication extends JFrame
 		
 		}catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(null, "An error occured! Please try again.", "Log In", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Unable to log in... please try again.", "Log In", JOptionPane.WARNING_MESSAGE);
 			usernameTextField.setText("");
         	passwordField.setText("");
 		}	

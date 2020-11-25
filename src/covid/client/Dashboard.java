@@ -29,7 +29,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.TableCellRenderer;
 
 import covid.client.enumeration.ComplainStatus;
 import covid.client.enumeration.Role;
@@ -87,11 +86,13 @@ public class Dashboard extends JFrame
 		addQuery = new JButton("Add Query");
 		viewPastComplaints = new JButton("View Previous Queries");	
 		viewAComplaint = new JButton("View Query Details");
+		liveChat = new JButton("Live Chat");
 		
 		activities.add(home);
 		activities.add(addQuery);
 		activities.add(viewPastComplaints);
 		activities.add(viewAComplaint);
+		activities.add(liveChat);
 		activities.add(logout);
 		
 		window.add(internalFrame);
@@ -384,6 +385,69 @@ public class Dashboard extends JFrame
 			}							
 		});
 		
+		liveChat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				internalFrame.dispose();
+				internalFrame = new JInternalFrame("",false,false,false,false);	
+				internalFrame.setVisible(true);
+				
+				JPanel headerPanel = new JPanel();
+				JPanel availableRep = new JPanel();
+				JLabel headerLabel = new JLabel("Available Student Representatives:");
+				
+				headerLabel.setFont(new Font("Algerian", Font.BOLD, 20));
+				headerPanel.add(headerLabel);
+				
+				internalFrame.add(headerPanel,BorderLayout.NORTH);
+				
+				Covid19Client serverClient = ServerClient.getClient();
+				List<User> userList = serverClient.getAllUsersByRole(Role.STUDENT_REPRESENTATIVE);
+				
+				userList.forEach(u -> {
+					JLabel studentRep = new JLabel(u.getFirstName()+" "+u.getLastName());
+					JButton chatButton = new JButton("CHAT");
+					
+					availableRep.add(studentRep);
+					availableRep.add(chatButton);
+					
+					internalFrame.add(availableRep,BorderLayout.CENTER);					
+					
+					chatButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							
+							JFrame chatWindow = new JFrame(u.getFirstName()+" "+u.getLastName());
+							JTextArea viewer = new JTextArea();
+							JPanel editorPanel = new JPanel();
+							JTextField editor = new JTextField(50);
+							JButton sendButton = new JButton("Send");
+							
+							
+							editorPanel.add(editor);
+							editorPanel.add(sendButton);
+							chatWindow.setAlwaysOnTop(true);
+							chatWindow.setLocationRelativeTo(frame);
+							viewer.setEditable(false);
+							viewer.setBackground(new Color(211,211,211));
+							chatWindow.setVisible(true);
+							chatWindow.setSize(new Dimension(600,400));
+							chatWindow.add(viewer,BorderLayout.CENTER);
+							chatWindow.add(editorPanel,BorderLayout.SOUTH);
+							
+							sendButton.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+																	
+									
+								}
+							});
+							
+						}
+					});
+				});
+				frame.add(internalFrame);
+			}			
+		});
+		
 		logout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -430,46 +494,42 @@ public class Dashboard extends JFrame
 		
 		viewAllEnquiries.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				internalFrame.dispose();
 				internalFrame = new JInternalFrame("",false,false,false,false);
 				internalFrame.setVisible(true);
 				
 				String[] columns = {"STUDENT ID","SERVICE","QUERY","STATUS"};
-				String[][] data_rows = new String[50][50];
+				String[][] data_rows = new String[50][50];	
 				
-				Covid19Client serverClient = ServerClient.getClient(); 
-				
+				Covid19Client serverClient = ServerClient.getClient();
 				List<User> userList = serverClient.getAllUsersByRole(Role.STUDENT);								
 				
 				x=0;
-				
-				userList.forEach(u -> {	
 					
-					List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(u.getId());					
+					JTable table = new JTable(data_rows, columns);	
+					JScrollPane scrollPane = new JScrollPane(table);
 					
-					complaintsList.forEach(c -> {
-						data_rows[x][0] = u.getUserName() != null ? u.getUserName():"<USERNAME>";
-						data_rows[x][1] = c.getServices() != null ? c.getServices().getName():"<SERVICE>";
-						data_rows[x][2] = c.getQuery() != null ? c.getQuery():"<QUERY>";
-						data_rows[x][3] = c.getComplainStatus() != null ? c.getComplainStatus().toString():"<STATUS>";
-						x++;
-					});
+					table.getColumnModel().getColumn(0).setPreferredWidth(7);
+					table.getColumnModel().getColumn(1).setPreferredWidth(4);
+					table.getColumnModel().getColumn(2).setPreferredWidth(1000);
+					table.getColumnModel().getColumn(3).setPreferredWidth(2);
 					
+					internalFrame.add(scrollPane);
+					frame.add(internalFrame);						
+										
+						userList.forEach(u -> {	
+							
+							List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(u.getId());					
+							
+							complaintsList.forEach(c -> {
+								data_rows[x][0] = u.getUserName() != null ? u.getUserName():"<USERNAME>";
+								data_rows[x][1] = c.getServices() != null ? c.getServices().getName():"<SERVICE>";
+								data_rows[x][2] = c.getQuery() != null ? c.getQuery():"<QUERY>";
+								data_rows[x][3] = c.getComplainStatus() != null ? c.getComplainStatus().toString():"<STATUS>";
+								x++;
+							});					
+						});
 					
-						
-				});				
-				
-				JTable table = new JTable(data_rows, columns);	
-				JScrollPane scrollPane = new JScrollPane(table);
-				
-				table.getColumnModel().getColumn(0).setPreferredWidth(7);
-				table.getColumnModel().getColumn(1).setPreferredWidth(4);
-				table.getColumnModel().getColumn(2).setPreferredWidth(1000);
-				table.getColumnModel().getColumn(3).setPreferredWidth(2);
-				
-				internalFrame.add(scrollPane);
-				frame.add(internalFrame);
 			}			
 			
 		});
@@ -738,8 +798,81 @@ public class Dashboard extends JFrame
 	
 		liveChat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				internalFrame.dispose();
+				internalFrame = new JInternalFrame("",false,false,false,false);	
+				internalFrame.setVisible(true);
+				
+				JPanel availablePanel = new JPanel();
+				JPanel chat = new JPanel();
+				JLabel availableLabel = new JLabel("You are available to chat on:");
+				JRadioButton mon = new JRadioButton("Monday");
+				JRadioButton tue = new JRadioButton("Tuesday");
+				JRadioButton wed = new JRadioButton("Wednesday");
+				JRadioButton thu = new JRadioButton("Thursday");
+				JRadioButton fri = new JRadioButton("Friday");
+				JButton setButton = new JButton("UPDATE");
+				JButton chatButton = new JButton("CHAT");
+				ButtonGroup day = new ButtonGroup();
+				
+				day.add(mon);
+				day.add(tue);
+				day.add(wed);
+				day.add(thu);
+				day.add(fri);
+				
+				availablePanel.add(availableLabel);
+				availablePanel.add(mon);
+				availablePanel.add(tue);
+				availablePanel.add(wed);
+				availablePanel.add(thu);
+				availablePanel.add(fri);
+				availablePanel.add(setButton);
+				
+				setButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(mon.isSelected())
+						{
+							mon.setSelected(true);
+							JOptionPane.showMessageDialog(frame, "You are now available to chat on Monday."
+									, "Chat Availability Changed!", JOptionPane.INFORMATION_MESSAGE);
+						}else
+						if(tue.isSelected())
+						{
+							tue.setSelected(true);
+							JOptionPane.showMessageDialog(frame, "You are now available to chat on Tuesday."
+									, "Chat Availability Changed!", JOptionPane.INFORMATION_MESSAGE);
+						}else
+						if(wed.isSelected())
+						{
+							wed.setSelected(true);
+							JOptionPane.showMessageDialog(frame, "You are now available to chat on Wednesday."
+									, "Chat Availability Changed!", JOptionPane.INFORMATION_MESSAGE);
+						}else
+						if(thu.isSelected())
+						{
+							thu.setSelected(true);
+							JOptionPane.showMessageDialog(frame, "You are now available to chat on Thursday."
+									, "Chat Availability Changed!", JOptionPane.INFORMATION_MESSAGE);
+						}else
+						if(fri.isSelected())
+						{
+							fri.setSelected(true);
+							JOptionPane.showMessageDialog(frame, "You are now available to chat on Friday."
+									, "Chat Availability Changed!", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}			
+				});	
+				
+				chatButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
 						
-			}			
+					}			
+				});
+				
+				internalFrame.add(availablePanel);
+				frame.add(internalFrame);
+			}	
+			
 		});
 		
 		logout.addActionListener(new ActionListener() {
