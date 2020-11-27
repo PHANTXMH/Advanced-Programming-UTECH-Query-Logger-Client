@@ -17,4 +17,8 @@ public class Constants {
     public static final String READ_RESPONSE_SERVICE_URL = "response/read/response_id";
 
 
+    public static final String UPDATE_COMPLAINT_STATUS = "complaints/update/status/id_/status_";
+
+
+
 }

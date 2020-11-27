@@ -35,6 +35,9 @@ public interface Covid19Messaging {
     void readResponse(Long id);
 
 
+    ApiResponse<Complaints> updateComplaintStatus(Long complaintID, ComplainStatus complainStatus);
+
+
 
 
 }
