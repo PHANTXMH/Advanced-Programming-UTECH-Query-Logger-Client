@@ -4,8 +4,6 @@
     <list default="true" id="7875c9b6-fae4-4d32-b57b-e9bb8cecf2f1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Messaging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Messaging.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/models/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/models/Constants.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -20,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="458">
-              <caret line="195" column="99" lean-forward="true" selection-start-line="195" selection-start-column="99" selection-end-line="195" selection-end-column="99" />
+            <state relative-caret-position="407">
+              <caret line="199" column="5" lean-forward="true" selection-start-line="199" selection-start-column="5" selection-end-line="199" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -154,8 +152,8 @@
         <option value="$PROJECT_DIR$/src/covid/client/models/ComplaintResponses.java" />
         <option value="$PROJECT_DIR$/src/covid/client/models/Complaints.java" />
         <option value="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Messaging.java" />
-        <option value="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java" />
         <option value="$PROJECT_DIR$/src/covid/client/models/Constants.java" />
+        <option value="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java" />
       </list>
     </option>
   </component>
@@ -291,7 +289,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1606455976359" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1606456539769" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -359,18 +357,18 @@
       <workItem from="1605593092991" duration="275000" />
       <workItem from="1605832002993" duration="2203000" />
       <workItem from="1606409392702" duration="1182000" />
-      <workItem from="1606455455041" duration="518000" />
+      <workItem from="1606455455041" duration="917000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30908000" />
+    <option name="totallyTimeSpent" value="31307000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.2980614" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2980614" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -386,7 +384,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.04109589" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.20684932" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
@@ -719,8 +717,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="195" column="99" lean-forward="true" selection-start-line="195" selection-start-column="99" selection-end-line="195" selection-end-column="99" />
+        <state relative-caret-position="407">
+          <caret line="199" column="5" lean-forward="true" selection-start-line="199" selection-start-column="5" selection-end-line="199" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

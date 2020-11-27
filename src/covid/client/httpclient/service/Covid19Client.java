@@ -195,7 +195,7 @@ public class Covid19Client extends Covid19WebServiceClient implements Covid19Mes
     public ApiResponse<Complaints> updateComplaintStatus(Long complaintID, ComplainStatus complainStatus) {
         ResponseEntity<ApiResponse<Complaints>> response = invoke(serviceURl.concat(UPDATE_COMPLAINT_STATUS)
                 .replaceAll("id_", String.valueOf(complaintID))
-                .replaceAll("status_", complainStatus.name()), null, ApiResponse.class, httpHeaders, HttpMethod.GET);
+                .replaceAll("status_", complainStatus.name()), null, ApiResponse.class, httpHeaders, HttpMethod.PUT);
         return response.getBody();
     }
 }
