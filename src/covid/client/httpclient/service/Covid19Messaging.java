@@ -34,10 +34,10 @@ public interface Covid19Messaging {
 
     void readResponse(Long id);
 
-
     ApiResponse<Complaints> updateComplaintStatus(Long complaintID, ComplainStatus complainStatus);
 
+    List<ApiResponse<LiveChatAvailability>> createLiveChatAvailability(List<LiveChatAvailability> liveChatAvailability);
 
-
+    ApiResponse<LiveChatAvailableTime> createTimeSlots(LiveChatAvailableTime liveChatAvailableTime);
 
 }

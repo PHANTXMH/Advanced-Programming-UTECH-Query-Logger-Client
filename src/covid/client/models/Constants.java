@@ -19,6 +19,10 @@ public class Constants {
 
     public static final String UPDATE_COMPLAINT_STATUS = "complaints/update/status/id_/status_";
 
+    public static final String CREATE_LIVE_CHAT_AVAILABILITY = "availability/chat/time/create";
+
+    public static final String CREATE_LIVE_CHAT_TIME_SLOT= "availability/chat/time/add/time/slot";
+
 
 
 }

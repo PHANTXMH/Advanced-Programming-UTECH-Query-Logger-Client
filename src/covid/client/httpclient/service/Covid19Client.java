@@ -198,5 +198,27 @@ public class Covid19Client extends Covid19WebServiceClient implements Covid19Mes
                 .replaceAll("status_", complainStatus.name()), null, ApiResponse.class, httpHeaders, HttpMethod.PUT);
         return response.getBody();
     }
+
+    @Override
+    public List<ApiResponse<LiveChatAvailability>> createLiveChatAvailability(List<LiveChatAvailability> liveChatAvailabilities) {
+        ResponseEntity<List<ApiResponse<LiveChatAvailability>>> responseList =  (ResponseEntity<List<ApiResponse<LiveChatAvailability>>>) invoke(serviceURl.concat(CREATE_LIVE_CHAT_AVAILABILITY), liveChatAvailabilities, new ParameterizedTypeReference<List<ApiResponse<LiveChatAvailability>>>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        }, httpHeaders, HttpMethod.POST);
+        if(responseList.getStatusCode() == HttpStatus.OK)
+            return responseList.getBody();
+        return null;
+    }
+
+
+    @Override
+    public ApiResponse<LiveChatAvailableTime> createTimeSlots(LiveChatAvailableTime liveChatAvailableTime) {
+        ResponseEntity<ApiResponse<LiveChatAvailableTime>> response =
+                invoke(serviceURl.concat(CREATE_LIVE_CHAT_TIME_SLOT), liveChatAvailableTime, ApiResponse.class, httpHeaders, HttpMethod.POST);
+        return response.getBody();
+    }
+
 }
 
