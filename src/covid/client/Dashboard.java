@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -413,7 +414,7 @@ public class Dashboard extends JFrame
 					
 					internalFrame.add(availableRep,BorderLayout.CENTER);					
 					
-					chatButton.addActionListener(new ActionListener() {
+					chatButton.addActionListener(new ActionListener() {			//Send message to server
 						public void actionPerformed(ActionEvent e) {
 							
 							JFrame chatWindow = new JFrame(u.getFirstName()+" "+u.getLastName());
@@ -437,6 +438,11 @@ public class Dashboard extends JFrame
 							sendButton.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
 																	
+									if(Objects.equals(editor.getText(), ""))
+									{
+										return;
+									}
+									
 									
 								}
 							});
@@ -658,7 +664,7 @@ public class Dashboard extends JFrame
 													JButton sendResponse = new JButton("Send");
 													JPanel blank = new JPanel();
 													JRadioButton resolvedRButton = new JRadioButton("RESOLVED");
-													JRadioButton processingRButton = new JRadioButton("PROCESSING",true);
+													JRadioButton processingRButton = new JRadioButton("PROCESSING");
 													JRadioButton unresolvedRButton = new JRadioButton("UNRESOLVED");
 													JRadioButton canceledRButton = new JRadioButton("CANCELED");
 													ButtonGroup bg = new ButtonGroup();
@@ -703,9 +709,23 @@ public class Dashboard extends JFrame
 													NorthPanel.add(studentEmail);
 													NorthPanel.add(studentContact);
 													
-//													WestPanel.add(queryLabel);
-//													WestPanel.add(responseLabel);
-													
+													if(Objects.equals(c.getComplainStatus(), ComplainStatus.RESOLVED))
+													{
+														resolvedRButton.setSelected(true);
+													}else
+													if(Objects.equals(c.getComplainStatus(), ComplainStatus.CANCELED))	
+													{
+														canceledRButton.setSelected(true);
+													}else
+													if(Objects.equals(c.getComplainStatus(),ComplainStatus.PROCESSING))
+													{
+														processingRButton.setSelected(true);
+													}else
+													if(Objects.equals(c.getComplainStatus(), ComplainStatus.UNRESOLVED))
+													{
+														unresolvedRButton.setSelected(true);
+													}
+															
 													CenterPanel.add(query);
 													CenterPanel.add(response);
 													CenterPanel.add(statusPanel);
@@ -741,19 +761,19 @@ public class Dashboard extends JFrame
 																{
 																	if(resolvedRButton.isSelected())
 																	{
-																		//c.setComplainStatus(ComplainStatus.RESOLVED);
+																		ApiResponse<Complaints> statusUpdate =  serverClient.updateComplaintStatus(c.getId(), ComplainStatus.RESOLVED);
 																	}else
 																	if(processingRButton.isSelected())	
 																	{
-																		//c.setComplainStatus(ComplainStatus.PROCESSING);
+																		ApiResponse<Complaints> statusUpdate =  serverClient.updateComplaintStatus(c.getId(), ComplainStatus.PROCESSING);
 																	}else
 																	if(unresolvedRButton.isSelected())
 																	{
-																		//c.setComplainStatus(ComplainStatus.UNRESOLVED);
+																		ApiResponse<Complaints> statusUpdate =  serverClient.updateComplaintStatus(c.getId(), ComplainStatus.UNRESOLVED);
 																	}else
 																	if(canceledRButton.isSelected())
 																	{
-																		//c.setComplainStatus(ComplainStatus.CANCELED);
+																		ApiResponse<Complaints> statusUpdate =  serverClient.updateComplaintStatus(c.getId(), ComplainStatus.CANCELED);
 																	}
 																	
 																	ApiResponse<ComplaintResponses> complaintResponseApiResponse = 
@@ -801,24 +821,50 @@ public class Dashboard extends JFrame
 				internalFrame.dispose();
 				internalFrame = new JInternalFrame("",false,false,false,false);	
 				internalFrame.setVisible(true);
+				internalFrame.setLayout(new FlowLayout(FlowLayout.CENTER));
 				
 				JPanel availablePanel = new JPanel();
-				JPanel chat = new JPanel();
+				JPanel fromPanel = new JPanel();
+				JPanel toPanel = new JPanel();
+				JPanel messagePanel = new JPanel();
+				JPanel north = new JPanel();
+				JPanel updatePanel = new JPanel();
+				JLabel messageLabel = new JLabel("MESSAGES");
 				JLabel availableLabel = new JLabel("You are available to chat on:");
+				JLabel toColon = new JLabel(" : ");
+				JLabel fromColon = new JLabel(" : ");
+				JLabel fromLabel = new JLabel("Available from: ");
+				JLabel toLabel = new JLabel("Available until: ");
+				JTextField fromHourField = new JTextField(2);
+				JTextField fromMinField = new JTextField(2);
+				JRadioButton amFrom = new JRadioButton("AM",true);
+				JRadioButton pmFrom = new JRadioButton("PM");
+				ButtonGroup fromBG = new ButtonGroup();
+				JTextField toHourField = new JTextField(2);
+				JTextField toMinField = new JTextField(2);
+				JRadioButton amTo = new JRadioButton("AM");
+				JRadioButton pmTo = new JRadioButton("PM",true);
+				ButtonGroup toBG = new ButtonGroup();
 				JRadioButton mon = new JRadioButton("Monday");
 				JRadioButton tue = new JRadioButton("Tuesday");
 				JRadioButton wed = new JRadioButton("Wednesday");
 				JRadioButton thu = new JRadioButton("Thursday");
 				JRadioButton fri = new JRadioButton("Friday");
-				JButton setButton = new JButton("UPDATE");
+				JButton updateButton = new JButton("UPDATE");
 				JButton chatButton = new JButton("CHAT");
-				ButtonGroup day = new ButtonGroup();
+//				ButtonGroup day = new ButtonGroup();
 				
-				day.add(mon);
-				day.add(tue);
-				day.add(wed);
-				day.add(thu);
-				day.add(fri);
+//				day.add(mon);
+//				day.add(tue);
+//				day.add(wed);
+//				day.add(thu);
+//				day.add(fri);
+				
+				fromBG.add(amFrom);
+				fromBG.add(pmFrom);
+				
+				toBG.add(amTo);
+				toBG.add(pmTo);
 				
 				availablePanel.add(availableLabel);
 				availablePanel.add(mon);
@@ -826,39 +872,98 @@ public class Dashboard extends JFrame
 				availablePanel.add(wed);
 				availablePanel.add(thu);
 				availablePanel.add(fri);
-				availablePanel.add(setButton);
 				
-				setButton.addActionListener(new ActionListener() {
+				fromPanel.add(fromLabel);
+				fromPanel.add(fromHourField);
+				fromPanel.add(fromColon);
+				fromPanel.add(fromMinField);
+				fromPanel.add(amFrom);
+				fromPanel.add(pmFrom);
+				
+				toPanel.add(toLabel);
+				toPanel.add(toHourField);
+				toPanel.add(toColon);
+				toPanel.add(toMinField);
+				toPanel.add(amTo);
+				toPanel.add(pmTo);
+				
+				updatePanel.add(updateButton);
+															//initialize Chat GUI with Rep's info before displaying
+				wed.setSelected(true);
+				fromHourField.setText("9");
+				fromMinField.setText("00");
+				toHourField.setText("5");
+				toMinField.setText("00");
+															//displays initialized GUI
+				north.setLayout(new GridLayout(4,1,0,0));
+				north.add(availablePanel);
+				north.add(fromPanel);
+				north.add(toPanel);
+				north.add(updatePanel);
+				
+				messageLabel.setFont(new Font("Algerian", Font.BOLD, 20));
+				messagePanel.add(messageLabel);
+				
+				updateButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						int startHour,startMin,endHour,endMin;
+						
+						try
+						{
+							startHour = Integer.parseInt(fromHourField.getText());
+							startMin = Integer.parseInt(fromMinField.getText());
+							endHour = Integer.parseInt(toHourField.getText());
+							endMin = Integer.parseInt(toMinField.getText());
+						}catch(Exception w)
+						{
+							JOptionPane.showMessageDialog(frame, "Check to ensure correct time format!"
+									, "Update Availability", JOptionPane.WARNING_MESSAGE);
+							return;
+						}						
+						
+						if(startHour < 1 || startMin < 0 || startHour > 12 || startMin > 59 || Objects.equals(fromHourField.getText(), "") || Objects.equals(fromMinField.getText(), ""))
+						{
+							JOptionPane.showMessageDialog(frame, "Please ensure your start times are correct!"
+									, "Update Availability", JOptionPane.WARNING_MESSAGE);
+							fromHourField.setText("");
+							fromMinField.setText("");							
+							return;
+						}
+						
+						if(endHour < 1 || endMin < 0 || endHour > 12 || endMin > 59 || Objects.equals(toHourField.getText(), "") || Objects.equals(toMinField.getText(), ""))
+						{
+							JOptionPane.showMessageDialog(frame, "Please ensure your end times are correct!"
+									, "Update Availability", JOptionPane.WARNING_MESSAGE);
+							toHourField.setText("");
+							toMinField.setText("");
+							return;
+						}						
+						
 						if(mon.isSelected())
 						{
-							mon.setSelected(true);
-							JOptionPane.showMessageDialog(frame, "You are now available to chat on Monday."
-									, "Chat Availability Changed!", JOptionPane.INFORMATION_MESSAGE);
+							
+							//Add Monday to Day list
 						}else
 						if(tue.isSelected())
 						{
-							tue.setSelected(true);
-							JOptionPane.showMessageDialog(frame, "You are now available to chat on Tuesday."
-									, "Chat Availability Changed!", JOptionPane.INFORMATION_MESSAGE);
+							//Add Tuesday to Day list
+							
 						}else
 						if(wed.isSelected())
 						{
-							wed.setSelected(true);
-							JOptionPane.showMessageDialog(frame, "You are now available to chat on Wednesday."
+							
+							JOptionPane.showMessageDialog(frame, "You are now available to chat on Wednesday. "+startHour+":"+startMin+" to "+endHour+":"+endMin
 									, "Chat Availability Changed!", JOptionPane.INFORMATION_MESSAGE);
 						}else
 						if(thu.isSelected())
 						{
-							thu.setSelected(true);
-							JOptionPane.showMessageDialog(frame, "You are now available to chat on Thursday."
-									, "Chat Availability Changed!", JOptionPane.INFORMATION_MESSAGE);
+							
+							//Add Thursday to Day list
 						}else
 						if(fri.isSelected())
 						{
-							fri.setSelected(true);
-							JOptionPane.showMessageDialog(frame, "You are now available to chat on Friday."
-									, "Chat Availability Changed!", JOptionPane.INFORMATION_MESSAGE);
+							
+							//Add Friday to Day list
 						}
 					}			
 				});	
@@ -869,7 +974,13 @@ public class Dashboard extends JFrame
 					}			
 				});
 				
-				internalFrame.add(availablePanel);
+				JSplitPane layer = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+				layer.setTopComponent(north);
+				layer.setBottomComponent(messagePanel);
+				layer.setDividerLocation(0.8);
+				internalFrame.add(layer);
+//				internalFrame.add(north,BorderLayout.NORTH);
+//				internalFrame.add(messagePanel,BorderLayout.AFTER_LAST_LINE);
 				frame.add(internalFrame);
 			}	
 			

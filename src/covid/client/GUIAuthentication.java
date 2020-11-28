@@ -75,7 +75,9 @@ public class GUIAuthentication extends JFrame
 		
 		buttonPanel.setSize(new Dimension(450,30));
 		buttonPanel.add(button);
+		button.setEnabled(true);
 		frame.add(buttonPanel);
+		frame.getRootPane().setDefaultButton(button);
 	}	
 	
 	public void logIn()
