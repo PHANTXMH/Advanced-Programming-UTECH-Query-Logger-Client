@@ -3,7 +3,37 @@
   <component name="ChangeListManager">
     <list default="true" id="7875c9b6-fae4-4d32-b57b-e9bb8cecf2f1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/models/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/models/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/DRIVER.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/Dashboard$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/Dashboard$10.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/Dashboard$11.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/Dashboard$2$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/Dashboard$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/Dashboard$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/Dashboard$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/Dashboard$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/Dashboard$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/Dashboard$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/Dashboard$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/Dashboard$9.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/Dashboard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/GUIAuthentication$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/GUIAuthentication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/configuration/ApplicationConfiguration.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/controllers/AuthenticationController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/enumeration/LogLevel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/httpclient/bulider/ServerApiBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/httpclient/bulider/ServerApiClientBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/httpclient/service/Covid19Client.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/httpclient/service/Covid19Messaging.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/httpclient/service/Covid19WebServiceClient.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/logging/LoggingManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/models/AuthResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/models/Constants.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/models/Services.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/models/TimeStamp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/models/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/covid/client/models/request/LoginRequest.class" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -166,19 +196,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/covid/client/models/ChatDataRecieved.java">
+        <entry file="file://$PROJECT_DIR$/src/covid/client/models/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+            <state relative-caret-position="300">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/covid/client/models/Constants.java">
+        <entry file="file://$PROJECT_DIR$/src/covid/client/DRIVER.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
+            <state relative-caret-position="120">
+              <caret line="8" column="25" lean-forward="true" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -287,94 +317,6 @@
               <item name="AP Project" type="b2602c69:ProjectViewProjectNode" />
               <item name="ap-covid-19-client" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="AP Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ap-covid-19-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AP Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ap-covid-19-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="covid" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AP Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ap-covid-19-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="covid" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AP Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ap-covid-19-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="covid" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="configuration" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AP Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ap-covid-19-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="covid" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AP Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ap-covid-19-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="covid" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="enumeration" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AP Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ap-covid-19-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="covid" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="httpclient" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AP Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ap-covid-19-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="covid" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="httpclient" type="462c0819:PsiDirectoryNode" />
-              <item name="bulider" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AP Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ap-covid-19-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="covid" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="httpclient" type="462c0819:PsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AP Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ap-covid-19-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="covid" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="logging" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AP Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ap-covid-19-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="covid" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AP Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -386,7 +328,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1606676192149" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1606677191967" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -475,13 +417,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51582000" />
+    <option name="totallyTimeSpent" value="52336000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.39822295" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.39822295" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -491,13 +433,13 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32876712" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.64657533" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.64657533" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.26027396" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" x="11" y="496" width="1238" height="125" id="Terminal" order="8" visible="true" weight="0.6041096" />
+      <window_info anchor="bottom" x="11" y="496" width="1238" height="125" id="Terminal" order="8" weight="0.46027398" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
@@ -743,13 +685,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/covid/client/DRIVER.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/covid/client/logging/LoggingManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -978,8 +913,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/covid/client/models/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
+        <state relative-caret-position="300">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/covid/client/DRIVER.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="25" lean-forward="true" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
         </state>
       </provider>
     </entry>
