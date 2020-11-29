@@ -427,13 +427,16 @@ public class Dashboard extends JFrame
 							editorPanel.add(editor);
 							editorPanel.add(sendButton);
 							chatWindow.setAlwaysOnTop(true);
-							chatWindow.setLocationRelativeTo(frame);
+				//			chatWindow.setLocationRelativeTo(null);
 							viewer.setEditable(false);
 							viewer.setBackground(new Color(211,211,211));
 							chatWindow.setVisible(true);
-							chatWindow.setSize(new Dimension(600,400));
+					//		chatWindow.setSize(new Dimension(600,400));
 							chatWindow.add(viewer,BorderLayout.CENTER);
 							chatWindow.add(editorPanel,BorderLayout.SOUTH);
+							chatWindow.getRootPane().setDefaultButton(sendButton);
+						//	chatWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
+							chatWindow.setMinimumSize(new Dimension(800,500));
 							
 							sendButton.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
@@ -443,7 +446,9 @@ public class Dashboard extends JFrame
 										return;
 									}
 									
-									
+																	//ENTER CHAT IMPLEMENTATION HERE
+									viewer.append("(Me)\n"+editor.getText()+"\n\n");
+									editor.setText("");
 								}
 							});
 							
