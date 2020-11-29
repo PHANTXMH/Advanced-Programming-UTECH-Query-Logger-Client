@@ -40,4 +40,10 @@ public interface Covid19Messaging {
 
     ApiResponse<LiveChatAvailableTime> createTimeSlots(LiveChatAvailableTime liveChatAvailableTime);
 
+    List<Chat> getMessagesForUser();
+
+    Chat getMessagesByChatID(Long chatID);
+
+    Chat getAllMessagesByToAndFrom(Long to, Long from);
+
 }

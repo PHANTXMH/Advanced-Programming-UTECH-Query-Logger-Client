@@ -1,7 +1,10 @@
 package covid.client.models;
 
 public class Constants {
-    public static final String SERVICE_BASE_URL = "https://ap-utech-2020-covid19-chat.herokuapp.com/v1/";
+    public static final String SERVICE_BASE_URL = "http://localhost:8005/v1/";
+    //public static final String SERVICE_BASE_URL = "https://ap-utech-2020-covid19-chat.herokuapp.com/v1/";
+    //public static final String WEBSOCKST_SERVICE_URL = "ws://ap-utech-2020-covid19-chat.herokuapp.com/v1/send/message";
+    public static final String WEBSOCKST_SERVICE_URL = "ws://localhost:8005/v1/send/message";
     public static final String AUTHENTICATION_SERVICE_URL_PATH = "auth/login";
     public static final String GET_ALL_SERVICES_URL = "services/all";
     public static final String CREATE_COMPLAINTS_SERVICES_URL = "complaints/create";
@@ -22,6 +25,13 @@ public class Constants {
     public static final String CREATE_LIVE_CHAT_AVAILABILITY = "availability/chat/time/create";
 
     public static final String CREATE_LIVE_CHAT_TIME_SLOT= "availability/chat/time/add/time/slot";
+
+    public static final String GET_ALL_CHATS = "chat/messages/for/user";
+
+    public static final String GET_CHAT_MESSAGES_BY_FROM_AND_TO_USER = "chat/messages/by/to_/from_";
+
+    public static final String GET_CHAT_BY_ID = "chat/messages/by/id/id_";
+
 
 
 

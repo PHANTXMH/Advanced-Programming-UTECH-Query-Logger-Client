@@ -220,5 +220,42 @@ public class Covid19Client extends Covid19WebServiceClient implements Covid19Mes
         return response.getBody();
     }
 
+    @Override
+    public List<Chat> getMessagesForUser() {
+        List<Chat> chatList = new ArrayList<Chat>();
+        ResponseEntity<List<Chat>> chats =  (ResponseEntity<List<Chat>>) invoke(serviceURl.concat(Constants.GET_ALL_CHATS), null, new ParameterizedTypeReference<List<Chat>>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        }, httpHeaders, HttpMethod.GET);
+        if (chats != null && chats.getStatusCode() == HttpStatus.OK){
+            chatList = chats.getBody();
+        }
+        return chatList;
+    }
+
+    @Override
+    public Chat getMessagesByChatID(Long chatID) {
+        ResponseEntity<Chat> chat =
+                invoke(serviceURl.concat(GET_CHAT_BY_ID).replace("id_", String.valueOf(chatID)), null, Chat.class, httpHeaders, HttpMethod.GET);
+        if (chat != null && chat.getStatusCode() == HttpStatus.OK){
+            return chat.getBody();
+        }
+        return new Chat(); // chat was null or server error
+    }
+
+    @Override
+    public Chat getAllMessagesByToAndFrom(Long to, Long from) {
+        ResponseEntity<Chat> chat =
+                invoke(serviceURl.concat(GET_CHAT_MESSAGES_BY_FROM_AND_TO_USER)
+                        .replaceAll("to_", String.valueOf(to))
+                        .replaceAll("from_", String.valueOf(from)), null, Chat.class, httpHeaders, HttpMethod.GET);
+        if (chat != null && chat.getStatusCode() == HttpStatus.OK){
+            return chat.getBody();
+        }
+        return new Chat();
+    }
+
 }
 

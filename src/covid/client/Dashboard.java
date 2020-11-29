@@ -451,8 +451,27 @@ public class Dashboard extends JFrame
 							chatWindow.add(editorPanel,BorderLayout.SOUTH);
 							chatWindow.getRootPane().setDefaultButton(sendButton);
 
+							// fetch chat user chat based on the clicked user
+							Chat chat =  ServerClient.getClient().getAllMessagesByToAndFrom(user.getId(), u.getId()); //
+
+							if(chat != null) {
+								if (!CollectionUtils.isEmpty(chat.getChatMessagesList())) {
+									chat.getChatMessagesList().forEach(message -> {
+										//System.out.println("Message :" + message.getMessage() + " Send by: " + String.valueOf(message.getSendBy()));
+										String userName = message.getSendBy().getId().equals(user.getId()) ? "ME" : message.getSendBy().getFullname();
+										viewer.append("(" + userName + ")\n" + message.getMessage() + "\n\n");
+									});
+								} else {
+									//chat is empty
+									System.out.println("Message list is empty");
+								}
+							}else{
+								System.out.println("Chat was null");
+							}
+
 							LiveChatHelper helloClient = new LiveChatHelper();
 							StompSession stompSession = null;
+
 							try {
 								 // initialize the live chat socket so the user can send and receive messages in real time
 								ListenableFuture<StompSession> connection = helloClient.connect();
@@ -464,17 +483,21 @@ public class Dashboard extends JFrame
 										return byte[].class;
 									}
 
-									public void handleFrame(StompHeaders stompHeaders, Object o) {             				//Accepts incoming message from student Rep
-										LoggingManager.getLogger(this).info("Received greeting " + new String((byte[]) o));										
-										ByteArrayInputStream in = new ByteArrayInputStream((byte[]) o);
-										
+									public void handleFrame(StompHeaders stompHeaders, Object o) { //Accepts incoming message from student Rep
+										LoggingManager.getLogger(this).info("Received message " + new String((byte[]) o));
+
 											 String message = new String((byte[]) o);
 											 ObjectMapper mapper = new ObjectMapper();
 											 try
 											 {
 												 LiveChatMessage liveChatMessage = mapper.readValue(message,LiveChatMessage.class);
-												 viewer.append("("+liveChatMessage.getName()+")\n"+liveChatMessage.getMessage()+"\n\n");
-												 System.out.println(liveChatMessage.getMessage());
+												 if(liveChatMessage.getFrom().equals(u.getId())) {
+
+													 viewer.append("(" + liveChatMessage.getName() + ")\n" + liveChatMessage.getMessage() + "\n\n");
+													 System.out.println(liveChatMessage.getMessage());
+												 }else{
+												 	// message send from differnt user
+												 }
 											 }catch(Throwable e)
 											 {
 												 
