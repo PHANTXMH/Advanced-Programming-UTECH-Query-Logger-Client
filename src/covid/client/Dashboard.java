@@ -11,8 +11,14 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -34,11 +40,20 @@ import javax.swing.border.TitledBorder;
 import covid.client.enumeration.ComplainStatus;
 import covid.client.enumeration.Role;
 import covid.client.httpclient.service.Covid19Client;
+import covid.client.httpclient.service.LiveChatHelper;
 import covid.client.httpclient.service.ServerClient;
 import covid.client.httpclient.service.SessionManager;
+import covid.client.logging.LoggingManager;
 import covid.client.models.*;
+import covid.client.models.request.LiveChatMessage;
+import org.springframework.messaging.simp.stomp.StompFrameHandler;
+import org.springframework.messaging.simp.stomp.StompHeaders;
+import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.concurrent.ListenableFuture;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Dashboard extends JFrame
 {
@@ -399,7 +414,6 @@ public class Dashboard extends JFrame
 				
 				headerLabel.setFont(new Font("Algerian", Font.BOLD, 20));
 				headerPanel.add(headerLabel);
-				
 				internalFrame.add(headerPanel,BorderLayout.NORTH);
 				
 				Covid19Client serverClient = ServerClient.getClient();
@@ -421,30 +435,79 @@ public class Dashboard extends JFrame
 							JTextArea viewer = new JTextArea();
 							JPanel editorPanel = new JPanel();
 							JTextField editor = new JTextField(50);
-							JButton sendButton = new JButton("Send");
-							
+							JButton sendButton = new JButton("Send");							
 							
 							editorPanel.add(editor);
 							editorPanel.add(sendButton);
 							chatWindow.setAlwaysOnTop(true);
 							viewer.setEditable(false);
-							viewer.setBackground(new Color(211,211,211));
+							viewer.setBackground(new Color(211,211,211));							
 							chatWindow.setVisible(true);
-							chatWindow.add(viewer,BorderLayout.CENTER);
+							chatWindow.setMinimumSize(new Dimension(800,500));
+							JScrollPane scrollPane = new JScrollPane(viewer);
+							scrollPane.setVisible(true);
+							scrollPane.setAutoscrolls(true);
+							chatWindow.add(scrollPane,BorderLayout.CENTER);
 							chatWindow.add(editorPanel,BorderLayout.SOUTH);
 							chatWindow.getRootPane().setDefaultButton(sendButton);
-							chatWindow.setMinimumSize(new Dimension(800,500));
-							
-							sendButton.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-																	
-									if(Objects.equals(editor.getText(), ""))
-									{
-										return;
+
+							LiveChatHelper helloClient = new LiveChatHelper();
+							StompSession stompSession = null;
+							try {
+								 // initialize the live chat socket so the user can send and receive messages in real time
+								ListenableFuture<StompSession> connection = helloClient.connect();
+								stompSession = connection.get();
+								// subscribe the user to the chat channel
+								stompSession.subscribe("/user/target/1", new StompFrameHandler() {
+
+									public java.lang.reflect.Type getPayloadType(StompHeaders stompHeaders) {
+										return byte[].class;
 									}
-									
-																	//ENTER CHAT IMPLEMENTATION HERE
-									viewer.append("(Me)\n"+editor.getText()+"\n\n");
+
+									public void handleFrame(StompHeaders stompHeaders, Object o) {             				//Accepts incoming message from student Rep
+										LoggingManager.getLogger(this).info("Received greeting " + new String((byte[]) o));										
+										ByteArrayInputStream in = new ByteArrayInputStream((byte[]) o);
+										
+											 String message = new String((byte[]) o);
+											 ObjectMapper mapper = new ObjectMapper();
+											 try
+											 {
+												 LiveChatMessage liveChatMessage = mapper.readValue(message,LiveChatMessage.class);
+												 viewer.append("("+liveChatMessage.getName()+")\n"+liveChatMessage.getMessage()+"\n\n");
+												 System.out.println(liveChatMessage.getMessage());
+											 }catch(Throwable e)
+											 {
+												 
+											 }																				
+									}
+								});
+							} catch (ExecutionException e1) {
+								e1.printStackTrace();
+							} catch (InterruptedException e1) {
+								e1.printStackTrace();
+							}
+
+							StompSession finalStompSession = stompSession;
+							
+							sendButton.addActionListener(new ActionListener() {						//Send message to student Rep
+								public void actionPerformed(ActionEvent e) {
+									final String message = editor.getText();
+									if(finalStompSession != null)
+									{										
+										try 
+										{
+											helloClient.sendMessage(finalStompSession, new LiveChatMessage(u.getFullname(), message, user.getId(), u.getId()));
+											viewer.append("(Me)\n"+editor.getText()+"\n\n");
+											
+											System.out.println("Message sent to user with ID: " + u.getId() + " Message: " + message);
+										} catch (InterruptedException e1) {
+											e1.printStackTrace();
+											JOptionPane.showMessageDialog(null,"An error occurred!", "Chat", JOptionPane.WARNING_MESSAGE);
+										}
+									}else{
+										System.out.println("StompSession is null");
+										JOptionPane.showMessageDialog(null,"An error occurred!", "Chat", JOptionPane.WARNING_MESSAGE);
+									}
 									editor.setText("");
 								}
 							});
@@ -455,6 +518,7 @@ public class Dashboard extends JFrame
 				frame.add(internalFrame);
 			}			
 		});
+
 		
 		logout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -525,9 +589,9 @@ public class Dashboard extends JFrame
 					internalFrame.add(scrollPane);
 					frame.add(internalFrame);						
 										
-						userList.forEach(u -> {	
-							
-							List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(u.getId());					
+					userList.forEach(u -> {	
+						
+						List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(u.getId());					
 							
 							complaintsList.forEach(c -> {
 								data_rows[x][0] = u.getUserName() != null ? u.getUserName():"<USERNAME>";
@@ -536,8 +600,7 @@ public class Dashboard extends JFrame
 								data_rows[x][3] = c.getComplainStatus() != null ? c.getComplainStatus().toString():"<STATUS>";
 								x++;
 							});					
-						});
-					
+						});					
 			}			
 			
 		});
@@ -854,14 +917,7 @@ public class Dashboard extends JFrame
 				JRadioButton fri = new JRadioButton("Friday");
 				JButton updateButton = new JButton("UPDATE");
 				JButton chatButton = new JButton("CHAT");
-//				ButtonGroup day = new ButtonGroup();
-				
-//				day.add(mon);
-//				day.add(tue);
-//				day.add(wed);
-//				day.add(thu);
-//				day.add(fri);
-				
+//				
 				fromBG.add(amFrom);
 				fromBG.add(pmFrom);
 				
@@ -904,7 +960,7 @@ public class Dashboard extends JFrame
 				north.add(updatePanel);
 				
 				messageLabel.setFont(new Font("Algerian", Font.BOLD, 20));
-				messagePanel.add(messageLabel);
+				messagePanel.add(messageLabel); 
 				
 				updateButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
