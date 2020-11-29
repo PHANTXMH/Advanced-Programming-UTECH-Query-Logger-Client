@@ -29,13 +29,19 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import covid.client.enumeration.ComplainStatus;
 import covid.client.enumeration.Role;
@@ -432,7 +438,7 @@ public class Dashboard extends JFrame
 						public void actionPerformed(ActionEvent e) {
 							
 							JFrame chatWindow = new JFrame(u.getFirstName()+" "+u.getLastName());
-							JTextArea viewer = new JTextArea();
+							JTextPane viewer = new JTextPane();
 							JPanel editorPanel = new JPanel();
 							JTextField editor = new JTextField(50);
 							JButton sendButton = new JButton("Send");							
@@ -447,9 +453,20 @@ public class Dashboard extends JFrame
 							JScrollPane scrollPane = new JScrollPane(viewer);
 							scrollPane.setVisible(true);
 							scrollPane.setAutoscrolls(true);
+							JScrollBar vertical = scrollPane.getVerticalScrollBar();							
 							chatWindow.add(scrollPane,BorderLayout.CENTER);
 							chatWindow.add(editorPanel,BorderLayout.SOUTH);
-							chatWindow.getRootPane().setDefaultButton(sendButton);
+							chatWindow.getRootPane().setDefaultButton(sendButton);							
+							
+							StyledDocument doc = viewer.getStyledDocument();
+
+							SimpleAttributeSet left = new SimpleAttributeSet();
+							StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
+							StyleConstants.setForeground(left, Color.BLACK);
+
+							SimpleAttributeSet right = new SimpleAttributeSet();
+							StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
+							StyleConstants.setForeground(right, Color.BLUE);							
 
 							// fetch chat user chat based on the clicked user
 							Chat chat =  ServerClient.getClient().getAllMessagesByToAndFrom(user.getId(), u.getId()); //
@@ -458,8 +475,25 @@ public class Dashboard extends JFrame
 								if (!CollectionUtils.isEmpty(chat.getChatMessagesList())) {
 									chat.getChatMessagesList().forEach(message -> {
 										//System.out.println("Message :" + message.getMessage() + " Send by: " + String.valueOf(message.getSendBy()));
-										String userName = message.getSendBy().getId().equals(user.getId()) ? "ME" : message.getSendBy().getFullname();
-										viewer.append("(" + userName + ")\n" + message.getMessage() + "\n\n");
+										String userName = message.getSendBy().getId().equals(user.getId()) ? "ME" : message.getSendBy().getFullname();										
+										 try {
+											 if(message.getSendBy().getId().equals(user.getId()))
+											 {
+												 doc.setParagraphAttributes(doc.getLength(), 1, left, false);
+													doc.insertString(doc.getLength(), "(" + userName + ")\n" + message.getMessage() + "\n\n", left );
+													
+											 }else
+											 {
+												 doc.setParagraphAttributes(doc.getLength(), 1, right, false);
+													doc.insertString(doc.getLength(), "(" + userName + ")\n" + message.getMessage() + "\n\n", right );
+													
+											 }
+											
+											
+										} catch (BadLocationException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}										 
 									});
 								} else {
 									//chat is empty
@@ -483,7 +517,7 @@ public class Dashboard extends JFrame
 										return byte[].class;
 									}
 
-									public void handleFrame(StompHeaders stompHeaders, Object o) { //Accepts incoming message from student Rep
+									public void handleFrame(StompHeaders stompHeaders, Object o) { 							//Accepts incoming message from student Rep
 										LoggingManager.getLogger(this).info("Received message " + new String((byte[]) o));
 
 											 String message = new String((byte[]) o);
@@ -492,8 +526,11 @@ public class Dashboard extends JFrame
 											 {
 												 LiveChatMessage liveChatMessage = mapper.readValue(message,LiveChatMessage.class);
 												 if(liveChatMessage.getFrom().equals(u.getId())) {
-
-													 viewer.append("(" + liveChatMessage.getName() + ")\n" + liveChatMessage.getMessage() + "\n\n");
+													  													 
+													 doc.setParagraphAttributes(doc.getLength(), 1, right, false);
+													 doc.insertString(doc.getLength(), "(" + liveChatMessage.getName() + ")\n" + liveChatMessage.getMessage() + "\n\n", right );
+													 vertical.setValue(vertical.getMaximum());
+													 
 													 System.out.println(liveChatMessage.getMessage());
 												 }else{
 												 	// message send from differnt user
@@ -501,7 +538,7 @@ public class Dashboard extends JFrame
 											 }catch(Throwable e)
 											 {
 												 
-											 }																				
+											 } 																				
 									}
 								});
 							} catch (ExecutionException e1) {
@@ -514,16 +551,23 @@ public class Dashboard extends JFrame
 							
 							sendButton.addActionListener(new ActionListener() {						//Send message to student Rep
 								public void actionPerformed(ActionEvent e) {
+									scrollPane.setAutoscrolls(true);
+									if(Objects.equals(editor.getText(), ""))
+									{
+										return;
+									}
 									final String message = editor.getText();
 									if(finalStompSession != null)
 									{										
 										try 
 										{
 											helloClient.sendMessage(finalStompSession, new LiveChatMessage(u.getFullname(), message, user.getId(), u.getId()));
-											viewer.append("(Me)\n"+editor.getText()+"\n\n");
-											
+											vertical.setValue(vertical.getMaximum());
+											doc.setParagraphAttributes(doc.getLength(), 1, left, false);
+											doc.insertString(doc.getLength(), "(Me)\n"+editor.getText()+"\n\n", left );											
 											System.out.println("Message sent to user with ID: " + u.getId() + " Message: " + message);
-										} catch (InterruptedException e1) {
+											vertical.setValue(vertical.getMaximum()); 
+										} catch (InterruptedException | BadLocationException e1) {
 											e1.printStackTrace();
 											JOptionPane.showMessageDialog(null,"An error occurred!", "Chat", JOptionPane.WARNING_MESSAGE);
 										}
@@ -566,7 +610,7 @@ public class Dashboard extends JFrame
 		viewAllEnquiries = new JButton("View all Student's Queries");
 		viewAStudentEnquiry = new JButton("View a Student's Query");
 		liveChat = new JButton("Live Chat");
-		logout = new JButton("Log Out");			
+//		logout = new JButton("Log Out");			
 		
 		activities.add(home);
 		activities.add(viewAllEnquiries);
@@ -909,7 +953,7 @@ public class Dashboard extends JFrame
 				internalFrame.dispose();
 				internalFrame = new JInternalFrame("",false,false,false,false);	
 				internalFrame.setVisible(true);
-				internalFrame.setLayout(new FlowLayout(FlowLayout.CENTER));
+				//internalFrame.setLayout(new FlowLayout(FlowLayout.CENTER));
 				
 				JPanel availablePanel = new JPanel();
 				JPanel fromPanel = new JPanel();
@@ -940,6 +984,27 @@ public class Dashboard extends JFrame
 				JRadioButton fri = new JRadioButton("Friday");
 				JButton updateButton = new JButton("UPDATE");
 				JButton chatButton = new JButton("CHAT");
+				JInternalFrame chatWindow = new JInternalFrame();		//Chat window implementation
+				JTextPane viewer = new JTextPane();
+				JPanel editorPanel = new JPanel();
+				JTextField editor = new JTextField(100);
+				JButton sendButton = new JButton("Send");							
+				JScrollPane scrollPane = new JScrollPane(viewer);
+				
+				editorPanel.add(editor);
+				editorPanel.add(sendButton);				
+				viewer.setEditable(false);
+				viewer.setBackground(new Color(211,211,211));							
+				chatWindow.setVisible(true);
+				chatWindow.setMinimumSize(new Dimension(800,500));
+				chatWindow.add(viewer);
+				editorPanel.add(editor);
+				editorPanel.add(sendButton);				
+				
+				scrollPane.setVisible(true);				
+				chatWindow.add(scrollPane,BorderLayout.CENTER);
+				chatWindow.add(editorPanel,BorderLayout.SOUTH);
+				chatWindow.getRootPane().setDefaultButton(sendButton);
 //				
 				fromBG.add(amFrom);
 				fromBG.add(pmFrom);
@@ -985,6 +1050,16 @@ public class Dashboard extends JFrame
 				messageLabel.setFont(new Font("Algerian", Font.BOLD, 20));
 				messagePanel.add(messageLabel); 
 				
+				sendButton.addActionListener(new ActionListener() {		
+					public void actionPerformed(ActionEvent e) {
+						if(Objects.equals(editor.getText(), ""))
+						{
+							return;
+						}
+						//Implement code to send message to a specific student
+						editor.setText("");														
+					}
+				});
 				updateButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int startHour,startMin,endHour,endMin;
@@ -1049,19 +1124,27 @@ public class Dashboard extends JFrame
 					}			
 				});	
 				
-				chatButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
+				chatButton.addActionListener(new ActionListener() {		//your implementation for student rep chat can use this button listener.
+					public void actionPerformed(ActionEvent e) {		//For each new chat created, re-initialize the chat button so each
+																		// instant of new chat listens to each button created	
+																		
 					}			
 				});
 				
-				JSplitPane layer = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-				layer.setTopComponent(north);
-				layer.setBottomComponent(messagePanel);
-				layer.setDividerLocation(0.8);
-				internalFrame.add(layer);
-//				internalFrame.add(north,BorderLayout.NORTH);
-//				internalFrame.add(messagePanel,BorderLayout.AFTER_LAST_LINE);
+				JSplitPane northSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+				JSplitPane westSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+				
+				northSplitPane.setTopComponent(north);				
+				northSplitPane.setDividerLocation(1);
+				
+				westSplitPane.setTopComponent(messagePanel);
+				westSplitPane.setDividerLocation(0.7);
+				westSplitPane.setBottomComponent(chatWindow);
+				
+				internalFrame.add(northSplitPane,BorderLayout.NORTH);
+				internalFrame.add(messagePanel,BorderLayout.WEST);
+				internalFrame.add(chatWindow,BorderLayout.CENTER);
+
 				frame.add(internalFrame);
 			}	
 			
