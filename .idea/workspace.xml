@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7875c9b6-fae4-4d32-b57b-e9bb8cecf2f1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/covid/client/models/Chat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/covid/client/models/ChatMessages.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/Dashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/Dashboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Messaging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Messaging.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/httpclient/service/LiveChatHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/httpclient/service/LiveChatHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/covid/client/models/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/models/Constants.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
@@ -25,7 +19,7 @@
         <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="391">
-              <caret line="258" lean-forward="true" selection-start-line="258" selection-end-line="258" />
+              <caret line="258" selection-start-line="258" selection-end-line="258" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#8162#8359#0" expanded="true" />
@@ -50,11 +44,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/covid/client/Dashboard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="492" column="80" selection-start-line="492" selection-start-column="65" selection-end-line="492" selection-end-column="80" />
+            <state relative-caret-position="1585">
+              <caret line="485" column="115" selection-start-line="485" selection-start-column="115" selection-end-line="485" selection-end-column="115" />
               <folding>
                 <element signature="e#3845#3846#0" expanded="true" />
                 <element signature="e#3870#3871#0" expanded="true" />
@@ -136,7 +130,7 @@
         <entry file="file://$PROJECT_DIR$/src/covid/client/models/ChatMessages.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
-              <caret line="10" column="27" lean-forward="true" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
+              <caret line="10" column="27" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
               <folding>
                 <element signature="e#493#494#0" expanded="true" />
                 <element signature="e#518#519#0" expanded="true" />
@@ -180,11 +174,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/covid/client/models/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
-              <caret line="5" column="119" selection-start-line="5" selection-start-column="119" selection-end-line="5" selection-end-column="119" />
+              <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -246,8 +240,8 @@
         <option value="$PROJECT_DIR$/src/covid/client/models/ChatMessages.java" />
         <option value="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Messaging.java" />
         <option value="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java" />
-        <option value="$PROJECT_DIR$/src/covid/client/models/Constants.java" />
         <option value="$PROJECT_DIR$/src/covid/client/Dashboard.java" />
+        <option value="$PROJECT_DIR$/src/covid/client/models/Constants.java" />
       </list>
     </option>
   </component>
@@ -392,7 +386,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1606676030106" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1606676192149" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -481,7 +475,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51385000" />
+    <option name="totallyTimeSpent" value="51582000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -497,13 +491,13 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32876712" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.2041096" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.64657533" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.26027396" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" x="11" y="496" width="1238" height="125" id="Terminal" order="8" weight="0.04109589" />
+      <window_info anchor="bottom" x="11" y="496" width="1238" height="125" id="Terminal" order="8" visible="true" weight="0.6041096" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
@@ -861,7 +855,7 @@
     <entry file="file://$PROJECT_DIR$/src/covid/client/models/ChatMessages.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
-          <caret line="10" column="27" lean-forward="true" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
+          <caret line="10" column="27" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
           <folding>
             <element signature="e#493#494#0" expanded="true" />
             <element signature="e#518#519#0" expanded="true" />
@@ -908,7 +902,7 @@
     <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
-          <caret line="258" lean-forward="true" selection-start-line="258" selection-end-line="258" />
+          <caret line="258" selection-start-line="258" selection-end-line="258" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#8162#8359#0" expanded="true" />
@@ -934,13 +928,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="17" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/covid/client/models/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="119" selection-start-line="5" selection-start-column="119" selection-end-line="5" selection-end-column="119" />
         </state>
       </provider>
     </entry>
@@ -976,8 +963,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/covid/client/Dashboard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="492" column="80" selection-start-line="492" selection-start-column="65" selection-end-line="492" selection-end-column="80" />
+        <state relative-caret-position="1585">
+          <caret line="485" column="115" selection-start-line="485" selection-start-column="115" selection-end-line="485" selection-end-column="115" />
           <folding>
             <element signature="e#3845#3846#0" expanded="true" />
             <element signature="e#3870#3871#0" expanded="true" />
@@ -986,6 +973,13 @@
             <element signature="e#19690#19691#0" expanded="true" />
             <element signature="e#19714#19715#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/covid/client/models/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
         </state>
       </provider>
     </entry>
