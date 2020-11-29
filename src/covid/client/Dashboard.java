@@ -11,8 +11,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -33,11 +35,18 @@ import javax.swing.border.TitledBorder;
 import covid.client.enumeration.ComplainStatus;
 import covid.client.enumeration.Role;
 import covid.client.httpclient.service.Covid19Client;
+import covid.client.httpclient.service.LiveChatHelper;
 import covid.client.httpclient.service.ServerClient;
 import covid.client.httpclient.service.SessionManager;
+import covid.client.logging.LoggingManager;
 import covid.client.models.*;
+import covid.client.models.request.LiveChatMessage;
+import org.springframework.messaging.simp.stomp.StompFrameHandler;
+import org.springframework.messaging.simp.stomp.StompHeaders;
+import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.concurrent.ListenableFuture;
 
 public class Dashboard extends JFrame
 {
@@ -433,11 +442,48 @@ public class Dashboard extends JFrame
 							chatWindow.setSize(new Dimension(600,400));
 							chatWindow.add(viewer,BorderLayout.CENTER);
 							chatWindow.add(editorPanel,BorderLayout.SOUTH);
-							
+
+							LiveChatHelper helloClient = new LiveChatHelper();
+							StompSession stompSession = null;
+							try {
+								 // initialize the live chat socket so the user can send and receive messages in real time
+								ListenableFuture<StompSession> connection = helloClient.connect();
+								stompSession = connection.get();
+								// subscribe the user to the chat channel
+								stompSession.subscribe("/user/target/1", new StompFrameHandler() {
+
+									public java.lang.reflect.Type getPayloadType(StompHeaders stompHeaders) {
+										return byte[].class;
+									}
+
+									public void handleFrame(StompHeaders stompHeaders, Object o) {
+										LoggingManager.getLogger(this).info("Received greeting " + new String((byte[]) o));
+										System.out.println("Received Message " + new String((byte[]) o));
+										// display the message on the UI
+										editor.setText((String) o);
+									}
+								});
+							} catch (ExecutionException e1) {
+								e1.printStackTrace();
+							} catch (InterruptedException e1) {
+								e1.printStackTrace();
+							}
+
+							StompSession finalStompSession = stompSession;
 							sendButton.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
-																	
-									
+									final String message = editor.getText();
+									if(finalStompSession != null) {
+										try {
+											helloClient.sendMessage(finalStompSession, new LiveChatMessage(u.getFullname(), message, user.getId(), u.getId()));
+											System.out.println("Message sent to user with ID: " + u.getId() + " Message: " + message);
+										} catch (InterruptedException e1) {
+											e1.printStackTrace();
+										}
+									}else{
+										System.out.println("StompSession is null");
+									}
+
 								}
 							});
 							
@@ -447,6 +493,7 @@ public class Dashboard extends JFrame
 				frame.add(internalFrame);
 			}			
 		});
+
 		
 		logout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -457,6 +504,7 @@ public class Dashboard extends JFrame
 			}			
 		});
 	}
+
 	
 	public void staffDashboard(User staff)
 	{
