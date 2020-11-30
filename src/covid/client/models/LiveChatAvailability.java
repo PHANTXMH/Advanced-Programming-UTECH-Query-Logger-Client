@@ -1,26 +1,26 @@
 package covid.client.models;
 
-import covid.client.enumeration.Day;
-
+import java.sql.Time;
 import java.util.List;
 
 public class LiveChatAvailability {
 
     private long id;
 
-    private Day day;
-
     private User user;
 
-    List<LiveChatAvailableTime> liveChatAvailableTimes;
+    private Time startTime;
 
-    public LiveChatAvailability() {
-    }
+    private Time endTime;
 
-    public LiveChatAvailability(long id, Day day, User user) {
+    private List<LiveChatAvailableDays> liveChatAvailableDays;
+
+    public LiveChatAvailability(long id, User user, Time startTime, Time endTime, List<LiveChatAvailableDays> liveChatAvailableDays) {
         this.id = id;
-        this.day = day;
         this.user = user;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.liveChatAvailableDays = liveChatAvailableDays;
     }
 
     public long getId() {
@@ -31,14 +31,6 @@ public class LiveChatAvailability {
         this.id = id;
     }
 
-    public Day getDay() {
-        return day;
-    }
-
-    public void setDay(Day day) {
-        this.day = day;
-    }
-
     public User getUser() {
         return user;
     }
@@ -47,27 +39,38 @@ public class LiveChatAvailability {
         this.user = user;
     }
 
-    public LiveChatAvailability(long id, Day day, User user, List<LiveChatAvailableTime> liveChatAvailableTimes) {
-        this.id = id;
-        this.day = day;
-        this.user = user;
-        this.liveChatAvailableTimes = liveChatAvailableTimes;
+    public Time getStartTime() {
+        return startTime;
     }
 
-    public List<LiveChatAvailableTime> getLiveChatAvailableTimes() {
-        return liveChatAvailableTimes;
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
     }
 
-    public void setLiveChatAvailableTimes(List<LiveChatAvailableTime> liveChatAvailableTimes) {
-        this.liveChatAvailableTimes = liveChatAvailableTimes;
+    public Time getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
+    }
+
+    public List<LiveChatAvailableDays> getLiveChatAvailableDays() {
+        return liveChatAvailableDays;
+    }
+
+    public void setLiveChatAvailableDays(List<LiveChatAvailableDays> liveChatAvailableDays) {
+        this.liveChatAvailableDays = liveChatAvailableDays;
     }
 
     @Override
     public String toString() {
         return "LiveChatAvailability{" +
                 "id=" + id +
-                ", day=" + day +
                 ", user=" + user +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", liveChatAvailableDays=" + liveChatAvailableDays +
                 '}';
     }
 }
