@@ -3,6 +3,8 @@ package covid.client.models;
 import java.sql.Time;
 import java.util.List;
 
+import covid.client.enumeration.Day;
+
 public class LiveChatAvailability {
 
     private long id;
@@ -13,14 +15,19 @@ public class LiveChatAvailability {
 
     private Time endTime;
 
-    private List<LiveChatAvailableDays> liveChatAvailableDays;
+    private List<Day> liveChatAvailableDays;
 
-    public LiveChatAvailability(long id, User user, Time startTime, Time endTime, List<LiveChatAvailableDays> liveChatAvailableDays) {
+    public LiveChatAvailability(long id, User user, Time startTime, Time endTime, List<Day> liveChatAvailableDays) {
         this.id = id;
         this.user = user;
         this.startTime = startTime;
         this.endTime = endTime;
         this.liveChatAvailableDays = liveChatAvailableDays;
+    }
+    
+    public LiveChatAvailability()
+    {
+    	
     }
 
     public long getId() {
@@ -55,11 +62,11 @@ public class LiveChatAvailability {
         this.endTime = endTime;
     }
 
-    public List<LiveChatAvailableDays> getLiveChatAvailableDays() {
+    public List<Day> getLiveChatAvailableDays() {
         return liveChatAvailableDays;
     }
 
-    public void setLiveChatAvailableDays(List<LiveChatAvailableDays> liveChatAvailableDays) {
+    public void setLiveChatAvailableDays(List<Day> liveChatAvailableDays) {
         this.liveChatAvailableDays = liveChatAvailableDays;
     }
 

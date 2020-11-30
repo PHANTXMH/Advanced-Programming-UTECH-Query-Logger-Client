@@ -1062,7 +1062,7 @@ public class Dashboard extends JFrame
 				messageFrame.setVisible(true);
 				queueScrollPane.setMaximumSize(new Dimension(80,50));
 				
-																		//vEXAMPLE TO ILLUSTRATE LAYOUT FOR GUI
+				//vEXAMPLE TO ILLUSTRATE LAYOUT FOR GUI
 				JPanel pp = new JPanel();									
 				JPanel ps = new JPanel();
 				JButton st = new JButton("<studentName1>");
@@ -1074,20 +1074,38 @@ public class Dashboard extends JFrame
 				messageQueue.setLayout(new GridLayout(25,1));				
 				messageQueue.add(pp);
 				messageQueue.add(ps);
-																		//^EXAMLE ENDS
+				//^EXAMLE ENDS
 				
-																					//Implement the code to accept incoming messages here
+				st.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {						
+						
+						//Implement the code to accept incoming messages here
+						
+					}					
+				});	
+				
+				sts.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						//Implement the code to accept incoming messages here
+						
+					}					
+				});
+				
+				
 				sendButton.addActionListener(new ActionListener() {		
 					public void actionPerformed(ActionEvent e) {
 						if(Objects.equals(editor.getText(), ""))
 						{
 							return;
 						}
+						
 						//Implement code to send message to a specific student
+						
 						editor.setText("");														
 					}
 				});
-				updateButton.addActionListener(new ActionListener() {						//Updates the rep's availability
+				updateButton.addActionListener(new ActionListener() {//Updates the rep's availability
 					public void actionPerformed(ActionEvent e) {
 						int startHour,startMin,endHour,endMin;
 						
@@ -1106,15 +1124,15 @@ public class Dashboard extends JFrame
 						
 						if(pmFrom.isSelected())
 						{
-							startHour = startHour+12;
+							startHour = startHour + 12;
 						}
 						
 						if(pmTo.isSelected())
 						{
-							endHour = endHour+12;
+							endHour = endHour + 12;
 						}
 						
-						if(startHour < 1 || startMin < 0 || startHour > 12 || startMin > 59 || Objects.equals(fromHourField.getText(), "") || Objects.equals(fromMinField.getText(), ""))
+						if(startHour < 1 || startMin < 0 || startHour > 24 || startMin > 59 || Objects.equals(fromHourField.getText(), "") || Objects.equals(fromMinField.getText(), ""))
 						{
 							JOptionPane.showMessageDialog(frame, "Please ensure your start times are correct!"
 									, "Update Availability", JOptionPane.WARNING_MESSAGE);
@@ -1123,47 +1141,66 @@ public class Dashboard extends JFrame
 							return;
 						}
 						
-						if(endHour < 1 || endMin < 0 || endHour > 12 || endMin > 59 || Objects.equals(toHourField.getText(), "") || Objects.equals(toMinField.getText(), ""))
+						if(endHour < 1 || endMin < 0 || endHour > 24 || endMin > 59 || Objects.equals(toHourField.getText(), "") || Objects.equals(toMinField.getText(), ""))
 						{
 							JOptionPane.showMessageDialog(frame, "Please ensure your end times are correct!"
 									, "Update Availability", JOptionPane.WARNING_MESSAGE);
 							toHourField.setText("");
 							toMinField.setText("");
 							return;
-						}	
+						}						
 						
-//						List<LiveChatAvailableDays> available = new ArrayList<LiveChatAvailableDays>();
-//						
-//						if(mon.isSelected())
-//						{
-//							
-//							available.add(Day.Monday);
-//						}
-//						if(tue.isSelected())
-//						{
-//							available.add(Day.Tuesday);
-//																								NEED TO INITITIALIZE AVAILABE VARIABLE
-//						}
-//						if(wed.isSelected())
-//						{
-//							
-//							available.add(Day.Wednesday);
-//						}
-//						if(thu.isSelected())
-//						{
-//							
-//							available.add(Day.Thursday);
-//						}
-//						if(fri.isSelected())
-//						{
-//							
-//							available.add(Day.Friday);
-//						}						
-//											//Send update to server here						
-//						Covid19Client serverClient = ServerClient.getClient();
-//						ApiResponse<LiveChatAvailability> liveChatAvailabilityApiResponse = 
-//								serverClient.createLiveChatAvailability(new LiveChatAvailability
-//										(user.getId(),user,new Time(startHour,startMin,0),new Time(endHour,endMin,0),available));
+						List<Day> availableDays = new ArrayList();
+						boolean oneSelected = false;
+						
+						if(mon.isSelected())
+						{							
+							availableDays.add(Day.Monday);
+							oneSelected = true;
+						}
+						if(tue.isSelected())
+						{
+							availableDays.add(Day.Tuesday);
+							oneSelected = true;															//		NEED TO INITITIALIZE AVAILABE VARIABLE
+						}
+						if(wed.isSelected())
+						{							
+							availableDays.add(Day.Wednesday);
+							oneSelected = true;
+						}
+						if(thu.isSelected())
+						{							
+							availableDays.add(Day.Thursday);
+							oneSelected = true;
+						}
+						if(fri.isSelected())
+						{							
+							availableDays.add(Day.Friday);
+							oneSelected = true;
+						}
+						
+						if(oneSelected)
+						{
+							LiveChatAvailability liveChatAvailability = new LiveChatAvailability();
+							
+							liveChatAvailability.setStartTime(new Time(startHour,startMin,00));
+							liveChatAvailability.setEndTime(new Time(endHour,endMin,00));
+							liveChatAvailability.setLiveChatAvailableDays(availableDays);							
+							
+							try
+							{
+								Covid19Client serverClient = ServerClient.getClient();
+								ApiResponse<LiveChatAvailability> liveChatAvailabilityApiResponse = serverClient.createLiveChatAvailability(liveChatAvailability);
+								JOptionPane.showMessageDialog(frame, liveChatAvailabilityApiResponse.getMessage(), "Update Availability", JOptionPane.INFORMATION_MESSAGE);
+							}catch(NullPointerException g)
+							{
+								JOptionPane.showMessageDialog(frame, "An error occured. Please try again!", "Update Availability", JOptionPane.WARNING_MESSAGE);
+							}							
+																												
+						}else
+						{
+							JOptionPane.showMessageDialog(frame, "Atleast one day must be selected!", "Update Availability", JOptionPane.WARNING_MESSAGE);
+						}						
 					}			
 				});	
 				
