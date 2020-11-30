@@ -27,7 +27,8 @@ public class LiveChatHelper {
 
     private final static WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
 
-    public ListenableFuture<StompSession> connect() {
+
+    public ListenableFuture<StompSession> connect(final String name) {
 
         Transport webSocketTransport = new WebSocketTransport(new StandardWebSocketClient());
         List<Transport> transports = Collections.singletonList(webSocketTransport);
@@ -37,7 +38,7 @@ public class LiveChatHelper {
 
         WebSocketStompClient stompClient = new WebSocketStompClient(sockJsClient);
 
-        return stompClient.connect(Constants.WEBSOCKST_SERVICE_URL, headers, new MyHandler(), "localhost", 8005);
+        return stompClient.connect(Constants.WEBSOCKST_SERVICE_URL, headers, new MyHandler(name), "localhost", 8005);
     }
 
     public void sendMessage(final StompSession stompSession, final LiveChatMessage liveChatMessage) throws InterruptedException {
@@ -45,9 +46,13 @@ public class LiveChatHelper {
     }
 
     private class MyHandler extends StompSessionHandlerAdapter {
+        private String name;
+        MyHandler(String name){
+            this.name = name;
+        }
         public void afterConnected(StompSession stompSession, StompHeaders stompHeaders) {
             LoggingManager.getLogger(this).info("Now connected");
-            System.out.println("Now connected");
+            System.out.println(this.name + ", you're now connected to the lice chat channel");
         }
     }
 

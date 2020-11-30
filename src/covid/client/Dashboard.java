@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -510,10 +512,10 @@ public class Dashboard extends JFrame
 
 							try {
 								 // initialize the live chat socket so the user can send and receive messages in real time
-								ListenableFuture<StompSession> connection = helloClient.connect();
+								ListenableFuture<StompSession> connection = helloClient.connect(user.getFullname());
 								stompSession = connection.get();
 								// subscribe the user to the chat channel
-								stompSession.subscribe("/user/target/1", new StompFrameHandler() {
+								stompSession.subscribe("/user/target/"+String.valueOf(user.getId()), new StompFrameHandler() {
 
 									public java.lang.reflect.Type getPayloadType(StompHeaders stompHeaders) {
 										return byte[].class;
@@ -1060,25 +1062,100 @@ public class Dashboard extends JFrame
 				queueScrollPane.setMaximumSize(new Dimension(80,50));
 				
 				JPanel pp = new JPanel();
-				JPanel ps = new JPanel();
-				JButton st = new JButton("<studentName1>");
-				JButton sts = new JButton("<studentName2>");			
-				
-				pp.add(st);
-				ps.add(sts);
-				
+//				JPanel ps = new JPanel();
+				JButton jButton =new JButton("Sample User data");
+				pp.add(jButton);
 				messageQueue.setLayout(new GridLayout(25,1));				
 				messageQueue.add(pp);
-				messageQueue.add(ps);
-				
+//				messageQueue.add(ps);
+
+				// load Previous messages
+
+				// code to initialize live chat socket
+
+				List<Long> userIdsAlreadyRecorded = new ArrayList<>();
+				HashMap<Long, Integer> totalMessage = new HashMap<>();
+
+				StompSession stompSession = null;
+				LiveChatHelper liveChatHelper = new LiveChatHelper();
+				try {
+					ListenableFuture<StompSession> connection = liveChatHelper.connect(user.getFullname());
+					stompSession = connection.get();
+					// subscribe the user to the chat channel
+					stompSession.subscribe("/user/target/"+String.valueOf(user.getId()), new StompFrameHandler() {
+
+						public java.lang.reflect.Type getPayloadType(StompHeaders stompHeaders) {
+							return byte[].class;
+						}
+
+						public void handleFrame(StompHeaders stompHeaders, Object o) {//Accepts incoming message from student Rep
+
+							LoggingManager.getLogger(this).info("Received message " + new String((byte[]) o));
+
+							String message = new String((byte[]) o);
+							ObjectMapper mapper = new ObjectMapper();
+							try
+							{
+								System.out.println("Message received: " + message);
+								int totalNewMessage = 1;
+								LiveChatMessage liveChatMessage = mapper.readValue(message,LiveChatMessage.class);
+
+								if(totalMessage.containsKey(liveChatMessage.getFrom())){
+									totalNewMessage = totalMessage.get(liveChatMessage.getFrom());
+									totalMessage.put(liveChatMessage.getFrom(), totalNewMessage + 1);
+									totalNewMessage = totalNewMessage + 1;
+								}else{
+									totalMessage.put(liveChatMessage.getFrom(), 1);
+								}
+
+								if(!userIdsAlreadyRecorded.contains(liveChatMessage.getFrom())) {
+									System.out.println("Adding message to message queue");
+									JPanel userInQueue = new JPanel();
+									userInQueue.add(new JButton(String.format("%s (%s)", liveChatMessage.getName(), totalNewMessage)));
+									messageQueue.add(userInQueue);
+									userIdsAlreadyRecorded.add(liveChatMessage.getFrom());
+								}else{
+									System.out.println(String.format("User with ID: %s and name: %s already in the message Queue: ", liveChatMessage.getFrom(), liveChatMessage.getName()));
+								}
+							}catch(Throwable e)
+							{
+								System.out.println("Error while deserializing realtime message: " + e.getLocalizedMessage());
+							}
+						}
+					});
+				} catch (ExecutionException e1) {
+					e1.printStackTrace();
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
 																					//Implement the code to accept incoming messages here
-				sendButton.addActionListener(new ActionListener() {		
+				final StompSession stompSessionTemp = stompSession;
+				sendButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(Objects.equals(editor.getText(), ""))
 						{
 							return;
 						}
 						//Implement code to send message to a specific student
+
+						sendButton.addActionListener(new ActionListener() {						//Send message to student Rep
+							public void actionPerformed(ActionEvent e) {
+								final String message = editor.getText();
+								if(stompSessionTemp != null)
+								{
+									try
+									{
+										liveChatHelper.sendMessage(stompSessionTemp, new LiveChatMessage("Test User", message, user.getId(), 3L));
+									} catch (Throwable error) {
+										error.printStackTrace();
+									}
+								}else{
+									System.out.println("StompSession is null");
+								}
+
+								editor.setText("");
+							}
+						});
 						editor.setText("");														
 					}
 				});
