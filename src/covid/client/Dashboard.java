@@ -2,11 +2,13 @@ package covid.client;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -958,9 +960,13 @@ public class Dashboard extends JFrame
 				JPanel availablePanel = new JPanel();
 				JPanel fromPanel = new JPanel();
 				JPanel toPanel = new JPanel();
-				JPanel messagePanel = new JPanel();
+				JInternalFrame messageFrame = new JInternalFrame();
 				JPanel north = new JPanel();
 				JPanel updatePanel = new JPanel();
+				JPanel messageQueuePanel = new JPanel();
+				JPanel messageQueue = new JPanel();
+	//			JSplitPane messageSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+				JScrollPane queueScrollPane = new JScrollPane(messageQueue);
 				JLabel messageLabel = new JLabel("MESSAGES");
 				JLabel availableLabel = new JLabel("You are available to chat on:");
 				JLabel toColon = new JLabel(" : ");
@@ -987,9 +993,10 @@ public class Dashboard extends JFrame
 				JInternalFrame chatWindow = new JInternalFrame();		//Chat window implementation
 				JTextPane viewer = new JTextPane();
 				JPanel editorPanel = new JPanel();
-				JTextField editor = new JTextField(100);
+				JTextField editor = new JTextField(60);
 				JButton sendButton = new JButton("Send");							
 				JScrollPane scrollPane = new JScrollPane(viewer);
+				
 				
 				editorPanel.add(editor);
 				editorPanel.add(sendButton);				
@@ -1034,7 +1041,7 @@ public class Dashboard extends JFrame
 				toPanel.add(pmTo);
 				
 				updatePanel.add(updateButton);
-															//initialize Chat GUI with Rep's info before displaying
+															
 				wed.setSelected(true);
 				fromHourField.setText("9");
 				fromMinField.setText("00");
@@ -1048,8 +1055,23 @@ public class Dashboard extends JFrame
 				north.add(updatePanel);
 				
 				messageLabel.setFont(new Font("Algerian", Font.BOLD, 20));
-				messagePanel.add(messageLabel); 
+				messageFrame.add(messageLabel,BorderLayout.NORTH); 
+				messageFrame.setVisible(true);
+				queueScrollPane.setMaximumSize(new Dimension(80,50));
 				
+				JPanel pp = new JPanel();
+				JPanel ps = new JPanel();
+				JButton st = new JButton("<studentName1>");
+				JButton sts = new JButton("<studentName2>");			
+				
+				pp.add(st);
+				ps.add(sts);
+				
+				messageQueue.setLayout(new GridLayout(25,1));				
+				messageQueue.add(pp);
+				messageQueue.add(ps);
+				
+																					//Implement the code to accept incoming messages here
 				sendButton.addActionListener(new ActionListener() {		
 					public void actionPerformed(ActionEvent e) {
 						if(Objects.equals(editor.getText(), ""))
@@ -1136,13 +1158,14 @@ public class Dashboard extends JFrame
 				
 				northSplitPane.setTopComponent(north);				
 				northSplitPane.setDividerLocation(1);
+				messageFrame.add(queueScrollPane,BorderLayout.CENTER);
 				
-				westSplitPane.setTopComponent(messagePanel);
+				westSplitPane.setTopComponent(messageFrame);
 				westSplitPane.setDividerLocation(0.7);
 				westSplitPane.setBottomComponent(chatWindow);
 				
 				internalFrame.add(northSplitPane,BorderLayout.NORTH);
-				internalFrame.add(messagePanel,BorderLayout.WEST);
+				internalFrame.add(messageFrame,BorderLayout.WEST);
 				internalFrame.add(chatWindow,BorderLayout.CENTER);
 
 				frame.add(internalFrame);
