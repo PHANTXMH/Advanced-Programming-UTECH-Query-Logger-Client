@@ -36,9 +36,7 @@ public interface Covid19Messaging {
 
     ApiResponse<Complaints> updateComplaintStatus(Long complaintID, ComplainStatus complainStatus);
 
-    List<ApiResponse<LiveChatAvailability>> createLiveChatAvailability(List<LiveChatAvailability> liveChatAvailability);
-
-    ApiResponse<LiveChatAvailableTime> createTimeSlots(LiveChatAvailableTime liveChatAvailableTime);
+    ApiResponse<LiveChatAvailability> createLiveChatAvailability(LiveChatAvailability liveChatAvailability);
 
     List<Chat> getMessagesForUser();
 
