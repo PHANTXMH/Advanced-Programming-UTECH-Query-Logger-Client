@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Type;
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -46,6 +48,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import covid.client.enumeration.ComplainStatus;
+import covid.client.enumeration.Day;
 import covid.client.enumeration.Role;
 import covid.client.httpclient.service.Covid19Client;
 import covid.client.httpclient.service.LiveChatHelper;
@@ -777,6 +780,7 @@ public class Dashboard extends JFrame
 												
 												if(c.getId() == complaintIdSearch)
 												{
+													serverClient.readResponse(c.getId());
 													found = true;
 													
 													internalFrame.dispose();
@@ -890,7 +894,7 @@ public class Dashboard extends JFrame
 															{
 																JOptionPane.showMessageDialog(frame,"Unable to post this response!", "Response Failed", JOptionPane.WARNING_MESSAGE);
 															}else
-															{
+															{																
 																try
 																{
 																	if(resolvedRButton.isSelected())
@@ -908,8 +912,7 @@ public class Dashboard extends JFrame
 																	if(canceledRButton.isSelected())
 																	{
 																		ApiResponse<Complaints> statusUpdate =  serverClient.updateComplaintStatus(c.getId(), ComplainStatus.CANCELED);
-																	}
-																	
+																	}																	
 																	ApiResponse<ComplaintResponses> complaintResponseApiResponse = 
 																			serverClient.reply(new ComplaintResponses(response.getText(),c,staff));
 																	JOptionPane.showMessageDialog(frame,complaintResponseApiResponse.getMessage(), "Response sent!", JOptionPane.INFORMATION_MESSAGE);
@@ -1012,7 +1015,7 @@ public class Dashboard extends JFrame
 				chatWindow.add(scrollPane,BorderLayout.CENTER);
 				chatWindow.add(editorPanel,BorderLayout.SOUTH);
 				chatWindow.getRootPane().setDefaultButton(sendButton);
-//				
+				
 				fromBG.add(amFrom);
 				fromBG.add(pmFrom);
 				
@@ -1059,7 +1062,8 @@ public class Dashboard extends JFrame
 				messageFrame.setVisible(true);
 				queueScrollPane.setMaximumSize(new Dimension(80,50));
 				
-				JPanel pp = new JPanel();
+																		//vEXAMPLE TO ILLUSTRATE LAYOUT FOR GUI
+				JPanel pp = new JPanel();									
 				JPanel ps = new JPanel();
 				JButton st = new JButton("<studentName1>");
 				JButton sts = new JButton("<studentName2>");			
@@ -1070,6 +1074,7 @@ public class Dashboard extends JFrame
 				messageQueue.setLayout(new GridLayout(25,1));				
 				messageQueue.add(pp);
 				messageQueue.add(ps);
+																		//^EXAMLE ENDS
 				
 																					//Implement the code to accept incoming messages here
 				sendButton.addActionListener(new ActionListener() {		
@@ -1082,7 +1087,7 @@ public class Dashboard extends JFrame
 						editor.setText("");														
 					}
 				});
-				updateButton.addActionListener(new ActionListener() {
+				updateButton.addActionListener(new ActionListener() {						//Updates the rep's availability
 					public void actionPerformed(ActionEvent e) {
 						int startHour,startMin,endHour,endMin;
 						
@@ -1097,7 +1102,17 @@ public class Dashboard extends JFrame
 							JOptionPane.showMessageDialog(frame, "Check to ensure correct time format!"
 									, "Update Availability", JOptionPane.WARNING_MESSAGE);
 							return;
-						}						
+						}	
+						
+						if(pmFrom.isSelected())
+						{
+							startHour = startHour+12;
+						}
+						
+						if(pmTo.isSelected())
+						{
+							endHour = endHour+12;
+						}
 						
 						if(startHour < 1 || startMin < 0 || startHour > 12 || startMin > 59 || Objects.equals(fromHourField.getText(), "") || Objects.equals(fromMinField.getText(), ""))
 						{
@@ -1115,34 +1130,40 @@ public class Dashboard extends JFrame
 							toHourField.setText("");
 							toMinField.setText("");
 							return;
-						}						
+						}	
 						
-						if(mon.isSelected())
-						{
-							
-							//Add Monday to Day list
-						}else
-						if(tue.isSelected())
-						{
-							//Add Tuesday to Day list
-							
-						}else
-						if(wed.isSelected())
-						{
-							
-							JOptionPane.showMessageDialog(frame, "You are now available to chat on Wednesday. "+startHour+":"+startMin+" to "+endHour+":"+endMin
-									, "Chat Availability Changed!", JOptionPane.INFORMATION_MESSAGE);
-						}else
-						if(thu.isSelected())
-						{
-							
-							//Add Thursday to Day list
-						}else
-						if(fri.isSelected())
-						{
-							
-							//Add Friday to Day list
-						}
+//						List<LiveChatAvailableDays> available = new ArrayList<LiveChatAvailableDays>();
+//						
+//						if(mon.isSelected())
+//						{
+//							
+//							available.add(Day.Monday);
+//						}
+//						if(tue.isSelected())
+//						{
+//							available.add(Day.Tuesday);
+//																								NEED TO INITITIALIZE AVAILABE VARIABLE
+//						}
+//						if(wed.isSelected())
+//						{
+//							
+//							available.add(Day.Wednesday);
+//						}
+//						if(thu.isSelected())
+//						{
+//							
+//							available.add(Day.Thursday);
+//						}
+//						if(fri.isSelected())
+//						{
+//							
+//							available.add(Day.Friday);
+//						}						
+//											//Send update to server here						
+//						Covid19Client serverClient = ServerClient.getClient();
+//						ApiResponse<LiveChatAvailability> liveChatAvailabilityApiResponse = 
+//								serverClient.createLiveChatAvailability(new LiveChatAvailability
+//										(user.getId(),user,new Time(startHour,startMin,0),new Time(endHour,endMin,0),available));
 					}			
 				});	
 				
