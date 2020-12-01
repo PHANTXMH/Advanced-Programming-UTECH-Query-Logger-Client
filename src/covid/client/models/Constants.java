@@ -24,6 +24,8 @@ public class Constants {
 
     public static final String CREATE_LIVE_CHAT_AVAILABILITY = "availability/chat/time/create";
 
+    public static final String GET_LIVE_CHAT_AVAILABILITY_BY_STUDENT_REP_ID = "availability/chat/time/all/by/student/rep/id/id_";
+
     public static final String CREATE_LIVE_CHAT_TIME_SLOT= "availability/chat/time/add/time/slot";
 
     public static final String GET_ALL_CHATS = "chat/messages/for/user";

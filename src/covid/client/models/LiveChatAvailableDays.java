@@ -7,6 +7,10 @@ public class LiveChatAvailableDays {
     private LiveChatAvailability liveChatAvailability;
     private Day day;
 
+    public LiveChatAvailableDays(Day day) {
+        this.day = day;
+    }
+
     public LiveChatAvailableDays() {
     }
 

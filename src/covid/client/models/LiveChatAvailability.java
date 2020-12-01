@@ -3,6 +3,8 @@ package covid.client.models;
 import java.sql.Time;
 import java.util.List;
 
+import covid.client.enumeration.Day;
+
 public class LiveChatAvailability {
 
     private long id;
@@ -21,6 +23,11 @@ public class LiveChatAvailability {
         this.startTime = startTime;
         this.endTime = endTime;
         this.liveChatAvailableDays = liveChatAvailableDays;
+    }
+    
+    public LiveChatAvailability()
+    {
+    	
     }
 
     public long getId() {

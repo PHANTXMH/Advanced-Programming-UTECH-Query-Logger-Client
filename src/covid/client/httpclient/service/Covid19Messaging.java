@@ -38,6 +38,8 @@ public interface Covid19Messaging {
 
     ApiResponse<LiveChatAvailability> createLiveChatAvailability(LiveChatAvailability liveChatAvailability);
 
+    LiveChatAvailability getAvailabilityByStudentRepID(Long id);
+
     List<Chat> getMessagesForUser();
 
     Chat getMessagesByChatID(Long chatID);

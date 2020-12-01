@@ -212,6 +212,16 @@ public class Covid19Client extends Covid19WebServiceClient implements Covid19Mes
         return null;
     }
 
+    @Override
+    public LiveChatAvailability getAvailabilityByStudentRepID(Long id) {
+        ResponseEntity<LiveChatAvailability> availabilityResponseEntity =
+                invoke(serviceURl.concat(GET_LIVE_CHAT_AVAILABILITY_BY_STUDENT_REP_ID)
+                        .replaceAll("id_", String.valueOf(id)), null, LiveChatAvailability.class, httpHeaders, HttpMethod.GET);
+        if(availabilityResponseEntity.getStatusCode() == HttpStatus.OK)
+         return availabilityResponseEntity.getBody();
+        return new LiveChatAvailability(); // was null
+    }
+
 
     @Override
     public List<Chat> getMessagesForUser() {
