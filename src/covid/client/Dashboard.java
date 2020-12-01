@@ -10,6 +10,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
@@ -84,11 +85,12 @@ public class Dashboard extends JFrame
 	private JButton viewAllEnquiries;
 	private JButton viewAStudentEnquiry;
 	private User user;
-	int x;
+	int x,s;
 	long complaintIdSearch = 0;
 	boolean found = false;
 	TitledBorder borderTitle;
 	Border blackline = BorderFactory.createLineBorder(Color.black);
+	String repDays = "Available Days: ";
 	
 	public Dashboard()
 	{
@@ -122,7 +124,7 @@ public class Dashboard extends JFrame
 		activities.add(viewAComplaint);
 		activities.add(liveChat);
 		activities.add(logout);
-		
+		activities.setBackground(Color.CYAN);
 		window.add(internalFrame);
 		window.setSize(new Dimension(1000,500));		
 		
@@ -242,7 +244,7 @@ public class Dashboard extends JFrame
 				internalFrame = new JInternalFrame("",false,false,false,false);
 				internalFrame.setVisible(true);
 				
-				String[] columns = {"DATE","STATUS","RESPONDER","QUERY","ID"};
+				String[] columns = {"DATE","STATUS","RESPONDER","QUERY","ID"};				
 				String[][] data_rows = new String[50][50];
 				
 				Covid19Client serverClient = ServerClient.getClient();
@@ -268,10 +270,7 @@ public class Dashboard extends JFrame
 				{
 					JOptionPane.showMessageDialog(frame,"An error occured! Please try again.", "Complaints List", JOptionPane.WARNING_MESSAGE);
 					ex.printStackTrace();
-				}
-				
-				
-							
+				}						
 				
 				JTable table = new JTable(data_rows, columns);	
 				JScrollPane scrollPane = new JScrollPane(table);
@@ -279,7 +278,7 @@ public class Dashboard extends JFrame
 				table.getColumnModel().getColumn(0).setPreferredWidth(250);
 				table.getColumnModel().getColumn(1).setPreferredWidth(120);
 				table.getColumnModel().getColumn(2).setPreferredWidth(120);
-				table.getColumnModel().getColumn(3).setPreferredWidth(1200);
+				table.getColumnModel().getColumn(3).setPreferredWidth(1200);				
 				
 				internalFrame.add(scrollPane);
 				frame.add(internalFrame);					
@@ -424,6 +423,7 @@ public class Dashboard extends JFrame
 				JPanel availableRep = new JPanel();
 				JLabel headerLabel = new JLabel("Available Student Representatives:");
 				
+				availableRep.setLayout(new GridLayout(20,1,0,0));
 				headerLabel.setFont(new Font("Algerian", Font.BOLD, 20));
 				headerPanel.add(headerLabel);
 				internalFrame.add(headerPanel,BorderLayout.NORTH);
@@ -431,12 +431,61 @@ public class Dashboard extends JFrame
 				Covid19Client serverClient = ServerClient.getClient();
 				List<User> userList = serverClient.getAllUsersByRole(Role.STUDENT_REPRESENTATIVE);
 				
-				userList.forEach(u -> {
-					JLabel studentRep = new JLabel(u.getFirstName()+" "+u.getLastName());
-					JButton chatButton = new JButton("CHAT");
+				userList.forEach(u -> {					
 					
-					availableRep.add(studentRep);
-					availableRep.add(chatButton);
+					String repTimes = "N/A | To: N/A";
+					JSplitPane availableSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+					
+					ScrollPane availableScrollPane = new ScrollPane();
+					JPanel studentRepNamePanel = new JPanel();
+					JLabel studentRepName = new JLabel(u.getFirstName()+" "+u.getLastName());
+					studentRepName.setForeground(Color.BLUE);
+					studentRepNamePanel.add(studentRepName);					
+					JPanel studentRepTimesPanel = new JPanel();										
+					JPanel studentRepDaysPanel = new JPanel();					
+					JPanel chatButtonPanel = new JPanel();
+					JButton chatButton = new JButton("CHAT");
+					chatButtonPanel.add(chatButton);
+					repDays = "Available Days: ";
+					LiveChatAvailability repAvailability = serverClient.getAvailabilityByStudentRepID(u.getId());
+					
+					if(repAvailability != null)
+					{
+						try
+						{
+							System.out.println(repAvailability.toString());					
+							
+							repTimes = repAvailability.getStartTime().toString()+" | "+"To: "+repAvailability.getEndTime().toString();						
+							
+							List<LiveChatAvailableDays> dayList = repAvailability.getLiveChatAvailableDays();
+							s=0;
+							dayList.forEach(d -> {
+								if(s==0)
+								{
+									repDays = repDays.concat(d.getDay().toString());
+									s++;
+								}else
+								{
+									repDays = repDays.concat(" | "+d.getDay().toString());
+								}								
+							});
+						}catch(Exception a)
+						{
+							
+						}
+					}
+					JLabel studentRepTimes = new JLabel("Available From: "+repTimes);
+					studentRepTimesPanel.add(studentRepTimes);											
+					JLabel studentRepDays = new JLabel(repDays);
+					studentRepDaysPanel.add(studentRepDays);
+					
+					availableRep.add(studentRepNamePanel);
+					availableRep.add(studentRepTimesPanel);
+					availableRep.add(studentRepDaysPanel);
+					availableRep.add(chatButtonPanel);
+//					availableSplitPane.setBottomComponent(availableRep);				
+//					availableSplitPane.setDividerLocation(0.7);
+//					availableScrollPane.add(availableRep);
 					
 					internalFrame.add(availableRep,BorderLayout.CENTER);					
 					
@@ -623,6 +672,7 @@ public class Dashboard extends JFrame
 		activities.add(viewAStudentEnquiry);
 		activities.add(liveChat);
 		activities.add(logout);
+		activities.setBackground(Color.BLUE);
 		
 		window.add(internalFrame);
 		window.setSize(new Dimension(1000,500));		
@@ -1045,20 +1095,76 @@ public class Dashboard extends JFrame
 				toPanel.add(pmTo);
 				
 				updatePanel.add(updateButton);
-															
-				wed.setSelected(true);
-				fromHourField.setText("9");
-				fromMinField.setText("00");
-				toHourField.setText("5");
-				toMinField.setText("00");
+				
+				Covid19Client serverClient = ServerClient.getClient();
+				LiveChatAvailability initGui = serverClient.getAvailabilityByStudentRepID(user.getId());
+				
+				List<LiveChatAvailableDays> dayList = initGui.getLiveChatAvailableDays();
+				
+				dayList.forEach(d -> {
+					if(Objects.equals(d.getDay().toString(), "Monday"))
+					{
+						mon.setSelected(true);;
+					}else
+					if(Objects.equals(d.getDay().toString(), "Tuesday"))	
+					{
+						tue.setSelected(true);
+					}else
+					if(Objects.equals(d.getDay().toString(), "Wednesday"))
+					{
+						wed.setSelected(true);
+					}else
+					if(Objects.equals(d.getDay().toString(), "Thursday"))
+					{
+						thu.setSelected(true);
+					}else
+					if(Objects.equals(d.getDay().toString(), "Friday"))
+					{
+						fri.setSelected(true);
+					}
+				});
+				
+				if(initGui != null)
+				{
+					int sh = initGui.getStartTime().getHours();
+					int sm = initGui.getStartTime().getMinutes();
+					int eh = initGui.getEndTime().getHours();
+					int em = initGui.getEndTime().getMinutes();
+					amFrom.setSelected(true);
+					amTo.setSelected(true);
+					
+					if(sh > 12)
+					{
+						sh = sh - 12;
+						pmFrom.setSelected(true);
+					}
+					if(eh > 12)
+					{
+						eh = eh - 12;
+						pmTo.setSelected(true);
+					}
+					
+					fromHourField.setText(Integer.toString(sh));
+					fromMinField.setText(Integer.toString(sm));
+					toHourField.setText(Integer.toString(eh));
+					toMinField.setText(Integer.toString(em));
+				}else
+				{
+					amFrom.setSelected(true);
+					pmTo.setSelected(true);
+					fromHourField.setText("9");
+					fromMinField.setText("00");
+					toHourField.setText("2");
+					toMinField.setText("00");
+				}				
 															//displays initialized GUI
 				north.setLayout(new GridLayout(4,1,0,0));
 				north.add(availablePanel);
 				north.add(fromPanel);
 				north.add(toPanel);
 				north.add(updatePanel);
-				
-				messageLabel.setFont(new Font("Algerian", Font.BOLD, 20));
+								
+				messageLabel.setFont(new Font("Algerian", Font.BOLD, 20));				
 				messageFrame.add(messageLabel,BorderLayout.NORTH); 
 				messageFrame.setVisible(true);
 				queueScrollPane.setMaximumSize(new Dimension(80,50));
@@ -1273,11 +1379,15 @@ public class Dashboard extends JFrame
 				
 				northSplitPane.setTopComponent(north);				
 				northSplitPane.setDividerLocation(1);
+				
+				
 				messageFrame.add(queueScrollPane,BorderLayout.CENTER);
+				messageFrame.setBackground(Color.ORANGE);
 				
 				westSplitPane.setTopComponent(messageFrame);
 				westSplitPane.setDividerLocation(0.7);
 				westSplitPane.setBottomComponent(chatWindow);
+				
 				
 				internalFrame.add(northSplitPane,BorderLayout.NORTH);
 				internalFrame.add(messageFrame,BorderLayout.WEST);
@@ -1319,6 +1429,7 @@ public class Dashboard extends JFrame
 		JPanel space3 = new JPanel();
 		
 		title.setFont(new Font("Algerian", Font.BOLD, 40));
+		title.setForeground(Color.MAGENTA);
 		profile.setFont(new Font("Serif", Font.ITALIC, 18));		
 				
 		headerPanel.add(title);
@@ -1361,6 +1472,7 @@ public class Dashboard extends JFrame
 		JPanel space3 = new JPanel();
 		
 		title.setFont(new Font("Algerian", Font.BOLD, 40));
+		title.setForeground(Color.BLUE);
 		profile.setFont(new Font("Serif", Font.ITALIC, 18));		
 				
 		headerPanel.add(title);
