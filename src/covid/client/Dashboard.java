@@ -1181,6 +1181,8 @@ public class Dashboard extends JFrame
 
 				// code to initialize live chat socket
 
+				final Long[] chatActiveUserID = {0L};
+
 				List<Long> userIdsAlreadyRecorded = new ArrayList<>();
 				HashMap<Long, Integer> totalMessage = new HashMap<>();
 
@@ -1214,6 +1216,13 @@ public class Dashboard extends JFrame
 									totalNewMessage = totalNewMessage + 1;
 								}else{
 									totalMessage.put(liveChatMessage.getFrom(), 1);
+								}
+
+								// append the message to the right live chat window based on the active user
+
+								if(chatActiveUserID[0].equals(liveChatMessage.getFrom())){
+									// append only this user message to the window
+
 								}
 
 								if(!userIdsAlreadyRecorded.contains(liveChatMessage.getFrom())) {
@@ -1369,8 +1378,18 @@ public class Dashboard extends JFrame
 				
 				chatButton.addActionListener(new ActionListener() {		//your implementation for student rep chat can use this button listener.
 					public void actionPerformed(ActionEvent e) {		//For each new chat created, re-initialize the chat button so each
-																		// instant of new chat listens to each button created	
-																		
+
+						final Long clickedUserID = Long.parseLong(String.valueOf(e.getID()));												// instant of new chat listens to each button created
+						chatActiveUserID[0] = clickedUserID; // set the user ID and attempt to load the chat history
+
+						Chat chat = serverClient.getAllMessagesByToAndFrom(user.getId(), clickedUserID);
+
+						if(chat != null && !CollectionUtils.isEmpty(chat.getChatMessagesList())){
+							// display chat
+							chat.getChatMessagesList().forEach(c -> {
+
+							});
+						}
 					}			
 				});
 				

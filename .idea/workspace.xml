@@ -4,11 +4,6 @@
     <list default="true" id="7875c9b6-fae4-4d32-b57b-e9bb8cecf2f1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/covid/client/Dashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/Dashboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Messaging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Messaging.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/models/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/models/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/models/LiveChatAvailability.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/models/LiveChatAvailability.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/covid/client/models/LiveChatAvailableDays.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/models/LiveChatAvailableDays.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -23,12 +18,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
+            <state relative-caret-position="2685">
               <caret line="218" column="125" selection-start-line="218" selection-start-column="125" selection-end-line="218" selection-end-column="125" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#8136#8327#0" expanded="true" />
-                <element signature="e#8326#8327#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -37,8 +30,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Messaging.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+            <state relative-caret-position="345">
+              <caret line="29" selection-start-line="29" selection-end-line="29" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -49,7 +42,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19WebServiceClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
+            <state relative-caret-position="495">
               <caret line="42" selection-start-line="42" selection-end-line="42" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -61,18 +54,18 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/covid/client/Dashboard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="1244" column="31" lean-forward="true" selection-start-line="1244" selection-start-column="31" selection-end-line="1244" selection-end-column="31" />
+            <state relative-caret-position="476">
+              <caret line="1389" column="32" selection-start-line="1389" selection-start-column="32" selection-end-line="1389" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4222#4223#0" expanded="true" />
-                <element signature="e#4247#4248#0" expanded="true" />
-                <element signature="e#18721#18722#0" expanded="true" />
-                <element signature="e#18763#18764#0" expanded="true" />
-                <element signature="e#22720#22721#0" expanded="true" />
-                <element signature="e#22744#22745#0" expanded="true" />
-                <element signature="e#41016#41017#0" expanded="true" />
-                <element signature="e#41052#41053#0" expanded="true" />
+                <element signature="e#4353#4354#0" expanded="true" />
+                <element signature="e#4378#4379#0" expanded="true" />
+                <element signature="e#20727#20728#0" expanded="true" />
+                <element signature="e#20769#20770#0" expanded="true" />
+                <element signature="e#24766#24767#0" expanded="true" />
+                <element signature="e#24790#24791#0" expanded="true" />
+                <element signature="e#44582#44583#0" expanded="true" />
+                <element signature="e#44618#44619#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -81,7 +74,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/covid/client/models/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
+            <state relative-caret-position="345">
               <caret line="27" selection-start-line="27" selection-end-line="27" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -123,7 +116,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/covid/client/models/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
+            <state relative-caret-position="390">
               <caret line="26" column="75" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="75" />
             </state>
           </provider>
@@ -132,7 +125,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/covid/client/DRIVER.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="107">
+            <state relative-caret-position="990">
               <caret line="66" column="26" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
             </state>
           </provider>
@@ -141,22 +134,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/covid/client/models/LiveChatAvailableDays.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
+            <state relative-caret-position="135">
               <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
-              <folding>
-                <element signature="e#253#254#0" expanded="true" />
-                <element signature="e#283#284#0" expanded="true" />
-                <element signature="e#478#479#0" expanded="true" />
-                <element signature="e#503#504#0" expanded="true" />
-                <element signature="e#537#538#0" expanded="true" />
-                <element signature="e#565#566#0" expanded="true" />
-                <element signature="e#626#627#0" expanded="true" />
-                <element signature="e#669#670#0" expanded="true" />
-                <element signature="e#846#847#0" expanded="true" />
-                <element signature="e#872#873#0" expanded="true" />
-                <element signature="e#907#908#0" expanded="true" />
-                <element signature="e#937#938#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -265,7 +244,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -362,6 +340,7 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -452,18 +431,19 @@
       <workItem from="1606409392702" duration="1182000" />
       <workItem from="1606455455041" duration="4140000" />
       <workItem from="1606571547936" duration="11768000" />
-      <workItem from="1606787171643" duration="1640000" />
+      <workItem from="1606787171643" duration="1950000" />
+      <workItem from="1606808802836" duration="1512000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60324000" />
+    <option name="totallyTimeSpent" value="62146000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14216478" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14378029" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -473,13 +453,13 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32876712" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3410959" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.28082192" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.04109589" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.61232877" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" x="11" y="496" width="1238" height="125" id="Terminal" order="8" weight="0.4890411" />
+      <window_info anchor="bottom" x="11" y="496" width="1238" height="125" id="Terminal" order="8" weight="0.59178084" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
@@ -809,6 +789,67 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/covid/client/models/LiveChatAvailability.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="81" column="5" lean-forward="true" selection-start-line="81" selection-start-column="5" selection-end-line="81" selection-end-column="5" />
+          <folding>
+            <element signature="e#1298#1299#0" expanded="true" />
+            <element signature="e#1342#1343#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.2.1.RELEASE/spring-web-4.2.1.RELEASE.jar!/org/springframework/http/ResponseEntity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="17" column="64" selection-start-line="17" selection-start-column="64" selection-end-line="17" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2685">
+          <caret line="218" column="125" selection-start-line="218" selection-start-column="125" selection-end-line="218" selection-end-column="125" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Messaging.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19WebServiceClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/covid/client/models/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#603#604#0" expanded="true" />
+            <element signature="e#2008#2009#0" expanded="true" />
+            <element signature="e#2084#2085#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/LiveChatHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
@@ -832,118 +873,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/covid/client/models/LiveChatAvailability.java">
+    <entry file="file://$PROJECT_DIR$/src/covid/client/models/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="81" column="5" lean-forward="true" selection-start-line="81" selection-start-column="5" selection-end-line="81" selection-end-column="5" />
-          <folding>
-            <element signature="e#1298#1299#0" expanded="true" />
-            <element signature="e#1342#1343#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="390">
+          <caret line="26" column="75" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="75" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/covid/client/DRIVER.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
+        <state relative-caret-position="990">
           <caret line="66" column="26" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/covid/client/models/LiveChatAvailableDays.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
+        <state relative-caret-position="135">
           <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
-          <folding>
-            <element signature="e#253#254#0" expanded="true" />
-            <element signature="e#283#284#0" expanded="true" />
-            <element signature="e#478#479#0" expanded="true" />
-            <element signature="e#503#504#0" expanded="true" />
-            <element signature="e#537#538#0" expanded="true" />
-            <element signature="e#565#566#0" expanded="true" />
-            <element signature="e#626#627#0" expanded="true" />
-            <element signature="e#669#670#0" expanded="true" />
-            <element signature="e#846#847#0" expanded="true" />
-            <element signature="e#872#873#0" expanded="true" />
-            <element signature="e#907#908#0" expanded="true" />
-            <element signature="e#937#938#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.2.1.RELEASE/spring-web-4.2.1.RELEASE.jar!/org/springframework/http/ResponseEntity.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="17" column="64" selection-start-line="17" selection-start-column="64" selection-end-line="17" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/covid/client/models/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="26" column="75" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/covid/client/models/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#603#604#0" expanded="true" />
-            <element signature="e#2008#2009#0" expanded="true" />
-            <element signature="e#2084#2085#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19WebServiceClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="42" selection-start-line="42" selection-end-line="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Messaging.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/covid/client/httpclient/service/Covid19Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="218" column="125" selection-start-line="218" selection-start-column="125" selection-end-line="218" selection-end-column="125" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#8136#8327#0" expanded="true" />
-            <element signature="e#8326#8327#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/covid/client/Dashboard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="1244" column="31" lean-forward="true" selection-start-line="1244" selection-start-column="31" selection-end-line="1244" selection-end-column="31" />
+        <state relative-caret-position="476">
+          <caret line="1389" column="32" selection-start-line="1389" selection-start-column="32" selection-end-line="1389" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4222#4223#0" expanded="true" />
-            <element signature="e#4247#4248#0" expanded="true" />
-            <element signature="e#18721#18722#0" expanded="true" />
-            <element signature="e#18763#18764#0" expanded="true" />
-            <element signature="e#22720#22721#0" expanded="true" />
-            <element signature="e#22744#22745#0" expanded="true" />
-            <element signature="e#41016#41017#0" expanded="true" />
-            <element signature="e#41052#41053#0" expanded="true" />
+            <element signature="e#4353#4354#0" expanded="true" />
+            <element signature="e#4378#4379#0" expanded="true" />
+            <element signature="e#20727#20728#0" expanded="true" />
+            <element signature="e#20769#20770#0" expanded="true" />
+            <element signature="e#24766#24767#0" expanded="true" />
+            <element signature="e#24790#24791#0" expanded="true" />
+            <element signature="e#44582#44583#0" expanded="true" />
+            <element signature="e#44618#44619#0" expanded="true" />
           </folding>
         </state>
       </provider>
