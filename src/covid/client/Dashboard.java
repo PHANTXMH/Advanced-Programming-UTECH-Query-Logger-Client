@@ -1379,7 +1379,8 @@ public class Dashboard extends JFrame
 				chatButton.addActionListener(new ActionListener() {		//your implementation for student rep chat can use this button listener.
 					public void actionPerformed(ActionEvent e) {		//For each new chat created, re-initialize the chat button so each
 
-						final Long clickedUserID = Long.parseLong(String.valueOf(e.getID()));												// instant of new chat listens to each button created
+						final Long clickedUserID = Long.parseLong(String.valueOf(e.getID()));
+						// instant of new chat listens to each button created
 						chatActiveUserID[0] = clickedUserID; // set the user ID and attempt to load the chat history
 
 						Chat chat = serverClient.getAllMessagesByToAndFrom(user.getId(), clickedUserID);
