@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7875c9b6-fae4-4d32-b57b-e9bb8cecf2f1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/covid/client/Dashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/covid/client/Dashboard.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
@@ -54,8 +53,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/covid/client/Dashboard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="1389" column="32" selection-start-line="1389" selection-start-column="32" selection-end-line="1389" selection-end-column="32" />
+            <state relative-caret-position="288">
+              <caret line="1282" column="24" lean-forward="true" selection-start-line="1282" selection-start-column="24" selection-end-line="1282" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#4353#4354#0" expanded="true" />
@@ -432,12 +431,12 @@
       <workItem from="1606455455041" duration="4140000" />
       <workItem from="1606571547936" duration="11768000" />
       <workItem from="1606787171643" duration="1950000" />
-      <workItem from="1606808802836" duration="1512000" />
+      <workItem from="1606808802836" duration="1581000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62146000" />
+    <option name="totallyTimeSpent" value="62215000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -453,13 +452,13 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32876712" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.04109589" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3808219" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.61232877" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" x="11" y="496" width="1238" height="125" id="Terminal" order="8" weight="0.59178084" />
+      <window_info active="true" anchor="bottom" x="11" y="496" width="1238" height="125" id="Terminal" order="8" visible="true" weight="0.29452056" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
@@ -896,8 +895,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/covid/client/Dashboard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="1389" column="32" selection-start-line="1389" selection-start-column="32" selection-end-line="1389" selection-end-column="32" />
+        <state relative-caret-position="288">
+          <caret line="1282" column="24" lean-forward="true" selection-start-line="1282" selection-start-column="24" selection-end-line="1282" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#4353#4354#0" expanded="true" />

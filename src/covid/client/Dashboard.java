@@ -1263,7 +1263,7 @@ public class Dashboard extends JFrame
 								{
 									try
 									{
-										liveChatHelper.sendMessage(stompSessionTemp, new LiveChatMessage("Test User", message, user.getId(), 3L));
+										liveChatHelper.sendMessage(stompSessionTemp, new LiveChatMessage("Test User", message, user.getId(), chatActiveUserID[0]));
 									} catch (Throwable error) {
 										error.printStackTrace();
 									}
