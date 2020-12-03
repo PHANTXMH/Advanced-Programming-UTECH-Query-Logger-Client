@@ -111,7 +111,7 @@ public class Dashboard extends JFrame
 		this.user = student;
 		JOptionPane.showMessageDialog(frame, "Welcome back, "+student.getFirstName()+"!", "Log In", JOptionPane.INFORMATION_MESSAGE);
 		
-		frame = new JFrame("covid.client.Dashboard (Student)");
+		frame = new JFrame("UTECH Query Logger(Student)");
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
@@ -147,7 +147,7 @@ public class Dashboard extends JFrame
 				internalFrame = new JInternalFrame("",false,false,false,false);
 				internalFrame.setVisible(true);
 				
-				JRadioButton addDropBtn = new JRadioButton("Add Drop",true);
+				JRadioButton addDropBtn = new JRadioButton("Add/Drop",true);
 				JRadioButton graduationBtn = new JRadioButton("Graduation");
 				JRadioButton accountingBtn = new JRadioButton("Accounting");
 				JRadioButton registrationBtn = new JRadioButton("Registration");
@@ -160,16 +160,14 @@ public class Dashboard extends JFrame
 				JTextArea query = new JTextArea();
 				JButton sendQuery = new JButton("Send");
 				
-				borderTitle = BorderFactory.createTitledBorder(
-	                       blackline, "QUERY");
+				borderTitle = BorderFactory.createTitledBorder(blackline, "QUERY");
 				borderTitle.setTitleJustification(TitledBorder.CENTER);
 				
 				query.setBorder(borderTitle);
 				query.setPreferredSize(new Dimension(1250,650));
-//				queryTitlePanel.add(queryTitle);
 				queryTextAreaPanel.add(query);
 				query.setFocusable(true);
-				query.setLineWrap(true); //Creates new line of text at end of Text Area
+				query.setLineWrap(true); 
 				buttonPanel.add(sendQuery);
 				
 				ButtonGroup bg = new ButtonGroup();
@@ -186,7 +184,6 @@ public class Dashboard extends JFrame
 				options.add(registrationBtn);				
 				
 				internalFrame.add(options,BorderLayout.NORTH);
-//				internalFrame.add(queryTitlePanel,BorderLayout.WEST);
 				internalFrame.add(queryTextAreaPanel,BorderLayout.CENTER);
 				internalFrame.add(buttonPanel,BorderLayout.SOUTH);
 				
@@ -217,7 +214,7 @@ public class Dashboard extends JFrame
 						
 						if(Objects.equals("", query.getText()))
 						{
-							JOptionPane.showMessageDialog(frame,"Unable to post this query!", "Submission Failed", JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(frame,"Unable to post this query!", "Add Query", JOptionPane.WARNING_MESSAGE);
 						}else
 						{
 							try
@@ -225,18 +222,17 @@ public class Dashboard extends JFrame
 								Covid19Client serverClient = ServerClient.getClient();
 								
 								ApiResponse<Complaints> complaintsApiResponse = serverClient
-										.createUserComplaint(new Complaints(new Services(queryService), query.getText()));
+										.createUserComplaint(new Complaints(new Services(queryService), query.getText()));								
 								
 								JOptionPane.showMessageDialog(frame,complaintsApiResponse.getMessage(), "Add Query", JOptionPane.INFORMATION_MESSAGE);
 							}catch(NullPointerException np)
 							{
-								JOptionPane.showMessageDialog(frame,"Unable to post this query.", "Submission Failed", JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(frame,"Unable to post this query.", "Add Query", JOptionPane.WARNING_MESSAGE);
 								query.setText("");
 							}
 						}						
 					}			
-				});
-								
+				});								
 			}			
 		});
 		
@@ -248,7 +244,7 @@ public class Dashboard extends JFrame
 				internalFrame.setVisible(true);
 				
 				String[] columns = {"DATE","STATUS","RESPONDER","QUERY","ID"};				
-				String[][] data_rows = new String[50][50];
+				String[][] data_rows = new String[100][100];
 				
 				Covid19Client serverClient = ServerClient.getClient();
 				try {
@@ -271,7 +267,7 @@ public class Dashboard extends JFrame
 					});
 				}catch(NullPointerException ex)
 				{
-					JOptionPane.showMessageDialog(frame,"An error occured! Please try again.", "Complaints List", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(frame,"An error occured! Please try again.", "View Previous Queries", JOptionPane.WARNING_MESSAGE);
 					ex.printStackTrace();
 				}						
 				
@@ -304,14 +300,19 @@ public class Dashboard extends JFrame
 				searchPanel.add(searchLabel);
 				searchPanel.add(searchTextField);
 				searchPanel.add(searchButton);
+				internalFrame.getRootPane().setDefaultButton(searchButton);
 				
 				internalFrame.add(searchPanel);				
 				frame.add(internalFrame);			
 				
 				searchButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
+					public void actionPerformed(ActionEvent e) {						
+						if(Objects.equals(searchTextField.getText(), ""))
+						{							
+							return;
+						}
 						
-						Covid19Client serverClient = ServerClient.getClient();							
+						Covid19Client serverClient = ServerClient.getClient();						
 						
 						try
 						{
@@ -346,12 +347,10 @@ public class Dashboard extends JFrame
 									JTextArea response = new JTextArea();
 									
 									
-									borderTitle = BorderFactory.createTitledBorder(
-						                       blackline, "QUERY["+c.getId()+"]");
+									borderTitle = BorderFactory.createTitledBorder(blackline, "QUERY["+c.getId()+"]");
 									borderTitle.setTitleJustification(TitledBorder.CENTER);
 									query.setBorder(borderTitle);
-									borderTitle = BorderFactory.createTitledBorder(
-						                       blackline, "RESPONSES");
+									borderTitle = BorderFactory.createTitledBorder(blackline, "RESPONSES");
 									borderTitle.setTitleJustification(TitledBorder.CENTER);
 									response.setBorder(borderTitle);
 									
@@ -367,16 +366,12 @@ public class Dashboard extends JFrame
 									
 									NorthPanel.add(queryStatus);	
 									
-//									WestPanel.add(queryLabel);
-//									WestPanel.add(responseLabel);
-									
 									CenterPanel.add(query);
 									CenterPanel.add(blank);
 									CenterPanel.add(blank);
 									
 									c.getResponses().forEach(r -> { 
-										response.append(">"+r.getResponse()+"\n	SENT BY: "+r.getCreatedUser().getLastName()+"	DATE: "+r.getCreatedAt().toString()+"\n\n");
-										//response.setText("<RESPONSE>"+"\n	SENT BY: "+"<RESPONDER NAME>"+" DATE: "+"<RESPONSE DATE>"+"\n\n");
+										response.append(">"+r.getResponse()+"\n	SENT BY: "+r.getCreatedUser().getLastName()+"	DATE: "+r.getCreatedAt().toString()+"\n\n");										
 									});
 									CenterPanel.add(response);
 									
@@ -390,7 +385,6 @@ public class Dashboard extends JFrame
 									response.setEditable(false);									
 									
 									internalFrame.add(NorthPanel,BorderLayout.NORTH);
-//									internalFrame.add(WestPanel,BorderLayout.WEST);
 									internalFrame.add(CenterPanel,BorderLayout.CENTER);
 									internalFrame.add(SouthPanel,BorderLayout.SOUTH);
 									
@@ -400,13 +394,13 @@ public class Dashboard extends JFrame
 							
 							if(!found)
 							{
-								JOptionPane.showMessageDialog(frame,"Your query Id was not found.", "Search Failed", JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(frame,"Your query Id was not found.", "View Query Details", JOptionPane.WARNING_MESSAGE);
 								searchTextField.setText("");
 								searchTextField.setFocusable(true);
 							}
 						}catch(Exception ex)
 						{
-							JOptionPane.showMessageDialog(frame,"Your query Id was not found.", "Search Failed", JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(frame,"Your query Id was not found.", "View Query Details", JOptionPane.WARNING_MESSAGE);
 							searchTextField.setText("");
 							searchTextField.setFocusable(true);
 						}														
@@ -442,14 +436,19 @@ public class Dashboard extends JFrame
 					ScrollPane availableScrollPane = new ScrollPane();
 					JPanel studentRepNamePanel = new JPanel();
 					JLabel studentRepName = new JLabel(u.getFirstName()+" "+u.getLastName());
+					
 					studentRepName.setForeground(Color.BLUE);
-					studentRepNamePanel.add(studentRepName);					
+					studentRepNamePanel.add(studentRepName);	
+					
 					JPanel studentRepTimesPanel = new JPanel();										
 					JPanel studentRepDaysPanel = new JPanel();					
 					JPanel chatButtonPanel = new JPanel();
 					JButton chatButton = new JButton("CHAT");
+					
 					chatButtonPanel.add(chatButton);
+					
 					repDays = "Available Days: ";
+					
 					LiveChatAvailability repAvailability = serverClient.getAvailabilityByStudentRepID(u.getId());
 					
 					if(repAvailability != null)
@@ -474,7 +473,7 @@ public class Dashboard extends JFrame
 							});
 						}catch(Exception a)
 						{
-							
+							JOptionPane.showMessageDialog(frame,"An error occured!", "Live Chat", JOptionPane.WARNING_MESSAGE);
 						}
 					}
 					JLabel studentRepTimes = new JLabel("Available From: "+repTimes);
@@ -486,9 +485,6 @@ public class Dashboard extends JFrame
 					availableRep.add(studentRepTimesPanel);
 					availableRep.add(studentRepDaysPanel);
 					availableRep.add(chatButtonPanel);
-//					availableSplitPane.setBottomComponent(availableRep);				
-//					availableSplitPane.setDividerLocation(0.7);
-//					availableScrollPane.add(availableRep);
 					
 					internalFrame.add(availableRep,BorderLayout.CENTER);					
 					
@@ -527,7 +523,7 @@ public class Dashboard extends JFrame
 							StyleConstants.setForeground(right, Color.BLUE);							
 
 							// fetch chat user chat based on the clicked user
-							Chat chat =  ServerClient.getClient().getAllMessagesByToAndFrom(user.getId(), u.getId()); //
+							Chat chat =  ServerClient.getClient().getAllMessagesByToAndFrom(user.getId(), u.getId()); 
 
 							if(chat != null) {
 								if (!CollectionUtils.isEmpty(chat.getChatMessagesList())) {
@@ -538,18 +534,15 @@ public class Dashboard extends JFrame
 											 if(message.getSendBy().getId().equals(user.getId()))
 											 {
 												 doc.setParagraphAttributes(doc.getLength(), 1, left, false);
-													doc.insertString(doc.getLength(), "(" + userName + ")\n" + message.getMessage() + "\n\n", left );
-													
+													doc.insertString(doc.getLength(), "(" + userName + ")\n" + message.getMessage() + "\n\n", left );													
 											 }else
 											 {
 												 doc.setParagraphAttributes(doc.getLength(), 1, right, false);
-													doc.insertString(doc.getLength(), "(" + userName + ")\n" + message.getMessage() + "\n\n", right );
-													
-											 }
-											
+													doc.insertString(doc.getLength(), "(" + userName + ")\n" + message.getMessage() + "\n\n", right );													
+											 }											
 											
 										} catch (BadLocationException e1) {
-											// TODO Auto-generated catch block
+											JOptionPane.showMessageDialog(frame,"An error occured!", "Live Chat", JOptionPane.WARNING_MESSAGE);
 											e1.printStackTrace();
 										}										 
 									});
@@ -575,7 +568,7 @@ public class Dashboard extends JFrame
 										return byte[].class;
 									}
 
-									public void handleFrame(StompHeaders stompHeaders, Object o) { 							//Accepts incoming message from student Rep
+									public void handleFrame(StompHeaders stompHeaders, Object o) { 	//Accepts incoming message from student Rep
 										LoggingManager.getLogger(this).info("Received message " + new String((byte[]) o));
 
 											 String message = new String((byte[]) o);
@@ -587,29 +580,29 @@ public class Dashboard extends JFrame
 													  													 
 													 doc.setParagraphAttributes(doc.getLength(), 1, right, false);
 													 doc.insertString(doc.getLength(), "(" + liveChatMessage.getName() + ")\n" + liveChatMessage.getMessage() + "\n\n", right );
-													 vertical.setValue(vertical.getMaximum());
-													 
+													 vertical.setValue(vertical.getMaximum());													 
 													 System.out.println(liveChatMessage.getMessage());
 												 }else{
 												 	// message send from differnt user
 												 }
 											 }catch(Throwable e)
 											 {
-												 
+												 LoggingManager.getLogger(this).error("Failed to map incoming bytes to LiveChatMessage Object");
+												 JOptionPane.showMessageDialog(frame,"An error occured!", "Live Chat", JOptionPane.WARNING_MESSAGE);
 											 } 																				
 									}
 								});
-							} catch (ExecutionException e1) {
-								e1.printStackTrace();
-							} catch (InterruptedException e1) {
-								e1.printStackTrace();
+							} catch (ExecutionException e1) {								
+								LoggingManager.getLogger(this).error("ExecutionException thrown");
+							} catch (InterruptedException e1) {								
+								LoggingManager.getLogger(this).error("InterruptedException thrown");
 							}
 
 							StompSession finalStompSession = stompSession;
 							
 							sendButton.addActionListener(new ActionListener() {						//Send message to student Rep
 								public void actionPerformed(ActionEvent e) {
-									scrollPane.setAutoscrolls(true);
+									
 									if(Objects.equals(editor.getText(), ""))
 									{
 										return;
@@ -619,18 +612,18 @@ public class Dashboard extends JFrame
 									{										
 										try 
 										{
-											helloClient.sendMessage(finalStompSession, new LiveChatMessage(user.getFullname(), message, user.getId(), u.getId()));
-											vertical.setValue(vertical.getMaximum());
+											helloClient.sendMessage(finalStompSession, new LiveChatMessage(user.getFullname(), message, user.getId(), u.getId()));											
 											doc.setParagraphAttributes(doc.getLength(), 1, left, false);
-											doc.insertString(doc.getLength(), "(Me)\n"+editor.getText()+"\n\n", left );											
-											System.out.println("Message sent to user with ID: " + u.getId() + " Message: " + message);
-											vertical.setValue(vertical.getMaximum()); 
+											doc.insertString(doc.getLength(), "(Me)\n"+editor.getText()+"\n\n", left );		
+											vertical.setValue(vertical.getMaximum());											
+											LoggingManager.getLogger(this).info("Message sent to user with ID: " + u.getId() + " Message: " + message);
 										} catch (InterruptedException | BadLocationException e1) {
 											e1.printStackTrace();
 											JOptionPane.showMessageDialog(null,"An error occurred!", "Chat", JOptionPane.WARNING_MESSAGE);
+											LoggingManager.getLogger(this).error("InterruptedException | BadLocationException thrown");
 										}
 									}else{
-										System.out.println("StompSession is null");
+										LoggingManager.getLogger(this).error("StompSession is null");										
 										JOptionPane.showMessageDialog(null,"An error occurred!", "Chat", JOptionPane.WARNING_MESSAGE);
 									}
 									editor.setText("");
@@ -650,7 +643,8 @@ public class Dashboard extends JFrame
 				
 				frame.dispose();
 				user = null;
-				new GUIAuthentication().logIn();				
+				new GUIAuthentication().logIn();
+				LoggingManager.getLogger(this).info("User logged out");
 			}			
 		});
 	}
@@ -660,7 +654,7 @@ public class Dashboard extends JFrame
 		this.user = staff;
 		JOptionPane.showMessageDialog(frame, "Welcome back, "+staff.getFirstName()+"!", "Log In", JOptionPane.INFORMATION_MESSAGE);
 		
-		frame = new JFrame("covid.client.Dashboard (Staff)");
+		frame = new JFrame("UTECH Query Logger(Student Representative)");
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -668,7 +662,6 @@ public class Dashboard extends JFrame
 		viewAllEnquiries = new JButton("View all Student's Queries");
 		viewAStudentEnquiry = new JButton("View a Student's Query");
 		liveChat = new JButton("Live Chat");
-//		logout = new JButton("Log Out");			
 		
 		activities.add(home);
 		activities.add(viewAllEnquiries);
@@ -697,7 +690,7 @@ public class Dashboard extends JFrame
 				internalFrame.setVisible(true);
 				
 				String[] columns = {"STUDENT ID","SERVICE","QUERY","STATUS"};
-				String[][] data_rows = new String[50][50];	
+				String[][] data_rows = new String[100][100];	
 				
 				Covid19Client serverClient = ServerClient.getClient();
 				List<User> userList = serverClient.getAllUsersByRole(Role.STUDENT);								
@@ -777,7 +770,7 @@ public class Dashboard extends JFrame
 								JButton searchButton = new JButton("Respond");							
 								
 								String[] columns = {"DATE","STATUS","RESPONDER","QUERY","ID"};
-								String[][] data_rows = new String[50][50];
+								String[][] data_rows = new String[100][100];
 								
 								try {
 									List<Complaints> complaintsList = serverClient.getComplaintsByStudentID(u.getId());
@@ -1012,8 +1005,7 @@ public class Dashboard extends JFrame
 				internalFrame.dispose();
 				internalFrame = new JInternalFrame("",false,false,false,false);	
 				internalFrame.setVisible(true);
-				//internalFrame.setLayout(new FlowLayout(FlowLayout.CENTER));
-				
+								
 				JPanel availablePanel = new JPanel();
 				JPanel fromPanel = new JPanel();
 				JPanel toPanel = new JPanel();
@@ -1022,7 +1014,7 @@ public class Dashboard extends JFrame
 				JPanel updatePanel = new JPanel();
 				JPanel messageQueuePanel = new JPanel();
 				JPanel messageQueue = new JPanel();
-	//			JSplitPane messageSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+	
 				JScrollPane queueScrollPane = new JScrollPane(messageQueue);
 				JLabel messageLabel = new JLabel("MESSAGES");
 				JLabel availableLabel = new JLabel("You are available to chat on:");
@@ -1051,7 +1043,8 @@ public class Dashboard extends JFrame
 				JPanel editorPanel = new JPanel();
 				JTextField editor = new JTextField(60);
 				JButton sendButton = new JButton("Send");							
-				JScrollPane scrollPane = new JScrollPane(viewer);				
+				JScrollPane scrollPane = new JScrollPane(viewer);	
+				JScrollBar vertical = scrollPane.getVerticalScrollBar();
 				
 				editorPanel.add(editor);
 				editorPanel.add(sendButton);				
@@ -1059,7 +1052,7 @@ public class Dashboard extends JFrame
 				viewer.setBackground(new Color(211,211,211));							
 				chatWindow.setVisible(true);
 				chatWindow.setMinimumSize(new Dimension(800,500));
-		//		chatWindow.add(viewer);
+		
 				editorPanel.add(editor);
 				editorPanel.add(sendButton);				
 				
@@ -1225,13 +1218,14 @@ public class Dashboard extends JFrame
 															// append only this user message to the window
 									doc.setParagraphAttributes(doc.getLength(), 1, right, false);
 									doc.insertString(doc.getLength(), "(" + liveChatMessage.getName() + ")\n" + liveChatMessage.getMessage() + "\n\n", right );
-
+									vertical.setValue( vertical.getMaximum() );
 								}
 
 								if(!userIdsAlreadyRecorded.contains(liveChatMessage.getFrom())) {		//ADD MESSAGE TO QUEUE******
 									System.out.println("Adding message to message queue");																												
 									JPanel userInQueue = new JPanel();
 									JButton newQueue = new JButton(String.format("%s (%s)", liveChatMessage.getName(), totalNewMessage));
+									newQueue.setSize(new Dimension(12,3));
 									userInQueue.add(newQueue);
 									messageQueue.add(userInQueue);
 									userIdsAlreadyRecorded.add(liveChatMessage.getFrom());
@@ -1271,7 +1265,8 @@ public class Dashboard extends JFrame
 																 doc.setParagraphAttributes(doc.getLength(), 1, right, false);
 																	doc.insertString(doc.getLength(), "(" + userName + ")\n" + message.getMessage() + "\n\n", right );
 																	
-															 }															
+															 }	
+															 vertical.setValue( vertical.getMaximum() );
 															
 														} catch (BadLocationException e1) {
 															// TODO Auto-generated catch block
@@ -1308,6 +1303,7 @@ public class Dashboard extends JFrame
 															liveChatHelper.sendMessage(stompSession, new LiveChatMessage(user.getFullname(), message, user.getId(), activeChatUserID));
 															doc.setParagraphAttributes(doc.getLength(), 1, left, false);
 															doc.insertString(doc.getLength(), "(Me)\n" + message + "\n\n", left );
+															vertical.setValue( vertical.getMaximum() );
 														} catch (Throwable error) {
 															error.printStackTrace();
 														}
@@ -1435,23 +1431,6 @@ public class Dashboard extends JFrame
 						{
 							JOptionPane.showMessageDialog(frame, "Atleast one day must be selected!", "Update Availability", JOptionPane.WARNING_MESSAGE);
 						}						
-					}			
-				});	
-				
-				chatButton.addActionListener(new ActionListener() {		//your implementation for student rep chat can use this button listener.
-					public void actionPerformed(ActionEvent e) {		//For each new chat created, re-initialize the chat button so each
-
-						final Long clickedUserID = Long.parseLong(String.valueOf(e.getID()));												// instant of new chat listens to each button created
-						activeChatUserID = clickedUserID; // set the user ID and attempt to load the chat history
-
-						Chat chat = serverClient.getAllMessagesByToAndFrom(user.getId(), clickedUserID);
-
-						if(chat != null && !CollectionUtils.isEmpty(chat.getChatMessagesList())){
-							// display chat
-							chat.getChatMessagesList().forEach(c -> {
-
-							});
-						}
 					}			
 				});
 				

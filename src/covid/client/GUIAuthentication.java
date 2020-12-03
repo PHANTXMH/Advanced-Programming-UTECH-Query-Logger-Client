@@ -118,6 +118,7 @@ public class GUIAuthentication extends JFrame
 						ServerClient.createClient(authResponse);
 						dashboard.studentDashboard(authResponse.getUser());					
 						frame.dispose();
+						LoggingManager.getLogger(this).info("User logged in as: "+authResponse.getUser().getFullname());
 					}else
 					if(Objects.equals(authResponse.getUser().getRole(), new String("STUDENT_REPRESENTATIVE")))	
 					{
@@ -125,13 +126,15 @@ public class GUIAuthentication extends JFrame
 						ServerClient.createClient(authResponse);
 						dashboard.staffDashboard(authResponse.getUser());		
 						frame.dispose();
+						LoggingManager.getLogger(this).info("User logged in as: "+authResponse.getUser().getFullname());
 					}else
 					{
 						JOptionPane.showMessageDialog(null, "An error occured!", "Log In", JOptionPane.WARNING_MESSAGE);
 						frame.dispose();
+						LoggingManager.getLogger(this).info("User unable to log in");
 					}									
 				} catch (Exception e1) {
-					e1.printStackTrace();
+					LoggingManager.getLogger(this).error("Error in getting user data");
 					JOptionPane.showMessageDialog(null, "An error occured!", "Log In", JOptionPane.WARNING_MESSAGE);
 					usernameTextField.setText("");
 		        	passwordField.setText("");
