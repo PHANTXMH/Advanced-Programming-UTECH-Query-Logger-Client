@@ -81,16 +81,19 @@ public class Dashboard extends JFrame
 	private JButton viewPastComplaints;
 	private JButton viewAComplaint;
 	private JInternalFrame internalFrame;
+	private JInternalFrame chatWindow = new JInternalFrame();
 	private JButton liveChat;
 	private JButton viewAllEnquiries;
 	private JButton viewAStudentEnquiry;
 	private User user;
 	int x,s;
 	long complaintIdSearch = 0;
+	Long activeChatUserID;
 	boolean found = false;
 	TitledBorder borderTitle;
 	Border blackline = BorderFactory.createLineBorder(Color.black);
 	String repDays = "Available Days: ";
+	StompSession stompSession = null;
 	
 	public Dashboard()
 	{
@@ -492,7 +495,7 @@ public class Dashboard extends JFrame
 					chatButton.addActionListener(new ActionListener() {			//Send message to server
 						public void actionPerformed(ActionEvent e) {
 							
-							JFrame chatWindow = new JFrame(u.getFirstName()+" "+u.getLastName());
+							JFrame chatWindow = new JFrame(u.getFullname());
 							JTextPane viewer = new JTextPane();
 							JPanel editorPanel = new JPanel();
 							JTextField editor = new JTextField(50);
@@ -529,7 +532,7 @@ public class Dashboard extends JFrame
 							if(chat != null) {
 								if (!CollectionUtils.isEmpty(chat.getChatMessagesList())) {
 									chat.getChatMessagesList().forEach(message -> {
-										//System.out.println("Message :" + message.getMessage() + " Send by: " + String.valueOf(message.getSendBy()));
+										System.out.println("Message :" + message.getMessage() + " Send by: " + String.valueOf(message.getSendBy()));
 										String userName = message.getSendBy().getId().equals(user.getId()) ? "ME" : message.getSendBy().getFullname();										
 										 try {
 											 if(message.getSendBy().getId().equals(user.getId()))
@@ -616,7 +619,7 @@ public class Dashboard extends JFrame
 									{										
 										try 
 										{
-											helloClient.sendMessage(finalStompSession, new LiveChatMessage(u.getFullname(), message, user.getId(), u.getId()));
+											helloClient.sendMessage(finalStompSession, new LiveChatMessage(user.getFullname(), message, user.getId(), u.getId()));
 											vertical.setValue(vertical.getMaximum());
 											doc.setParagraphAttributes(doc.getLength(), 1, left, false);
 											doc.insertString(doc.getLength(), "(Me)\n"+editor.getText()+"\n\n", left );											
@@ -1043,14 +1046,12 @@ public class Dashboard extends JFrame
 				JRadioButton thu = new JRadioButton("Thursday");
 				JRadioButton fri = new JRadioButton("Friday");
 				JButton updateButton = new JButton("UPDATE");
-				JButton chatButton = new JButton("CHAT");
-				JInternalFrame chatWindow = new JInternalFrame();		//Chat window implementation
+				JButton chatButton = new JButton("CHAT");				
 				JTextPane viewer = new JTextPane();
 				JPanel editorPanel = new JPanel();
 				JTextField editor = new JTextField(60);
 				JButton sendButton = new JButton("Send");							
-				JScrollPane scrollPane = new JScrollPane(viewer);
-				
+				JScrollPane scrollPane = new JScrollPane(viewer);				
 				
 				editorPanel.add(editor);
 				editorPanel.add(sendButton);				
@@ -1058,7 +1059,7 @@ public class Dashboard extends JFrame
 				viewer.setBackground(new Color(211,211,211));							
 				chatWindow.setVisible(true);
 				chatWindow.setMinimumSize(new Dimension(800,500));
-				chatWindow.add(viewer);
+		//		chatWindow.add(viewer);
 				editorPanel.add(editor);
 				editorPanel.add(sendButton);				
 				
@@ -1157,7 +1158,7 @@ public class Dashboard extends JFrame
 					toHourField.setText("2");
 					toMinField.setText("00");
 				}				
-															//displays initialized GUI
+				//displays initialized GUI
 				north.setLayout(new GridLayout(4,1,0,0));
 				north.add(availablePanel);
 				north.add(fromPanel);
@@ -1168,25 +1169,32 @@ public class Dashboard extends JFrame
 				messageFrame.add(messageLabel,BorderLayout.NORTH); 
 				messageFrame.setVisible(true);
 				queueScrollPane.setMaximumSize(new Dimension(80,50));
-				
-				JPanel pp = new JPanel();
-//				JPanel ps = new JPanel();
-				JButton jButton =new JButton("Sample User data");
-				pp.add(jButton);
-				messageQueue.setLayout(new GridLayout(25,1));				
-				messageQueue.add(pp);
-//				messageQueue.add(ps);
+				messageQueue.setLayout(new GridLayout(30,1));
 
-				// load Previous messages
+
+				JPanel userInQueue = new JPanel();
+				JButton newQueue = new JButton(String.format("%s (%s)", "Default", "1"));
+				userInQueue.add(newQueue);
+				messageQueue.add(userInQueue);
 
 				// code to initialize live chat socket
+				StyledDocument doc = viewer.getStyledDocument();
 
-				final Long[] chatActiveUserID = {0L};
+				SimpleAttributeSet left = new SimpleAttributeSet();
+				StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
+				StyleConstants.setForeground(left, Color.BLACK);
+
+				SimpleAttributeSet right = new SimpleAttributeSet();
+				StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
+				StyleConstants.setForeground(right, Color.BLUE);
+
+			//	final Long[] chatActiveUserID = {0L};
+				activeChatUserID = 0L;
 
 				List<Long> userIdsAlreadyRecorded = new ArrayList<>();
 				HashMap<Long, Integer> totalMessage = new HashMap<>();
 
-				StompSession stompSession = null;
+				stompSession = null;
 				LiveChatHelper liveChatHelper = new LiveChatHelper();
 				try {
 					ListenableFuture<StompSession> connection = liveChatHelper.connect(user.getFullname());
@@ -1198,7 +1206,7 @@ public class Dashboard extends JFrame
 							return byte[].class;
 						}
 
-						public void handleFrame(StompHeaders stompHeaders, Object o) {//Accepts incoming message from student Rep
+						public void handleFrame(StompHeaders stompHeaders, Object o) {							//Accepts incoming message from student 
 
 							LoggingManager.getLogger(this).info("Received message " + new String((byte[]) o));
 
@@ -1208,7 +1216,7 @@ public class Dashboard extends JFrame
 							{
 								System.out.println("Message received: " + message);
 								int totalNewMessage = 1;
-								LiveChatMessage liveChatMessage = mapper.readValue(message,LiveChatMessage.class);
+								LiveChatMessage liveChatMessage = mapper.readValue(message,LiveChatMessage.class);								
 
 								if(totalMessage.containsKey(liveChatMessage.getFrom())){
 									totalNewMessage = totalMessage.get(liveChatMessage.getFrom());
@@ -1219,18 +1227,107 @@ public class Dashboard extends JFrame
 								}
 
 								// append the message to the right live chat window based on the active user
-
-								if(chatActiveUserID[0].equals(liveChatMessage.getFrom())){
-									// append only this user message to the window
+								if(activeChatUserID.equals(liveChatMessage.getFrom())){
+															// append only this user message to the window
+									doc.setParagraphAttributes(doc.getLength(), 1, right, false);
+									doc.insertString(doc.getLength(), "(" + liveChatMessage.getName() + ")\n" + liveChatMessage.getMessage() + "\n\n", right );
 
 								}
 
-								if(!userIdsAlreadyRecorded.contains(liveChatMessage.getFrom())) {
-									System.out.println("Adding message to message queue");
+								if(!userIdsAlreadyRecorded.contains(liveChatMessage.getFrom())) {		//ADD MESSAGE TO QUEUE******
+									System.out.println("Adding message to message queue");																												
 									JPanel userInQueue = new JPanel();
-									userInQueue.add(new JButton(String.format("%s (%s)", liveChatMessage.getName(), totalNewMessage)));
+									JButton newQueue = new JButton(String.format("%s (%s)", liveChatMessage.getName(), totalNewMessage));
+									userInQueue.add(newQueue);
 									messageQueue.add(userInQueue);
 									userIdsAlreadyRecorded.add(liveChatMessage.getFrom());
+									
+									internalFrame.add(messageFrame,BorderLayout.WEST);
+									internalFrame.add(chatWindow,BorderLayout.CENTER);
+									frame.add(internalFrame);
+									
+									newQueue.addActionListener(new ActionListener() {				//OPENS CHAT IN QUEUE IN THE CHAT WINDOW******
+										public void actionPerformed(ActionEvent e)
+										{	
+											activeChatUserID = liveChatMessage.getFrom();
+											JScrollPane scrollPane = new JScrollPane(viewer);
+											scrollPane.setVisible(true);											
+											scrollPane.setAutoscrolls(true);
+											chatWindow.dispose();
+											chatWindow = new JInternalFrame(liveChatMessage.getName(),false,false,false,false);
+											chatWindow.setVisible(true);
+											chatWindow.setMinimumSize(new Dimension(800,500));
+											viewer.setText("");											
+											
+											Chat chat =  ServerClient.getClient().getAllMessagesByToAndFrom(user.getId(), liveChatMessage.getFrom()); //
+
+											if(chat != null) {
+												if (!CollectionUtils.isEmpty(chat.getChatMessagesList())) {
+													chat.getChatMessagesList().forEach(message -> {
+														System.out.println("Message :" + message.getMessage() + " Send by: " + String.valueOf(message.getSendBy()));
+														String userName = message.getSendBy().getId().equals(user.getId()) ? "ME" : message.getSendBy().getFullname();										
+														 try {
+															 if(message.getSendBy().getId().equals(user.getId()))
+															 {
+																 doc.setParagraphAttributes(doc.getLength(), 1, left, false);
+																	doc.insertString(doc.getLength(), "(" + userName + ")\n" + message.getMessage() + "\n\n", left );
+																	
+															 }else
+															 {
+																 doc.setParagraphAttributes(doc.getLength(), 1, right, false);
+																	doc.insertString(doc.getLength(), "(" + userName + ")\n" + message.getMessage() + "\n\n", right );
+																	
+															 }															
+															
+														} catch (BadLocationException e1) {
+															// TODO Auto-generated catch block
+															e1.printStackTrace();
+														}										 
+													});
+													}else {
+													//chat is empty
+													System.out.println("Message list is empty");
+													}
+											}else{
+												System.out.println("Chat was null");
+											}											
+											chatWindow.add(scrollPane,BorderLayout.CENTER);
+											chatWindow.add(editorPanel,BorderLayout.SOUTH);
+											chatWindow.getRootPane().setDefaultButton(sendButton);											
+											
+											internalFrame.add(chatWindow,BorderLayout.CENTER);
+											frame.add(internalFrame);
+											//final StompSession stompSessionTemp = stompSession;											
+											
+											sendButton.addActionListener(new ActionListener() {
+												public void actionPerformed(ActionEvent e) {
+													if(Objects.equals(editor.getText(), ""))
+													{
+														return;
+													}													
+													//Implement code to send message to a specific student						
+													final String message = editor.getText();
+													if(stompSession != null)
+													{
+														try
+														{
+															liveChatHelper.sendMessage(stompSession, new LiveChatMessage(user.getFullname(), message, user.getId(), activeChatUserID));
+															doc.setParagraphAttributes(doc.getLength(), 1, left, false);
+															doc.insertString(doc.getLength(), "(Me)\n" + message + "\n\n", left );
+														} catch (Throwable error) {
+															error.printStackTrace();
+														}
+													}else{
+														System.out.println("StompSession is null");
+														JOptionPane.showMessageDialog(frame, "Unable to obtain connection!", "Chat", JOptionPane.WARNING_MESSAGE);
+													}							
+														
+													editor.setText("");														
+												}
+											});
+										}
+									});
+									
 								}else{
 									System.out.println(String.format("User with ID: %s and name: %s already in the message Queue: ", liveChatMessage.getFrom(), liveChatMessage.getName()));
 								}
@@ -1244,39 +1341,10 @@ public class Dashboard extends JFrame
 					e1.printStackTrace();
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
-				}
-																					//Implement the code to accept incoming messages here
-				final StompSession stompSessionTemp = stompSession;
-				sendButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if(Objects.equals(editor.getText(), ""))
-						{
-							return;
-						}
-						
-						//Implement code to send message to a specific student
-
-						sendButton.addActionListener(new ActionListener() {						//Send message to student Rep
-							public void actionPerformed(ActionEvent e) {
-								final String message = editor.getText();
-								if(stompSessionTemp != null)
-								{
-									try
-									{
-										liveChatHelper.sendMessage(stompSessionTemp, new LiveChatMessage("Test User", message, user.getId(), chatActiveUserID[0]));
-									} catch (Throwable error) {
-										error.printStackTrace();
-									}
-								}else{
-									System.out.println("StompSession is null");
-								}
-
-								editor.setText("");
-							}
-						});
-						editor.setText("");														
-					}
-				});
+				}				
+				
+				//CHAT ACTION LISTENER WAS HERE			
+				
 				updateButton.addActionListener(new ActionListener() {//Updates the rep's availability
 					public void actionPerformed(ActionEvent e) {
 						int startHour,startMin,endHour,endMin;
@@ -1379,9 +1447,8 @@ public class Dashboard extends JFrame
 				chatButton.addActionListener(new ActionListener() {		//your implementation for student rep chat can use this button listener.
 					public void actionPerformed(ActionEvent e) {		//For each new chat created, re-initialize the chat button so each
 
-						final Long clickedUserID = Long.parseLong(String.valueOf(e.getID()));
-						// instant of new chat listens to each button created
-						chatActiveUserID[0] = clickedUserID; // set the user ID and attempt to load the chat history
+						final Long clickedUserID = Long.parseLong(String.valueOf(e.getID()));												// instant of new chat listens to each button created
+						activeChatUserID = clickedUserID; // set the user ID and attempt to load the chat history
 
 						Chat chat = serverClient.getAllMessagesByToAndFrom(user.getId(), clickedUserID);
 
