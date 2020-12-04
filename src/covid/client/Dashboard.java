@@ -1165,10 +1165,10 @@ public class Dashboard extends JFrame
 				messageQueue.setLayout(new GridLayout(30,1));
 
 
-				JPanel userInQueue = new JPanel();
-				JButton newQueue = new JButton(String.format("%s (%s)", "Default", "1"));
-				userInQueue.add(newQueue);
-				messageQueue.add(userInQueue);
+//				JPanel userInQueue = new JPanel();
+//				JButton newQueue = new JButton(String.format("%s (%s)", "Default", "1"));
+//				userInQueue.add(newQueue);
+//				messageQueue.add(userInQueue);
 
 				// code to initialize live chat socket
 				StyledDocument doc = viewer.getStyledDocument();
