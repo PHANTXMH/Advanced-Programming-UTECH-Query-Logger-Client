@@ -1164,6 +1164,12 @@ public class Dashboard extends JFrame
 				queueScrollPane.setMaximumSize(new Dimension(80,50));
 				messageQueue.setLayout(new GridLayout(30,1));
 
+
+				JPanel userInQueue = new JPanel();
+				JButton newQueue = new JButton(String.format("%s (%s)", "Default", "1"));
+				userInQueue.add(newQueue);
+				messageQueue.add(userInQueue);
+
 				// code to initialize live chat socket
 				StyledDocument doc = viewer.getStyledDocument();
 
