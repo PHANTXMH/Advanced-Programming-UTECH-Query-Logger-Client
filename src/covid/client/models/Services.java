@@ -40,6 +40,10 @@ public class Services extends TimeStamp implements Serializable {
         this.icon = icon;
     }
 
+    public Services(Long id) {
+        this.id = id;
+    }
+
     public Services() {
     }
 }

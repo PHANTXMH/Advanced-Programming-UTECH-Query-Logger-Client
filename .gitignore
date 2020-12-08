@@ -1,1 +1,6 @@
 helper.txt
+/target/**
+target/**
+target
+target/
+/target

@@ -1,7 +1,11 @@
 package covid.client.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 public class User implements Serializable {
 
@@ -16,6 +20,9 @@ public class User implements Serializable {
     private Long contact;
     private String password;
     private String role;
+    @JsonIgnore
+    private String fullname;
+    private Set<LiveChatAvailability> liveChatAvailabilities;
 
     public Long getId() {
         return id;
@@ -79,6 +86,22 @@ public class User implements Serializable {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Set<LiveChatAvailability> getLiveChatAvailabilities() {
+        return liveChatAvailabilities;
+    }
+
+    public void setLiveChatAvailabilities(Set<LiveChatAvailability> liveChatAvailabilities) {
+        this.liveChatAvailabilities = liveChatAvailabilities;
+    }
+
+    public String getFullname() {
+        return String.format("%s %s", this.firstName, this.lastName);
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     @Override
